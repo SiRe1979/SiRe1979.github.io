@@ -4,45 +4,65 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Simone Rebucci | ICT Management · Infrastructure · AI</title>
+<title>Simone Rebucci | ICT Management · Infrastructure · Project Management</title>
 
 <meta name="description"
-      content="Simone Rebucci — ICT Management, Infrastructure, Project Management, Team Leadership, AI & Technology.">
+      content="Simone Rebucci — ICT Management, Infrastructure, Project Management e Team Leadership.">
 
 <style>
 
 /* =========================================================
-   VARIABLES
+   ROOT
 ========================================================= */
 
 :root {
-    --bg: #f4f7f6;
-    --bg-secondary: #ffffff;
-    --text: #17201e;
-    --muted: #65716e;
+    --bg: #edf3ef;
+    --bg-deep: #e3ebe6;
+    --surface: rgba(255,255,255,.68);
+    --surface-strong: rgba(255,255,255,.88);
 
-    --accent: #159447;
-    --accent-dark: #0b6f34;
+    --text: #15201b;
+    --muted: #66736d;
 
-    --line: rgba(21,148,71,.22);
+    --accent: #19a052;
+    --accent-bright: #31c86d;
+    --accent-dark: #0d7037;
+
+    --line: rgba(18,120,60,.16);
+
+    --grid: rgba(21,120,66,.075);
 
     --shadow:
-        0 20px 60px rgba(0,0,0,.10);
+        0 28px 70px rgba(26,48,37,.12);
+
+    --shadow-strong:
+        0 35px 90px rgba(22,51,37,.18);
 }
 
 body.dark {
-    --bg: #07100c;
-    --bg-secondary: #0d1713;
-    --text: #edf7f1;
-    --muted: #9aaea4;
 
-    --accent: #35d879;
-    --accent-dark: #159447;
+    --bg: #06100b;
+    --bg-deep: #09150f;
 
-    --line: rgba(53,216,121,.25);
+    --surface: rgba(13,25,19,.65);
+    --surface-strong: rgba(14,28,21,.90);
+
+    --text: #ecf7f0;
+    --muted: #93a49b;
+
+    --accent: #31d878;
+    --accent-bright: #55ee94;
+    --accent-dark: #17a651;
+
+    --line: rgba(59,217,122,.18);
+
+    --grid: rgba(70,220,130,.065);
 
     --shadow:
-        0 20px 70px rgba(0,0,0,.45);
+        0 28px 80px rgba(0,0,0,.34);
+
+    --shadow-strong:
+        0 35px 100px rgba(0,0,0,.46);
 }
 
 
@@ -59,26 +79,124 @@ html {
 }
 
 body {
+
     margin: 0;
 
     font-family:
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
         Arial,
-        Helvetica,
         sans-serif;
+
+    color: var(--text);
 
     background:
         radial-gradient(
-            circle at 50% 35%,
-            rgba(21,148,71,.08),
-            transparent 35%
+            circle at 50% 16%,
+            rgba(34,185,91,.11),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 12% 78%,
+            rgba(34,185,91,.06),
+            transparent 24%
         ),
         var(--bg);
-
-    color: var(--text);
 
     transition:
         background .5s ease,
         color .5s ease;
+
+    overflow-x: hidden;
+}
+
+body::before {
+
+    content: "";
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: -2;
+
+    pointer-events: none;
+
+    background-image:
+        linear-gradient(
+            var(--grid) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            var(--grid) 1px,
+            transparent 1px
+        );
+
+    background-size:
+        44px 44px;
+
+    mask-image:
+        linear-gradient(
+            to bottom,
+            black 0%,
+            rgba(0,0,0,.55) 48%,
+            transparent 100%
+        );
+}
+
+body::after {
+
+    content: "";
+
+    position: fixed;
+
+    width: 520px;
+    height: 520px;
+
+    right: -160px;
+    top: 22%;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(31,194,93,.11),
+            transparent 70%
+        );
+
+    filter: blur(12px);
+
+    animation:
+        ambientFloat 11s ease-in-out infinite alternate;
+
+    z-index: -1;
+
+    pointer-events: none;
+}
+
+@keyframes ambientFloat {
+
+    from {
+        transform:
+            translate3d(0,0,0)
+            scale(1);
+    }
+
+    to {
+        transform:
+            translate3d(-70px,40px,0)
+            scale(1.12);
+    }
+}
+
+a {
+    color: inherit;
 }
 
 
@@ -87,68 +205,146 @@ body {
 ========================================================= */
 
 .topbar {
+
     position: fixed;
 
     top: 0;
     left: 0;
     right: 0;
 
-    z-index: 100;
+    z-index: 1000;
 
-    height: 64px;
+    height: 70px;
 
     display: flex;
 
     align-items: center;
     justify-content: space-between;
 
-    padding: 0 32px;
+    padding:
+        0 34px;
 
     background:
         color-mix(
             in srgb,
-            var(--bg) 82%,
+            var(--bg) 78%,
             transparent
         );
 
-    backdrop-filter: blur(14px);
+    backdrop-filter:
+        blur(18px);
 
     border-bottom:
         1px solid var(--line);
 }
 
 .brand {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    font-size: .92rem;
+
     font-weight: 700;
 
     letter-spacing: .04em;
 }
 
+.brand-mark {
+
+    width: 10px;
+    height: 10px;
+
+    border-radius: 50%;
+
+    background:
+        var(--accent);
+
+    box-shadow:
+        0 0 15px var(--accent);
+}
+
 .brand span {
-    color: var(--accent);
+
+    color:
+        var(--accent);
+}
+
+.top-actions {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+}
+
+.top-nav {
+
+    display: flex;
+
+    gap: 22px;
+}
+
+.top-nav a {
+
+    text-decoration: none;
+
+    font-size: .69rem;
+
+    letter-spacing: .14em;
+
+    color: var(--muted);
+
+    transition:
+        color .2s ease;
+}
+
+.top-nav a:hover {
+
+    color:
+        var(--accent);
 }
 
 #themeToggle {
+
+    width: 38px;
+    height: 38px;
+
     border:
         1px solid var(--line);
 
-    background: transparent;
+    border-radius: 50%;
 
-    color: var(--text);
+    background:
+        var(--surface);
 
-    border-radius: 30px;
-
-    padding:
-        8px 14px;
+    color:
+        var(--text);
 
     cursor: pointer;
 
-    transition: .25s ease;
+    font-size: .95rem;
+
+    transition:
+        transform .25s ease,
+        background .25s ease,
+        border-color .25s ease;
 }
 
 #themeToggle:hover {
-    background: var(--accent);
 
-    color: white;
+    transform:
+        rotate(18deg);
+
+    background:
+        var(--surface-strong);
+
+    border-color:
+        var(--accent);
 }
 
 
@@ -157,90 +353,656 @@ body {
 ========================================================= */
 
 .hero {
+
+    position: relative;
+
     min-height: 100vh;
 
     display: flex;
 
     align-items: center;
+
     justify-content: center;
 
     padding:
-        100px 20px 60px;
+        120px 24px 80px;
 
     overflow: hidden;
 }
 
+.hero::before {
 
-/* =========================================================
-   CENTRAL HUB
-========================================================= */
+    content: "";
 
-.hub {
-    position: relative;
-
-    width:
-        min(900px, 92vw);
-
-    height:
-        min(700px, 72vh);
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    transition:
-        transform .15s ease-out;
-}
-
-
-/* =========================================================
-   ORBITS
-========================================================= */
-
-.orbit {
     position: absolute;
+
+    width: 850px;
+    height: 850px;
+
+    border-radius: 50%;
 
     border:
         1px solid var(--line);
 
-    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+
+    transform:
+        translate(-50%,-50%);
 
     pointer-events: none;
+
+    opacity: .55;
 }
 
-.orbit.one {
-    width: 360px;
-    height: 360px;
-}
+.hero::after {
 
-.orbit.two {
+    content: "";
+
+    position: absolute;
+
     width: 560px;
     height: 560px;
-}
 
-.orbit.three {
-    width: 760px;
-    height: 760px;
+    border-radius: 50%;
 
-    opacity: .45;
+    border:
+        1px solid var(--line);
+
+    top: 50%;
+    left: 50%;
+
+    transform:
+        translate(-50%,-50%);
+
+    pointer-events: none;
+
+    opacity: .8;
 }
 
 
 /* =========================================================
-   RAYS
+   HERO LAYOUT
 ========================================================= */
 
-.rays {
+.hero-layout {
+
+    position: relative;
+
+    width:
+        min(1200px, 94vw);
+
+    min-height: 680px;
+
+    display: grid;
+
+    grid-template-columns:
+        1fr
+        minmax(360px, 500px)
+        1fr;
+
+    align-items: center;
+
+    gap: 30px;
+}
+
+
+/* =========================================================
+   SIDE LABELS
+========================================================= */
+
+.hero-side {
+
+    position: relative;
+
+    height: 100%;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: space-between;
+
+    padding:
+        95px 0;
+}
+
+.hero-side.left {
+    align-items: flex-start;
+}
+
+.hero-side.right {
+    align-items: flex-end;
+}
+
+.side-title {
+
+    max-width: 190px;
+
+    font-size: .67rem;
+
+    letter-spacing: .22em;
+
+    color: var(--muted);
+
+    line-height: 1.8;
+
+    text-transform: uppercase;
+}
+
+.side-title strong {
+
+    display: block;
+
+    margin-top: 5px;
+
+    color:
+        var(--text);
+
+    font-size: .82rem;
+
+    letter-spacing: .08em;
+}
+
+.side-line {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    font-size: .63rem;
+
+    color: var(--muted);
+
+    letter-spacing: .12em;
+
+    text-transform: uppercase;
+}
+
+.side-line::before {
+
+    content: "";
+
+    width: 42px;
+
+    height: 1px;
+
+    background:
+        var(--accent);
+
+    box-shadow:
+        0 0 8px rgba(29,193,94,.35);
+}
+
+.hero-side.right .side-line::before {
+
+    display: none;
+}
+
+.hero-side.right .side-line::after {
+
+    content: "";
+
+    width: 42px;
+
+    height: 1px;
+
+    background:
+        var(--accent);
+
+    box-shadow:
+        0 0 8px rgba(29,193,94,.35);
+}
+
+
+/* =========================================================
+   CENTRAL DISPLAY
+========================================================= */
+
+.centerpiece {
+
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-height: 600px;
+}
+
+.central-ring {
+
     position: absolute;
 
-    inset: 0;
+    width: 420px;
+    height: 420px;
+
+    border-radius: 50%;
+
+    border:
+        1px solid var(--line);
+
+    animation:
+        slowRotate 26s linear infinite;
+}
+
+.central-ring::before,
+.central-ring::after {
+
+    content: "";
+
+    position: absolute;
+
+    border-radius: 50%;
+
+    border:
+        1px dashed var(--line);
+}
+
+.central-ring::before {
+
+    inset: 32px;
+}
+
+.central-ring::after {
+
+    inset: 64px;
+}
+
+@keyframes slowRotate {
+
+    to {
+        transform:
+            rotate(360deg);
+    }
+}
+
+
+/* =========================================================
+   ORBIT DOTS
+========================================================= */
+
+.orbit-dot {
+
+    position: absolute;
+
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background:
+        var(--accent);
+
+    box-shadow:
+        0 0 16px var(--accent);
+}
+
+.dot-1 {
+    top: 9%;
+    left: 48%;
+}
+
+.dot-2 {
+    top: 28%;
+    right: 6%;
+}
+
+.dot-3 {
+    bottom: 18%;
+    left: 8%;
+}
+
+.dot-4 {
+    bottom: 9%;
+    right: 30%;
+}
+
+
+/* =========================================================
+   PROFILE CARD
+========================================================= */
+
+.profile-card {
+
+    position: relative;
+
+    z-index: 10;
+
+    width: 300px;
+    height: 390px;
+
+    padding: 28px;
+
+    border-radius: 32px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    background:
+        linear-gradient(
+            145deg,
+            var(--surface-strong),
+            var(--surface)
+        );
+
+    border:
+        1px solid var(--line);
+
+    backdrop-filter:
+        blur(20px);
+
+    box-shadow:
+        var(--shadow-strong);
+}
+
+.profile-card::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 1px;
+
+    border-radius: 31px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.13),
+            transparent 35%
+        );
 
     pointer-events: none;
 }
 
-.ray {
+
+/* =========================================================
+   PROFILE IMAGE
+========================================================= */
+
+.profile-photo-wrap {
+
+    position: relative;
+
+    width: 150px;
+    height: 150px;
+
+    margin-bottom: 22px;
+}
+
+.profile-photo-wrap::before {
+
+    content: "";
+
     position: absolute;
+
+    inset: -7px;
+
+    border-radius: 50%;
+
+    border:
+        1px solid var(--accent);
+
+    opacity: .7;
+
+    box-shadow:
+        0 0 26px rgba(29,193,94,.14);
+}
+
+.profile-photo-wrap::after {
+
+    content: "";
+
+    position: absolute;
+
+    inset: -17px;
+
+    border-radius: 50%;
+
+    border:
+        1px dashed var(--line);
+
+    animation:
+        slowRotate 18s linear infinite reverse;
+}
+
+.profile-photo {
+
+    width: 150px;
+    height: 150px;
+
+    object-fit: cover;
+
+    border-radius: 50%;
+
+    display: block;
+
+    border:
+        3px solid var(--bg);
+
+    box-shadow:
+        0 14px 40px rgba(0,0,0,.16);
+}
+
+
+/* =========================================================
+   PROFILE TEXT
+========================================================= */
+
+.profile-eyebrow {
+
+    margin-bottom: 10px;
+
+    font-size: .61rem;
+
+    letter-spacing: .25em;
+
+    text-transform: uppercase;
+
+    color:
+        var(--accent);
+}
+
+.profile-name {
+
+    margin: 0;
+
+    font-size: 2.1rem;
+
+    letter-spacing: -.045em;
+
+    line-height: 1.05;
+}
+
+.profile-role {
+
+    margin-top: 14px;
+
+    max-width: 250px;
+
+    color: var(--muted);
+
+    line-height: 1.7;
+
+    font-size: .73rem;
+
+    letter-spacing: .06em;
+}
+
+.profile-status {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin-top: 20px;
+
+    font-size: .59rem;
+
+    letter-spacing: .12em;
+
+    color: var(--muted);
+
+    text-transform: uppercase;
+}
+
+.status-dot {
+
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+
+    background:
+        var(--accent);
+
+    box-shadow:
+        0 0 12px var(--accent);
+}
+
+
+/* =========================================================
+   NAVIGATION NODES
+========================================================= */
+
+.portal {
+
+    position: absolute;
+
+    z-index: 20;
+
+    width: 165px;
+    min-height: 98px;
+
+    padding: 18px;
+
+    text-decoration: none;
+
+    background:
+        var(--surface);
+
+    border:
+        1px solid var(--line);
+
+    backdrop-filter:
+        blur(14px);
+
+    border-radius:
+        18px;
+
+    box-shadow:
+        var(--shadow);
+
+    transition:
+        transform .3s ease,
+        border-color .3s ease,
+        box-shadow .3s ease,
+        background .3s ease;
+}
+
+.portal:hover {
+
+    transform:
+        translateY(-7px);
+
+    border-color:
+        var(--accent);
+
+    background:
+        var(--surface-strong);
+
+    box-shadow:
+        0 24px 50px rgba(21,120,66,.14),
+        0 0 0 1px rgba(25,160,82,.08);
+}
+
+.portal-number {
+
+    display: block;
+
+    font-size: .55rem;
+
+    letter-spacing: .2em;
+
+    color:
+        var(--accent);
+
+    margin-bottom: 9px;
+}
+
+.portal-title {
+
+    display: block;
+
+    font-size: .86rem;
+
+    font-weight: 700;
+
+    letter-spacing: .04em;
+}
+
+.portal-description {
+
+    display: block;
+
+    margin-top: 7px;
+
+    font-size: .61rem;
+
+    line-height: 1.4;
+
+    color:
+        var(--muted);
+}
+
+.portal.about {
+
+    left: 0;
+    top: 21%;
+}
+
+.portal.ict {
+
+    right: 0;
+    top: 18%;
+}
+
+.portal.projects {
+
+    left: 0;
+    bottom: 19%;
+}
+
+.portal.books {
+
+    right: 0;
+    bottom: 17%;
+}
+
+
+/* =========================================================
+   CONNECTOR LINES
+========================================================= */
+
+.connector {
+
+    position: absolute;
+
+    z-index: 1;
 
     height: 1px;
 
@@ -252,373 +1014,82 @@ body {
             transparent
         );
 
+    opacity: .34;
+
     transform-origin: left center;
 
-    opacity: .25;
-
-    transition:
-        opacity .3s ease,
-        box-shadow .3s ease;
+    pointer-events: none;
 }
 
-.ray.active {
-    opacity: 1;
+.connector.c1 {
 
-    box-shadow:
-        0 0 10px var(--accent),
-        0 0 25px rgba(21,148,71,.35);
+    width: 180px;
+
+    left: 11%;
+
+    top: 35%;
+
+    transform: rotate(9deg);
+}
+
+.connector.c2 {
+
+    width: 175px;
+
+    left: 69%;
+
+    top: 34%;
+
+    transform: rotate(-8deg);
+}
+
+.connector.c3 {
+
+    width: 178px;
+
+    left: 11%;
+
+    top: 66%;
+
+    transform: rotate(-9deg);
+}
+
+.connector.c4 {
+
+    width: 172px;
+
+    left: 69%;
+
+    top: 65%;
+
+    transform: rotate(8deg);
 }
 
 
 /* =========================================================
-   CENTRAL PROFILE
+   HERO FOOTNOTE
 ========================================================= */
 
-.profile {
+.hero-footnote {
+
     position: absolute;
-
-    z-index: 10;
-
-    width: 225px;
-    height: 225px;
-
-    border-radius: 50%;
-
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: center;
-    justify-content: center;
-
-    text-align: center;
-
-    padding: 18px;
-
-    background:
-        radial-gradient(
-            circle at 35% 25%,
-            rgba(53,216,121,.16),
-            transparent 50%
-        ),
-        var(--bg-secondary);
-
-    border:
-        2px solid var(--accent);
-
-    box-shadow:
-        0 0 35px rgba(21,148,71,.20),
-        var(--shadow);
-}
-
-
-/* =========================================================
-   PROFILE PHOTO
-========================================================= */
-
-.profile-photo {
-    width: 78px;
-    height: 78px;
-
-    object-fit: cover;
-
-    border-radius: 50%;
-
-    border:
-        2px solid var(--accent);
-
-    margin-bottom: 8px;
-
-    box-shadow:
-        0 0 18px rgba(21,148,71,.30);
-
-    background: var(--bg);
-}
-
-
-/* =========================================================
-   PROFILE NAME
-========================================================= */
-
-.profile h1 {
-    margin: 0;
-
-    font-size: 1.45rem;
-
-    line-height: 1.1;
-}
-
-
-/* =========================================================
-   PROFILE SUBTITLE
-========================================================= */
-
-.profile .subtitle {
-    margin-top: 8px;
-
-    max-width: 185px;
-
-    font-size: .65rem;
-
-    line-height: 1.4;
-
-    color: var(--muted);
-}
-
-
-/* =========================================================
-   CENTRAL STATUS DOT
-========================================================= */
-
-.profile .dot {
-    width: 7px;
-    height: 7px;
-
-    border-radius: 50%;
-
-    background: var(--accent);
-
-    margin-top: 9px;
-
-    box-shadow:
-        0 0 12px var(--accent);
-}
-
-
-/* =========================================================
-   NODES
-========================================================= */
-
-.node {
-    position: absolute;
-
-    z-index: 20;
-
-    width: 125px;
-    height: 125px;
-
-    border-radius: 50%;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    text-align: center;
-
-    background:
-        var(--bg-secondary);
-
-    border:
-        1px solid var(--line);
-
-    color: var(--text);
-
-    font-size: .75rem;
-
-    font-weight: 700;
-
-    letter-spacing: .08em;
-
-    cursor: pointer;
-
-    box-shadow:
-        var(--shadow);
-
-    transition:
-        transform .3s ease,
-        border-color .3s ease,
-        box-shadow .3s ease,
-        color .3s ease;
-}
-
-.node:hover,
-.node.active {
-    transform: scale(1.12);
-
-    border-color:
-        var(--accent);
-
-    color:
-        var(--accent);
-
-    box-shadow:
-        0 0 25px rgba(21,148,71,.25),
-        var(--shadow);
-}
-
-
-/* =========================================================
-   NODE POSITIONS
-========================================================= */
-
-.node.about {
-    left: 7%;
-    top: 21%;
-}
-
-.node.ict {
-    left: 42%;
-    top: 2%;
-}
-
-.node.projects {
-    right: 7%;
-    top: 21%;
-}
-
-.node.ai {
-    right: 7%;
-    bottom: 21%;
-}
-
-.node.books {
-    left: 42%;
-    bottom: 2%;
-}
-
-.node.github {
-    left: 7%;
-    bottom: 21%;
-}
-
-
-/* =========================================================
-   INFORMATION PANEL
-========================================================= */
-
-.info-panel {
-    position: fixed;
 
     left: 50%;
-    bottom: 35px;
-
-    width:
-        min(620px, calc(100vw - 30px));
+    bottom: 22px;
 
     transform:
-        translate(-50%, 140%);
+        translateX(-50%);
 
-    z-index: 200;
+    font-size: .57rem;
 
-    background:
-        var(--bg-secondary);
+    letter-spacing: .18em;
 
-    border:
-        1px solid var(--line);
-
-    border-radius: 22px;
-
-    padding:
-        26px 30px;
-
-    box-shadow:
-        0 25px 80px rgba(0,0,0,.25);
-
-    transition:
-        transform .45s
-        cubic-bezier(.2,.8,.2,1);
-}
-
-.info-panel.visible {
-    transform:
-        translate(-50%, 0);
-}
-
-.panel-close {
-    position: absolute;
-
-    top: 14px;
-    right: 18px;
-
-    border: 0;
-
-    background: transparent;
-
-    color: var(--muted);
-
-    font-size: 1.4rem;
-
-    cursor: pointer;
-}
-
-.panel-close:hover {
-    color: var(--accent);
-}
-
-.info-panel h2 {
-    margin:
-        0 35px 10px 0;
-
-    color:
-        var(--accent);
-}
-
-.info-panel p {
-    margin: 0;
+    text-transform: uppercase;
 
     color:
         var(--muted);
 
-    line-height: 1.65;
-}
-
-.panel-tags {
-    display: flex;
-
-    flex-wrap: wrap;
-
-    gap: 8px;
-
-    margin-top: 18px;
-}
-
-.panel-tag {
-    padding:
-        5px 10px;
-
-    border:
-        1px solid var(--line);
-
-    border-radius: 20px;
-
-    font-size: .72rem;
-
-    color:
-        var(--accent);
-}
-
-.panel-action {
-    display: inline-block;
-
-    margin-top: 20px;
-
-    padding:
-        10px 18px;
-
-    border-radius: 25px;
-
-    background:
-        var(--accent);
-
-    color:
-        white;
-
-    text-decoration: none;
-
-    font-weight: 700;
-
-    font-size: .85rem;
-
-    transition: .25s ease;
-}
-
-.panel-action:hover {
-    background:
-        var(--accent-dark);
-
-    transform:
-        translateY(-2px);
+    white-space: nowrap;
 }
 
 
@@ -627,41 +1098,160 @@ body {
 ========================================================= */
 
 .content {
+
     width:
-        min(1100px, 92vw);
+        min(1120px, 92vw);
 
     margin:
         0 auto;
 
-    padding-bottom:
-        100px;
+    padding:
+        20px 0 100px;
 }
 
 .section {
+
+    position: relative;
+
     padding:
-        90px 0;
+        115px 0;
 
     border-top:
         1px solid var(--line);
 }
 
-.section h2 {
-    margin-bottom:
-        12px;
+.section-grid {
 
-    font-size:
-        2rem;
+    display: grid;
+
+    grid-template-columns:
+        .72fr
+        1.28fr;
+
+    gap: 70px;
+
+    align-items: start;
 }
 
-.section-intro {
-    max-width:
-        760px;
+.section-index {
+
+    font-size: .62rem;
+
+    letter-spacing: .24em;
+
+    color:
+        var(--accent);
+
+    margin-bottom: 16px;
+
+    text-transform: uppercase;
+}
+
+.section h2 {
+
+    margin: 0;
+
+    font-size:
+        clamp(2.2rem, 4vw, 3.7rem);
+
+    line-height: .98;
+
+    letter-spacing:
+        -.05em;
+}
+
+.section-lead {
+
+    margin-top: 20px;
 
     color:
         var(--muted);
 
+    font-size:
+        .8rem;
+
     line-height:
-        1.7;
+        1.8;
+}
+
+.section-copy {
+
+    color:
+        var(--muted);
+
+    font-size:
+        .94rem;
+
+    line-height:
+        1.9;
+}
+
+.section-copy strong {
+
+    color:
+        var(--text);
+}
+
+
+/* =========================================================
+   METRICS
+========================================================= */
+
+.metrics {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap: 12px;
+
+    margin-top: 32px;
+}
+
+.metric {
+
+    padding:
+        18px;
+
+    background:
+        var(--surface);
+
+    border:
+        1px solid var(--line);
+
+    border-radius:
+        16px;
+}
+
+.metric-value {
+
+    font-size:
+        1.7rem;
+
+    font-weight:
+        800;
+
+    color:
+        var(--accent);
+}
+
+.metric-label {
+
+    margin-top: 5px;
+
+    font-size:
+        .59rem;
+
+    letter-spacing:
+        .11em;
+
+    text-transform:
+        uppercase;
+
+    color:
+        var(--muted);
 }
 
 
@@ -670,83 +1260,476 @@ body {
 ========================================================= */
 
 .cards {
+
     display:
         grid;
 
     grid-template-columns:
-        repeat(
-            auto-fit,
-            minmax(240px, 1fr)
-        );
+        repeat(2, 1fr);
 
-    gap:
-        20px;
+    gap: 18px;
 
     margin-top:
-        35px;
+        34px;
 }
 
 .card {
+
+    position: relative;
+
+    padding:
+        28px;
+
+    border-radius:
+        20px;
+
     background:
-        var(--bg-secondary);
+        linear-gradient(
+            145deg,
+            var(--surface-strong),
+            var(--surface)
+        );
+
+    border:
+        1px solid var(--line);
+
+    box-shadow:
+        var(--shadow);
+
+    transition:
+        transform .25s ease,
+        border-color .25s ease,
+        box-shadow .25s ease;
+}
+
+.card:hover {
+
+    transform:
+        translateY(-6px);
+
+    border-color:
+        var(--accent);
+
+    box-shadow:
+        var(--shadow-strong);
+}
+
+.card-number {
+
+    font-size: .56rem;
+
+    letter-spacing: .2em;
+
+    color:
+        var(--accent);
+}
+
+.card h3 {
+
+    margin:
+        12px 0 10px;
+
+    font-size:
+        1.15rem;
+}
+
+.card p {
+
+    margin:
+        0;
+
+    color:
+        var(--muted);
+
+    font-size:
+        .78rem;
+
+    line-height:
+        1.8;
+}
+
+
+/* =========================================================
+   TIMELINE
+========================================================= */
+
+.timeline {
+
+    position: relative;
+
+    margin-top:
+        42px;
+
+    padding-left:
+        28px;
+}
+
+.timeline::before {
+
+    content: "";
+
+    position: absolute;
+
+    left: 7px;
+
+    top: 3px;
+    bottom: 3px;
+
+    width: 1px;
+
+    background:
+        linear-gradient(
+            to bottom,
+            var(--accent),
+            var(--line),
+            transparent
+        );
+}
+
+.timeline-item {
+
+    position: relative;
+
+    padding:
+        0 0 34px;
+}
+
+.timeline-item::before {
+
+    content: "";
+
+    position: absolute;
+
+    left: -25px;
+
+    top: 5px;
+
+    width: 8px;
+    height: 8px;
+
+    border-radius: 50%;
+
+    background:
+        var(--accent);
+
+    box-shadow:
+        0 0 12px rgba(25,160,82,.35);
+}
+
+.timeline-year {
+
+    font-size:
+        .62rem;
+
+    letter-spacing:
+        .12em;
+
+    color:
+        var(--accent);
+}
+
+.timeline-title {
+
+    margin-top:
+        6px;
+
+    font-weight:
+        700;
+
+    font-size:
+        .9rem;
+}
+
+.timeline-text {
+
+    margin-top:
+        5px;
+
+    color:
+        var(--muted);
+
+    font-size:
+        .75rem;
+
+    line-height:
+        1.7;
+}
+
+
+/* =========================================================
+   PROJECT FEATURE
+========================================================= */
+
+.project-feature {
+
+    margin-top:
+        36px;
+
+    display:
+        grid;
+
+    grid-template-columns:
+        1.15fr
+        .85fr;
+
+    overflow:
+        hidden;
+
+    border-radius:
+        24px;
+
+    border:
+        1px solid var(--line);
+
+    background:
+        var(--surface);
+
+    box-shadow:
+        var(--shadow);
+}
+
+.project-main {
+
+    padding:
+        36px;
+}
+
+.project-side {
+
+    min-height:
+        300px;
+
+    position:
+        relative;
+
+    background:
+        radial-gradient(
+            circle at 55% 40%,
+            rgba(24,174,83,.25),
+            transparent 26%
+        ),
+        linear-gradient(
+            145deg,
+            rgba(20,80,45,.22),
+            transparent
+        );
+
+    border-left:
+        1px solid var(--line);
+}
+
+.project-side::before {
+
+    content: "SCACCHI";
+
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    transform:
+        translate(-50%,-50%)
+        rotate(-12deg);
+
+    font-size:
+        clamp(2.7rem,5vw,5rem);
+
+    font-weight:
+        900;
+
+    letter-spacing:
+        -.07em;
+
+    color:
+        rgba(25,160,82,.08);
+
+    white-space:
+        nowrap;
+}
+
+.project-kicker {
+
+    font-size:
+        .6rem;
+
+    letter-spacing:
+        .2em;
+
+    text-transform:
+        uppercase;
+
+    color:
+        var(--accent);
+}
+
+.project-main h3 {
+
+    margin:
+        10px 0 15px;
+
+    font-size:
+        clamp(1.8rem,4vw,3rem);
+
+    letter-spacing:
+        -.045em;
+}
+
+.project-main p {
+
+    margin:
+        0;
+
+    color:
+        var(--muted);
+
+    line-height:
+        1.85;
+
+    font-size:
+        .81rem;
+}
+
+.project-tags {
+
+    display:
+        flex;
+
+    flex-wrap:
+        wrap;
+
+    gap:
+        8px;
+
+    margin-top:
+        22px;
+}
+
+.project-tag {
+
+    padding:
+        7px 10px;
+
+    border-radius:
+        999px;
+
+    border:
+        1px solid var(--line);
+
+    color:
+        var(--accent);
+
+    font-size:
+        .57rem;
+
+    letter-spacing:
+        .08em;
+
+    text-transform:
+        uppercase;
+}
+
+
+/* =========================================================
+   BOOK
+========================================================= */
+
+.book-card {
+
+    position:
+        relative;
+
+    padding:
+        36px;
 
     border:
         1px solid var(--line);
 
     border-radius:
+        24px;
+
+    background:
+        linear-gradient(
+            145deg,
+            var(--surface-strong),
+            var(--surface)
+        );
+
+    box-shadow:
+        var(--shadow);
+
+    overflow:
+        hidden;
+}
+
+.book-card::after {
+
+    content: "ROMANZO";
+
+    position:
+        absolute;
+
+    right:
+        -24px;
+
+    bottom:
         18px;
 
-    padding:
-        25px;
-
-    transition:
-        transform .25s ease,
-        border-color .25s ease;
-}
-
-.card:hover {
     transform:
-        translateY(-5px);
+        rotate(-90deg);
 
-    border-color:
+    font-size:
+        .52rem;
+
+    letter-spacing:
+        .25em;
+
+    color:
         var(--accent);
+
+    opacity:
+        .65;
 }
 
-.card h3 {
-    margin-top: 0;
+.book-kicker {
+
+    font-size:
+        .59rem;
+
+    letter-spacing:
+        .2em;
+
+    text-transform:
+        uppercase;
 
     color:
         var(--accent);
 }
 
-.card p {
+.book-title {
+
+    margin:
+        14px 0 10px;
+
+    font-size:
+        clamp(2rem,4vw,3.5rem);
+
+    letter-spacing:
+        -.055em;
+}
+
+.book-description {
+
+    max-width:
+        650px;
+
     color:
         var(--muted);
 
+    font-size:
+        .84rem;
+
     line-height:
-        1.6;
-}
-
-.card-link {
-    display:
-        inline-block;
-
-    margin-top:
-        10px;
-
-    color:
-        var(--accent);
-
-    text-decoration:
-        none;
-
-    font-weight:
-        700;
-}
-
-.card-link:hover {
-    text-decoration:
-        underline;
+        1.85;
 }
 
 
@@ -755,11 +1738,15 @@ body {
 ========================================================= */
 
 footer {
-    border-top:
-        1px solid var(--line);
+
+    position:
+        relative;
 
     padding:
-        30px 20px;
+        32px 24px 40px;
+
+    border-top:
+        1px solid var(--line);
 
     text-align:
         center;
@@ -768,162 +1755,287 @@ footer {
         var(--muted);
 
     font-size:
-        .8rem;
+        .61rem;
+
+    letter-spacing:
+        .1em;
+
+    text-transform:
+        uppercase;
 }
 
 
 /* =========================================================
-   MOBILE
+   RESPONSIVE
 ========================================================= */
 
-@media (max-width: 700px) {
+@media (max-width: 980px) {
 
-    .topbar {
-        padding:
-            0 16px;
-    }
-
-    .hero {
-        min-height:
-            850px;
-
-        padding-top:
-            90px;
-    }
-
-    .hub {
-        width:
-            100%;
-
-        height:
-            720px;
-    }
-
-    .orbit.one {
-        width:
-            260px;
-
-        height:
-            260px;
-    }
-
-    .orbit.two {
-        width:
-            430px;
-
-        height:
-            430px;
-    }
-
-    .orbit.three {
+    .top-nav {
         display:
             none;
     }
 
-    .profile {
-        width:
-            175px;
+    .hero-layout {
+
+        grid-template-columns:
+            1fr;
+
+        max-width:
+            760px;
+    }
+
+    .hero-side {
+        display:
+            none;
+    }
+
+    .centerpiece {
+        min-height:
+            650px;
+    }
+
+    .portal.about {
+        left:
+            4%;
+        top:
+            18%;
+    }
+
+    .portal.ict {
+        right:
+            4%;
+        top:
+            15%;
+    }
+
+    .portal.projects {
+        left:
+            4%;
+        bottom:
+            15%;
+    }
+
+    .portal.books {
+        right:
+            4%;
+        bottom:
+            13%;
+    }
+
+    .connector {
+        display:
+            none;
+    }
+
+    .section-grid {
+
+        grid-template-columns:
+            1fr;
+
+        gap:
+            34px;
+    }
+
+    .project-feature {
+        grid-template-columns:
+            1fr;
+    }
+
+    .project-side {
+
+        min-height:
+            220px;
+
+        border-left:
+            0;
+
+        border-top:
+            1px solid var(--line);
+    }
+}
+
+
+@media (max-width: 650px) {
+
+    .topbar {
 
         height:
-            175px;
+            62px;
+
+        padding:
+            0 18px;
+    }
+
+    .hero {
+
+        padding:
+            90px 14px 50px;
+    }
+
+    .hero-layout {
+
+        width:
+            100%;
+    }
+
+    .centerpiece {
+
+        min-height:
+            650px;
+    }
+
+    .central-ring {
+
+        width:
+            320px;
+
+        height:
+            320px;
+    }
+
+    .profile-card {
+
+        width:
+            255px;
+
+        height:
+            355px;
+    }
+
+    .profile-photo-wrap {
+
+        width:
+            120px;
+
+        height:
+            120px;
+    }
+
+    .profile-photo {
+
+        width:
+            120px;
+
+        height:
+            120px;
+    }
+
+    .profile-name {
+
+        font-size:
+            1.8rem;
+    }
+
+    .profile-role {
+
+        font-size:
+            .64rem;
+    }
+
+    .portal {
+
+        width:
+            135px;
+
+        min-height:
+            86px;
 
         padding:
             14px;
     }
 
-    .profile-photo {
-        width:
-            60px;
-
-        height:
-            60px;
-    }
-
-    .profile h1 {
-        font-size:
-            1.2rem;
-    }
-
-    .profile .subtitle {
-        font-size:
-            .57rem;
-    }
-
-    .node {
-        width:
-            95px;
-
-        height:
-            95px;
+    .portal-title {
 
         font-size:
-            .62rem;
+            .72rem;
     }
 
-    .node.about {
+    .portal-description {
+
+        font-size:
+            .56rem;
+    }
+
+    .portal.about {
+
         left:
-            2%;
+            0;
 
         top:
-            17%;
+            14%;
     }
 
-    .node.ict {
-        left:
-            calc(50% - 47px);
+    .portal.ict {
 
-        top:
-            2%;
-    }
-
-    .node.projects {
         right:
-            2%;
+            0;
 
         top:
-            17%;
+            11%;
     }
 
-    .node.ai {
+    .portal.projects {
+
+        left:
+            0;
+
+        bottom:
+            12%;
+    }
+
+    .portal.books {
+
         right:
-            2%;
+            0;
 
         bottom:
-            17%;
+            10%;
     }
 
-    .node.books {
-        left:
-            calc(50% - 47px);
+    .hero-footnote {
 
         bottom:
-            2%;
+            6px;
+
+        font-size:
+            .45rem;
     }
 
-    .node.github {
-        left:
-            2%;
+    .cards {
 
-        bottom:
-            17%;
+        grid-template-columns:
+            1fr;
     }
 
-    .ray {
-        width:
-            190px !important;
-    }
+    .metrics {
 
-    .info-panel {
-        bottom:
-            15px;
-
-        padding:
-            22px;
+        grid-template-columns:
+            1fr;
     }
 
     .section {
+
         padding:
-            65px 0;
+            82px 0;
+    }
+
+    .section h2 {
+
+        font-size:
+            2.5rem;
+    }
+
+    .project-main,
+    .book-card {
+
+        padding:
+            26px;
+    }
+
+    body::before {
+        background-size:
+            34px 34px;
     }
 }
 
@@ -934,107 +2046,248 @@ footer {
 <body>
 
 
-<!-- ========================================================
+<!-- =========================================================
      TOP BAR
-========================================================= -->
+========================================================== -->
 
 <header class="topbar">
 
     <div class="brand">
-        Simone <span>Rebucci</span>
+
+        <div class="brand-mark"></div>
+
+        <div>
+            Simone <span>Rebucci</span>
+        </div>
+
     </div>
 
-    <button id="themeToggle"
+
+    <div class="top-actions">
+
+        <nav class="top-nav">
+
+            <a href="#about">ABOUT</a>
+            <a href="#ict">ICT</a>
+            <a href="#projects">PROJECTS</a>
+            <a href="#books">BOOKS</a>
+
+        </nav>
+
+
+        <button
+            id="themeToggle"
             aria-label="Cambia tema">
 
-        ☾ / ☀
+            ◐
 
-    </button>
+        </button>
+
+    </div>
 
 </header>
 
 
 
-<!-- ========================================================
-     MAIN
-========================================================= -->
+<!-- =========================================================
+     HERO
+========================================================== -->
 
 <main>
 
 
-<!-- ========================================================
-     HERO
-========================================================= -->
-
 <section class="hero">
 
-    <div class="hub" id="hub">
 
-
-        <!-- ORBITS -->
-
-        <div class="orbit one"></div>
-
-        <div class="orbit two"></div>
-
-        <div class="orbit three"></div>
-
-
-
-        <!-- RAYS -->
-
-        <div class="rays">
-
-            <div class="ray"></div>
-            <div class="ray"></div>
-            <div class="ray"></div>
-            <div class="ray"></div>
-            <div class="ray"></div>
-            <div class="ray"></div>
-
-        </div>
-
+    <div class="hero-layout">
 
 
         <!-- =================================================
-             CENTRAL PROFILE
+             LEFT
         ================================================== -->
 
-        <div class="profile">
+        <div class="hero-side left">
 
+            <div class="side-title">
 
-            <!-- FOTO -->
+                ICT MANAGEMENT
 
-            <img
-                src="profile.jpg"
-                alt="Simone Rebucci"
-                class="profile-photo"
-            >
-
-
-            <!-- NOME -->
-
-            <h1>
-                Simone Rebucci
-            </h1>
-
-
-            <!-- PROFILO -->
-
-            <div class="subtitle">
-
-                ICT Management & Governance<br>
-
-                Infrastructure · Project Management<br>
-
-                Team Leadership · AI & Technology
+                <strong>
+                    Infrastructure & Governance
+                </strong>
 
             </div>
 
 
-            <!-- STATUS -->
+            <div class="side-line">
 
-            <div class="dot"></div>
+                Nearly 30 years in ICT
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             CENTER
+        ================================================== -->
+
+        <div class="centerpiece">
+
+
+            <div class="central-ring"></div>
+
+
+            <div class="orbit-dot dot-1"></div>
+            <div class="orbit-dot dot-2"></div>
+            <div class="orbit-dot dot-3"></div>
+            <div class="orbit-dot dot-4"></div>
+
+
+
+            <!-- CONNECTORS -->
+
+            <div class="connector c1"></div>
+            <div class="connector c2"></div>
+            <div class="connector c3"></div>
+            <div class="connector c4"></div>
+
+
+
+            <!-- PROFILE -->
+
+            <div class="profile-card">
+
+
+                <div class="profile-photo-wrap">
+
+                    <img
+                        src="profile.jpg"
+                        alt="Simone Rebucci"
+                        class="profile-photo">
+
+                </div>
+
+
+                <div class="profile-eyebrow">
+
+                    ICT · MANAGEMENT · PROJECTS
+
+                </div>
+
+
+                <h1 class="profile-name">
+
+                    Simone Rebucci
+
+                </h1>
+
+
+                <div class="profile-role">
+
+                    ICT Management & Governance<br>
+
+                    Infrastructure · Project Management<br>
+
+                    Team Leadership
+
+                </div>
+
+
+                <div class="profile-status">
+
+                    <span class="status-dot"></span>
+
+                    Technology · Strategy · Execution
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 PORTALS
+            ================================================== -->
+
+            <a
+                href="#about"
+                class="portal about">
+
+                <span class="portal-number">
+                    01
+                </span>
+
+                <span class="portal-title">
+                    ABOUT
+                </span>
+
+                <span class="portal-description">
+                    Profile, experience and professional path.
+                </span>
+
+            </a>
+
+
+
+            <a
+                href="#ict"
+                class="portal ict">
+
+                <span class="portal-number">
+                    02
+                </span>
+
+                <span class="portal-title">
+                    ICT MANAGEMENT
+                </span>
+
+                <span class="portal-description">
+                    Infrastructure, governance and project management.
+                </span>
+
+            </a>
+
+
+
+            <a
+                href="#projects"
+                class="portal projects">
+
+                <span class="portal-number">
+                    03
+                </span>
+
+                <span class="portal-title">
+                    PROJECTS
+                </span>
+
+                <span class="portal-description">
+                    Personal projects and ideas transformed into reality.
+                </span>
+
+            </a>
+
+
+
+            <a
+                href="#books"
+                class="portal books">
+
+                <span class="portal-number">
+                    04
+                </span>
+
+                <span class="portal-title">
+                    BOOKS
+                </span>
+
+                <span class="portal-description">
+                    Writing, novels and editorial projects.
+                </span>
+
+            </a>
 
 
         </div>
@@ -1042,554 +2295,592 @@ footer {
 
 
         <!-- =================================================
-             NODES
+             RIGHT
         ================================================== -->
 
-        <button
-            class="node about"
-            data-panel="about"
-            data-ray="0">
+        <div class="hero-side right">
 
-            ABOUT
+            <div class="side-title">
 
-        </button>
+                PROJECT MANAGEMENT
 
+                <strong>
+                    Teams · Services · Delivery
+                </strong>
 
-        <button
-            class="node ict"
-            data-panel="ict"
-            data-ray="1">
-
-            ICT
-
-        </button>
+            </div>
 
 
-        <button
-            class="node projects"
-            data-panel="projects"
-            data-ray="2">
+            <div class="side-line">
 
-            PROJECTS
+                Technology & strategy
 
-        </button>
+            </div>
 
-
-        <button
-            class="node ai"
-            data-panel="ai"
-            data-ray="3">
-
-            AI
-
-        </button>
-
-
-        <button
-            class="node books"
-            data-panel="books"
-            data-ray="4">
-
-            BOOKS
-
-        </button>
-
-
-        <button
-            class="node github"
-            data-panel="github"
-            data-ray="5">
-
-            GITHUB
-
-        </button>
+        </div>
 
 
     </div>
+
+
+    <div class="hero-footnote">
+
+        Explore the journey
+
+    </div>
+
 
 </section>
 
 
 
-<!-- ========================================================
+<!-- =========================================================
      CONTENT
-========================================================= -->
+========================================================== -->
 
 <div class="content">
 
 
+    <!-- =====================================================
+         ABOUT
+    ====================================================== -->
 
-<!-- ========================================================
-     ABOUT
-========================================================= -->
-
-<section
-    class="section"
-    id="about">
-
-
-    <h2>
-        About me
-    </h2>
+    <section
+        class="section"
+        id="about">
 
 
-    <p class="section-intro">
-
-        Quasi 30 anni nel mondo ICT, iniziando dai sistemi
-        e dall'infrastruttura per arrivare alla gestione di
-        progetti, team e servizi tecnologici.
-
-        Oggi mi occupo di ICT Management, governance
-        dell'infrastruttura, project management e coordinamento
-        di iniziative tecnologiche.
-
-        Questo spazio raccoglie alcuni progetti, esperimenti
-        e idee personali: tecnologia, AI, creatività e tutto
-        ciò che mi incuriosisce abbastanza da volerlo
-        trasformare in qualcosa di concreto.
-
-    </p>
-
-</section>
+        <div class="section-grid">
 
 
+            <div>
 
-<!-- ========================================================
-     ICT
-========================================================= -->
+                <div class="section-index">
+                    01 / ABOUT
+                </div>
 
-<section
-    class="section"
-    id="ict">
+                <h2>
+                    From systems<br>
+                    to management.
+                </h2>
 
+                <p class="section-lead">
+                    Un percorso costruito nel tempo,
+                    tra tecnologia, infrastrutture,
+                    progetti e persone.
+                </p>
 
-    <h2>
-        ICT Management
-    </h2>
-
-
-    <p class="section-intro">
-
-        Un percorso professionale costruito tra infrastrutture,
-        sistemi, governance ICT, project management e
-        coordinamento di team e fornitori.
-
-    </p>
+            </div>
 
 
-    <div class="cards">
+            <div>
 
 
-        <div class="card">
+                <p class="section-copy">
 
-            <h3>
-                Infrastructure
-            </h3>
+                    Quasi <strong>30 anni nel mondo ICT</strong>,
+                    iniziando dai sistemi e dall'infrastruttura
+                    per arrivare alla gestione di progetti,
+                    team e servizi tecnologici.
 
-            <p>
-
-                Sistemi, reti, infrastrutture, cloud,
-                servizi tecnologici e continuità operativa.
-
-            </p>
-
-        </div>
+                </p>
 
 
+                <p class="section-copy">
 
-        <div class="card">
+                    Oggi il mio lavoro si concentra su
+                    <strong>ICT Management, governance
+                    dell'infrastruttura, project management
+                    e coordinamento di iniziative
+                    tecnologiche</strong>.
 
-            <h3>
-                Project Management
-            </h3>
-
-            <p>
-
-                Coordinamento di progetti ICT,
-                pianificazione, stakeholder management,
-                fornitori e gestione delle attività.
-
-            </p>
-
-        </div>
+                </p>
 
 
+                <p class="section-copy">
 
-        <div class="card">
+                    Questo spazio racconta anche la parte
+                    più personale del mio percorso:
+                    progetti, idee e interessi che nel tempo
+                    hanno trovato una forma concreta.
 
-            <h3>
-                Governance
-            </h3>
-
-            <p>
-
-                Approccio orientato a governance,
-                processi, sicurezza, gestione del rischio
-                e qualità dei servizi ICT.
-
-            </p>
-
-        </div>
+                </p>
 
 
+                <div class="metrics">
 
-        <div class="card">
 
-            <h3>
-                Certifications
-            </h3>
+                    <div class="metric">
 
-            <p>
+                        <div class="metric-value">
+                            30
+                        </div>
 
-                Prince2®, Scrum, ITIL v4,
-                Professional Scrum Master,
-                Microsoft Azure Fundamentals e
-                Oracle Cloud Infrastructure.
+                        <div class="metric-label">
+                            Years in ICT
+                        </div>
 
-            </p>
+                    </div>
+
+
+                    <div class="metric">
+
+                        <div class="metric-value">
+                            ICT
+                        </div>
+
+                        <div class="metric-label">
+                            Management
+                        </div>
+
+                    </div>
+
+
+                    <div class="metric">
+
+                        <div class="metric-value">
+                            PM
+                        </div>
+
+                        <div class="metric-label">
+                            Project Management
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
 
         </div>
 
 
-    </div>
-
-</section>
+    </section>
 
 
 
-<!-- ========================================================
-     PROJECTS
-========================================================= -->
+    <!-- =====================================================
+         ICT MANAGEMENT
+    ====================================================== -->
 
-<section
-    class="section"
-    id="projects">
-
-
-    <h2>
-        Projects
-    </h2>
+    <section
+        class="section"
+        id="ict">
 
 
-    <p class="section-intro">
-
-        Progetti personali nei quali tecnologia,
-        creatività e sperimentazione si incontrano.
-
-    </p>
+        <div class="section-grid">
 
 
-    <div class="cards">
+            <div>
+
+                <div class="section-index">
+                    02 / ICT MANAGEMENT
+                </div>
+
+                <h2>
+                    Technology<br>
+                    with direction.
+                </h2>
+
+                <p class="section-lead">
+                    Infrastrutture, governance,
+                    progetti e coordinamento.
+                </p>
+
+            </div>
 
 
-        <!-- SCACCHI D'ARME -->
-
-        <div class="card">
-
-            <h3>
-                Scacchi D'arme
-            </h3>
+            <div>
 
 
-            <p>
+                <p class="section-copy">
 
-                Un omaggio a Battle Chess.
+                    L'infrastruttura è il punto di partenza,
+                    ma il valore nasce dalla capacità di
+                    <strong>governare tecnologia, processi,
+                    persone e obiettivi</strong> in un unico
+                    quadro.
 
-                Ho sempre amato Battle Chess e l'idea
-                di portare gli scacchi oltre la semplice
-                rappresentazione bidimensionale.
-
-                Da questa passione nasce Scacchi D'arme:
-                un progetto personale con l'obiettivo di
-                reinterpretare quell'idea attraverso la
-                modellazione 3D e gli strumenti di
-                intelligenza artificiale.
-
-            </p>
+                </p>
 
 
-            <p>
-
-                Il progetto sarà disponibile gratuitamente.
-
-                Questa pagina racconterà progressivamente
-                la storia del progetto, il processo creativo,
-                le tecnologie utilizzate e le versioni
-                pubblicate.
-
-            </p>
+                <div class="cards">
 
 
-            <a
-                class="card-link"
-                href="https://github.com/SiRe1979"
-                target="_blank"
-                rel="noopener noreferrer">
+                    <div class="card">
 
-                Segui il progetto su GitHub →
+                        <div class="card-number">
+                            01
+                        </div>
 
-            </a>
+                        <h3>
+                            Infrastructure
+                        </h3>
+
+                        <p>
+
+                            Sistemi, reti, infrastrutture,
+                            servizi tecnologici, cloud e
+                            continuità operativa.
+
+                        </p>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <div class="card-number">
+                            02
+                        </div>
+
+                        <h3>
+                            Governance
+                        </h3>
+
+                        <p>
+
+                            Processi, controllo, gestione
+                            del rischio, qualità e
+                            coordinamento dei servizi ICT.
+
+                        </p>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <div class="card-number">
+                            03
+                        </div>
+
+                        <h3>
+                            Project Management
+                        </h3>
+
+                        <p>
+
+                            Pianificazione, stakeholder,
+                            fornitori, attività, dipendenze
+                            e delivery.
+
+                        </p>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <div class="card-number">
+                            04
+                        </div>
+
+                        <h3>
+                            Team Leadership
+                        </h3>
+
+                        <p>
+
+                            Coordinamento di persone,
+                            competenze e responsabilità
+                            verso obiettivi condivisi.
+
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="timeline">
+
+
+                    <div class="timeline-item">
+
+                        <div class="timeline-year">
+                            1998
+                        </div>
+
+                        <div class="timeline-title">
+                            Systems & Infrastructure
+                        </div>
+
+                        <div class="timeline-text">
+
+                            L'inizio del percorso professionale
+                            nel mondo dei sistemi e della
+                            tecnologia.
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="timeline-item">
+
+                        <div class="timeline-year">
+                            EVOLUTION
+                        </div>
+
+                        <div class="timeline-title">
+                            Projects & Services
+                        </div>
+
+                        <div class="timeline-text">
+
+                            Crescita verso il coordinamento
+                            di attività, servizi, fornitori
+                            e progetti.
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="timeline-item">
+
+                        <div class="timeline-year">
+                            TODAY
+                        </div>
+
+                        <div class="timeline-title">
+                            ICT Management
+                        </div>
+
+                        <div class="timeline-text">
+
+                            Visione integrata tra infrastruttura,
+                            governance, project management
+                            e leadership.
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
 
         </div>
 
 
-
-        <!-- COMING SOON -->
-
-        <div class="card">
-
-            <h3>
-                Coming soon
-            </h3>
-
-            <p>
-
-                Nuovi progetti personali in fase
-                di ideazione e sviluppo.
-
-            </p>
-
-        </div>
-
-
-    </div>
-
-</section>
+    </section>
 
 
 
-<!-- ========================================================
-     AI
-========================================================= -->
+    <!-- =====================================================
+         PROJECTS
+    ====================================================== -->
 
-<section
-    class="section"
-    id="ai">
-
-
-    <h2>
-        AI Experiments
-    </h2>
+    <section
+        class="section"
+        id="projects">
 
 
-    <p class="section-intro">
-
-        L'intelligenza artificiale come strumento
-        per trasformare idee in prototipi,
-        contenuti e progetti concreti.
-
-    </p>
+        <div class="section-grid">
 
 
-    <div class="cards">
+            <div>
+
+                <div class="section-index">
+                    03 / PROJECTS
+                </div>
+
+                <h2>
+                    Ideas<br>
+                    become projects.
+                </h2>
+
+                <p class="section-lead">
+                    La parte più personale:
+                    trasformare una passione in qualcosa
+                    di concreto.
+                </p>
+
+            </div>
 
 
-        <div class="card">
-
-            <h3>
-                AI-assisted creation
-            </h3>
-
-            <p>
-
-                Sperimentazione di strumenti AI per
-                generazione di contenuti, progettazione,
-                prototipazione e sviluppo di idee.
-
-            </p>
-
-        </div>
+            <div>
 
 
-
-        <div class="card">
-
-            <h3>
-                AI & Technology
-            </h3>
-
-            <p>
-
-                Esplorazione delle possibilità offerte
-                dall'intelligenza artificiale applicata
-                al mondo ICT e alla gestione tecnologica.
-
-            </p>
-
-        </div>
+                <div class="project-feature">
 
 
-    </div>
+                    <div class="project-main">
 
-</section>
-
-
-
-<!-- ========================================================
-     BOOKS
-========================================================= -->
-
-<section
-    class="section"
-    id="books">
+                        <div class="project-kicker">
+                            Personal Project
+                        </div>
 
 
-    <h2>
-        Books
-    </h2>
+                        <h3>
+                            Scacchi D'arme
+                        </h3>
 
 
-    <p class="section-intro">
+                        <p>
 
-        Scrittura, narrativa e progetti editoriali
-        nati parallelamente al percorso professionale.
+                            Un omaggio a Battle Chess.
 
-    </p>
+                            Ho sempre amato l'idea di portare
+                            gli scacchi oltre la semplice
+                            rappresentazione bidimensionale.
+
+                        </p>
 
 
-    <div class="cards">
+                        <br>
 
 
-        <div class="card">
+                        <p>
 
-            <h3>
-                Il Romitorio
-            </h3>
+                            Da questa passione nasce
+                            <strong>Scacchi D'arme</strong>:
+                            un progetto personale che
+                            reinterpreta quell'idea attraverso
+                            la modellazione 3D e un approccio
+                            creativo contemporaneo.
 
-            <p>
-                Romanzo.
-            </p>
+                        </p>
 
-            <p>
 
-                Un progetto editoriale personale
-                attualmente in fase di sviluppo.
+                        <br>
 
-            </p>
+
+                        <p>
+
+                            Il progetto sarà disponibile
+                            gratuitamente e racconterà
+                            progressivamente la propria storia,
+                            il processo creativo e le versioni
+                            pubblicate.
+
+                        </p>
+
+
+                        <div class="project-tags">
+
+                            <span class="project-tag">
+                                3D
+                            </span>
+
+                            <span class="project-tag">
+                                Chess
+                            </span>
+
+                            <span class="project-tag">
+                                Battle Chess
+                            </span>
+
+                            <span class="project-tag">
+                                Personal Project
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="project-side"></div>
+
+
+                </div>
+
+
+            </div>
 
         </div>
 
 
-    </div>
-
-</section>
+    </section>
 
 
 
-<!-- ========================================================
-     GITHUB
-========================================================= -->
+    <!-- =====================================================
+         BOOKS
+    ====================================================== -->
 
-<section
-    class="section"
-    id="github">
-
-
-    <h2>
-        GitHub
-    </h2>
+    <section
+        class="section"
+        id="books">
 
 
-    <p class="section-intro">
-
-        Il mio spazio GitHub raccoglie progetti,
-        esperimenti e materiali tecnologici.
-
-    </p>
+        <div class="section-grid">
 
 
-    <div class="cards">
+            <div>
+
+                <div class="section-index">
+                    04 / BOOKS
+                </div>
+
+                <h2>
+                    Another side<br>
+                    of the story.
+                </h2>
+
+                <p class="section-lead">
+                    Tecnologia e management sono solo
+                    una parte del percorso.
+                </p>
+
+            </div>
 
 
-        <div class="card">
-
-            <h3>
-                SiRe1979
-            </h3>
+            <div>
 
 
-            <p>
-
-                Repository e progetti personali,
-                con particolare attenzione a tecnologia,
-                AI e sperimentazione.
-
-            </p>
+                <div class="book-card">
 
 
-            <a
-                class="card-link"
-                href="https://github.com/SiRe1979"
-                target="_blank"
-                rel="noopener noreferrer">
+                    <div class="book-kicker">
+                        Romanzo
+                    </div>
 
-                Apri il mio GitHub →
 
-            </a>
+                    <div class="book-title">
+                        Il Romitorio
+                    </div>
+
+
+                    <p class="book-description">
+
+                        Un progetto narrativo personale,
+                        nato parallelamente al percorso
+                        professionale.
+
+                        Un'altra forma di creatività,
+                        ricerca e costruzione di mondi
+                        attraverso la scrittura.
+
+                    </p>
+
+
+                </div>
+
+            </div>
+
 
         </div>
 
 
-    </div>
-
-</section>
-
+    </section>
 
 
 </div>
+
 
 </main>
 
 
 
-<!-- ========================================================
-     INFORMATION PANEL
-========================================================= -->
-
-<div
-    class="info-panel"
-    id="infoPanel">
-
-
-    <button
-        class="panel-close"
-        id="closePanel"
-        aria-label="Chiudi">
-
-        ×
-
-    </button>
-
-
-    <h2 id="panelTitle"></h2>
-
-
-    <p id="panelText"></p>
-
-
-    <div
-        class="panel-tags"
-        id="panelTags">
-    </div>
-
-
-    <a
-        id="panelAction"
-        class="panel-action"
-        href="#">
-
-        Esplora →
-
-    </a>
-
-
-</div>
-
-
-
-<!-- ========================================================
+<!-- =========================================================
      FOOTER
-========================================================= -->
+========================================================== -->
 
 <footer>
 
@@ -1602,437 +2893,11 @@ footer {
 <script>
 
 /* =========================================================
-   PANEL DATA
-========================================================= */
-
-const panels = {
-
-
-    about: {
-
-        title: "About me",
-
-        text:
-        "Quasi 30 anni nel mondo ICT, iniziando dai sistemi e dall'infrastruttura per arrivare alla gestione di progetti, team e servizi tecnologici. Oggi mi occupo di ICT Management, governance dell'infrastruttura, project management e coordinamento di iniziative tecnologiche.",
-
-        tags: [
-            "ICT Management",
-            "Infrastructure",
-            "Project Management",
-            "Team Leadership"
-        ],
-
-        link: "#about",
-
-        external: false
-
-    },
-
-
-    ict: {
-
-        title: "ICT Management",
-
-        text:
-        "Un percorso professionale costruito tra infrastrutture, sistemi, governance ICT, project management e coordinamento di team e fornitori.",
-
-        tags: [
-            "Infrastructure",
-            "Governance",
-            "Project Management",
-            "ITIL",
-            "PRINCE2",
-            "Scrum"
-        ],
-
-        link: "#ict",
-
-        external: false
-
-    },
-
-
-    projects: {
-
-        title: "Projects",
-
-        text:
-        "Progetti personali nei quali tecnologia, creatività e sperimentazione si incontrano. Il primo progetto presentato è Scacchi D'arme, un omaggio a Battle Chess sviluppato attraverso modellazione 3D e strumenti di intelligenza artificiale.",
-
-        tags: [
-            "Scacchi D'arme",
-            "3D",
-            "AI-assisted",
-            "Chess",
-            "Battle Chess"
-        ],
-
-        link: "#projects",
-
-        external: false
-
-    },
-
-
-    ai: {
-
-        title: "AI Experiments",
-
-        text:
-        "L'intelligenza artificiale come strumento per trasformare idee in prototipi, contenuti e progetti concreti. Una parte importante di questo spazio è dedicata alla sperimentazione di nuovi strumenti e workflow.",
-
-        tags: [
-            "Artificial Intelligence",
-            "AI-assisted",
-            "Technology",
-            "Experiments"
-        ],
-
-        link: "#ai",
-
-        external: false
-
-    },
-
-
-    books: {
-
-        title: "Books",
-
-        text:
-        "Scrittura, narrativa e progetti editoriali nati parallelamente al percorso professionale. Tra questi, Il Romitorio.",
-
-        tags: [
-            "Il Romitorio",
-            "Romanzo",
-            "Writing"
-        ],
-
-        link: "#books",
-
-        external: false
-
-    },
-
-
-    github: {
-
-        title: "GitHub",
-
-        text:
-        "Il mio spazio GitHub raccoglie progetti, esperimenti e materiali tecnologici. È il punto di accesso ai progetti pubblicati e alle attività open source.",
-
-        tags: [
-            "GitHub",
-            "SiRe1979",
-            "Projects",
-            "Technology"
-        ],
-
-        link:
-        "https://github.com/SiRe1979",
-
-        external: true
-
-    }
-
-};
-
-
-
-/* =========================================================
-   ELEMENTS
-========================================================= */
-
-const panel =
-    document.getElementById("infoPanel");
-
-const panelTitle =
-    document.getElementById("panelTitle");
-
-const panelText =
-    document.getElementById("panelText");
-
-const panelTags =
-    document.getElementById("panelTags");
-
-const panelAction =
-    document.getElementById("panelAction");
-
-const closePanel =
-    document.getElementById("closePanel");
-
-const nodes =
-    document.querySelectorAll(".node");
-
-const rays =
-    document.querySelectorAll(".ray");
-
-
-
-/* =========================================================
-   OPEN PANEL
-========================================================= */
-
-function openPanel(name, rayIndex) {
-
-    const data =
-        panels[name];
-
-    if (!data) return;
-
-
-    panelTitle.textContent =
-        data.title;
-
-
-    panelText.textContent =
-        data.text;
-
-
-    panelTags.innerHTML =
-        "";
-
-
-    data.tags.forEach(tag => {
-
-        const element =
-            document.createElement("span");
-
-        element.className =
-            "panel-tag";
-
-        element.textContent =
-            tag;
-
-        panelTags.appendChild(
-            element
-        );
-
-    });
-
-
-    panelAction.href =
-        data.link;
-
-
-    if (data.external) {
-
-        panelAction.target =
-            "_blank";
-
-        panelAction.rel =
-            "noopener noreferrer";
-
-    } else {
-
-        panelAction.removeAttribute(
-            "target"
-        );
-
-        panelAction.removeAttribute(
-            "rel"
-        );
-
-    }
-
-
-    panel.classList.add(
-        "visible"
-    );
-
-
-    rays.forEach(ray => {
-
-        ray.classList.remove(
-            "active"
-        );
-
-    });
-
-
-    if (rays[rayIndex]) {
-
-        rays[rayIndex].classList.add(
-            "active"
-        );
-
-    }
-
-
-    nodes.forEach(node => {
-
-        node.classList.remove(
-            "active"
-        );
-
-    });
-
-
-    const activeNode =
-        document.querySelector(
-            `.node[data-panel="${name}"]`
-        );
-
-
-    if (activeNode) {
-
-        activeNode.classList.add(
-            "active"
-        );
-
-    }
-
-}
-
-
-
-/* =========================================================
-   NODE EVENTS
-========================================================= */
-
-nodes.forEach(node => {
-
-
-    const name =
-        node.dataset.panel;
-
-
-    const rayIndex =
-        parseInt(
-            node.dataset.ray
-        );
-
-
-    node.addEventListener(
-        "mouseenter",
-        () => {
-
-            rays.forEach(ray => {
-
-                ray.classList.remove(
-                    "active"
-                );
-
-            });
-
-
-            if (rays[rayIndex]) {
-
-                rays[rayIndex].classList.add(
-                    "active"
-                );
-
-            }
-
-        }
-    );
-
-
-    node.addEventListener(
-        "mouseleave",
-        () => {
-
-            if (
-                !panel.classList.contains(
-                    "visible"
-                )
-            ) {
-
-                rays.forEach(ray => {
-
-                    ray.classList.remove(
-                        "active"
-                    );
-
-                });
-
-            }
-
-        }
-    );
-
-
-    node.addEventListener(
-        "click",
-        () => {
-
-            openPanel(
-                name,
-                rayIndex
-            );
-
-        }
-    );
-
-});
-
-
-
-/* =========================================================
-   CLOSE PANEL
-========================================================= */
-
-closePanel.addEventListener(
-    "click",
-    () => {
-
-        panel.classList.remove(
-            "visible"
-        );
-
-
-        nodes.forEach(node => {
-
-            node.classList.remove(
-                "active"
-            );
-
-        });
-
-
-        rays.forEach(ray => {
-
-            ray.classList.remove(
-                "active"
-            );
-
-        });
-
-    }
-);
-
-
-
-/* =========================================================
-   PANEL LINK
-========================================================= */
-
-panelAction.addEventListener(
-    "click",
-    () => {
-
-        if (!panelAction.target) {
-
-            panel.classList.remove(
-                "visible"
-            );
-
-        }
-
-    }
-);
-
-
-
-/* =========================================================
-   AUTOMATIC THEME
+   THEME
 ========================================================= */
 
 const themeToggle =
-    document.getElementById(
-        "themeToggle"
-    );
+    document.getElementById("themeToggle");
 
 
 function applyAutomaticTheme() {
@@ -2040,151 +2905,131 @@ function applyAutomaticTheme() {
     const hour =
         new Date().getHours();
 
+    if (hour >= 7 && hour < 19) {
 
-    /*
-       Giorno:
-       07:00 - 18:59
-
-       Notte:
-       19:00 - 06:59
-    */
-
-    if (
-        hour >= 7 &&
-        hour < 19
-    ) {
-
-        document.body.classList.remove(
-            "dark"
-        );
+        document.body.classList.remove("dark");
 
     } else {
 
-        document.body.classList.add(
-            "dark"
-        );
+        document.body.classList.add("dark");
 
     }
-
 }
 
-
-
-/* =========================================================
-   LOAD THEME
-========================================================= */
 
 const savedTheme =
-    localStorage.getItem(
-        "theme"
-    );
+    localStorage.getItem("theme");
 
 
-if (
-    savedTheme === "dark"
-) {
+if (savedTheme === "dark") {
 
-    document.body.classList.add(
-        "dark"
-    );
+    document.body.classList.add("dark");
 
-}
+} else if (savedTheme === "light") {
 
-else if (
-    savedTheme === "light"
-) {
+    document.body.classList.remove("dark");
 
-    document.body.classList.remove(
-        "dark"
-    );
-
-}
-
-else {
+} else {
 
     applyAutomaticTheme();
 
 }
 
 
+themeToggle.addEventListener("click", () => {
+
+    document.body.classList.toggle("dark");
+
+    const dark =
+        document.body.classList.contains("dark");
+
+    localStorage.setItem(
+        "theme",
+        dark ? "dark" : "light"
+    );
+
+});
+
 
 /* =========================================================
-   MANUAL THEME
+   SUBTLE MOUSE MOVEMENT
 ========================================================= */
 
-themeToggle.addEventListener(
-    "click",
-    () => {
+const centerpiece =
+    document.querySelector(".centerpiece");
 
-        document.body.classList.toggle(
-            "dark"
-        );
+document.addEventListener("mousemove", (event) => {
 
-
-        const isDark =
-            document.body.classList.contains(
-                "dark"
-            );
-
-
-        localStorage.setItem(
-            "theme",
-            isDark
-                ? "dark"
-                : "light"
-        );
-
+    if (window.innerWidth < 1000) {
+        return;
     }
-);
 
+    const x =
+        (event.clientX / window.innerWidth - .5);
+
+    const y =
+        (event.clientY / window.innerHeight - .5);
+
+    centerpiece.style.transform =
+        `translate(${x * 5}px, ${y * 5}px)`;
+
+});
 
 
 /* =========================================================
-   MOUSE PARALLAX
+   ACTIVE NAV
 ========================================================= */
 
-const hub =
-    document.getElementById(
-        "hub"
+const sections =
+    document.querySelectorAll(".section");
+
+const navLinks =
+    document.querySelectorAll(".top-nav a");
+
+
+const observer =
+    new IntersectionObserver(
+        entries => {
+
+            entries.forEach(entry => {
+
+                if (!entry.isIntersecting) {
+                    return;
+                }
+
+                navLinks.forEach(link => {
+
+                    link.style.color =
+                        "var(--muted)";
+
+                });
+
+                const active =
+                    document.querySelector(
+                        `.top-nav a[href="#${entry.target.id}"]`
+                    );
+
+                if (active) {
+
+                    active.style.color =
+                        "var(--accent)";
+
+                }
+
+            });
+
+        },
+        {
+            threshold: .3
+        }
     );
 
 
-document.addEventListener(
-    "mousemove",
-    event => {
+sections.forEach(section => {
 
+    observer.observe(section);
 
-        if (
-            window.innerWidth < 800
-        ) {
-            return;
-        }
-
-
-        const x =
-            (
-                event.clientX /
-                window.innerWidth
-                - .5
-            );
-
-
-        const y =
-            (
-                event.clientY /
-                window.innerHeight
-                - .5
-            );
-
-
-        hub.style.transform =
-            `translate(
-                ${x * 10}px,
-                ${y * 10}px
-            )`;
-
-    }
-);
+});
 
 </script>
 
