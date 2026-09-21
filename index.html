@@ -1,685 +1,2213 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Simone Rebucci | ICT & Technology</title>
+<meta name="description"
+      content="Simone Rebucci — ICT Management, Infrastructure, Project Management, Team Leadership, AI & Technology">
 
-  <meta name="description"
-        content="Simone Rebucci — ICT Management, Infrastructure, Project Management, AI and personal technology projects.">
+<title>Simone Rebucci | ICT Management & Technology</title>
 
-  <style>
-    :root {
-      --background: #0b0f14;
-      --surface: #121922;
-      --surface-light: #18222d;
-      --text: #f1f4f6;
-      --muted: #9aa7b4;
-      --accent: #69d08a;
-      --border: #263340;
-      --max-width: 1100px;
+<style>
+
+:root {
+    --bg: #f4f7f5;
+    --surface: rgba(255,255,255,.82);
+    --surface-solid: #ffffff;
+
+    --text: #18201d;
+    --muted: #68736f;
+
+    --accent: #15966b;
+    --accent-bright: #25c88e;
+
+    --line: rgba(21,150,107,.28);
+    --line-soft: rgba(21,150,107,.12);
+
+    --shadow: rgba(0,0,0,.12);
+}
+
+body.dark {
+
+    --bg: #070b0a;
+    --surface: rgba(15,23,20,.82);
+    --surface-solid: #101815;
+
+    --text: #edf6f1;
+    --muted: #98a8a1;
+
+    --accent: #32c995;
+    --accent-bright: #70e4b7;
+
+    --line: rgba(50,201,149,.35);
+    --line-soft: rgba(50,201,149,.13);
+
+    --shadow: rgba(0,0,0,.48);
+}
+
+
+/* =========================
+   RESET
+   ========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+
+    background: var(--bg);
+    color: var(--text);
+
+    transition:
+        background .7s ease,
+        color .7s ease;
+
+    overflow-x: hidden;
+}
+
+
+/* =========================
+   TOP BAR
+   ========================= */
+
+.topbar {
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+    right: 0;
+
+    height: 64px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 32px;
+
+    z-index: 1000;
+
+    background:
+        color-mix(
+            in srgb,
+            var(--bg) 78%,
+            transparent
+        );
+
+    backdrop-filter: blur(16px);
+
+    border-bottom:
+        1px solid
+        color-mix(
+            in srgb,
+            var(--text) 8%,
+            transparent
+        );
+}
+
+.brand {
+
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: .4px;
+}
+
+.brand span {
+    color: var(--accent);
+}
+
+.theme-toggle {
+
+    border:
+        1px solid var(--line);
+
+    background: transparent;
+
+    color: var(--text);
+
+    border-radius: 50px;
+
+    padding: 8px 15px;
+
+    cursor: pointer;
+
+    transition: .3s;
+}
+
+.theme-toggle:hover {
+
+    background: var(--accent);
+
+    color: white;
+
+    box-shadow:
+        0 0 20px
+        color-mix(
+            in srgb,
+            var(--accent) 30%,
+            transparent
+        );
+}
+
+
+/* =========================
+   HERO
+   ========================= */
+
+.hero {
+
+    min-height: 100vh;
+
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    padding-top: 64px;
+}
+
+
+/* sfondo tecnologico */
+
+.hero::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 800px;
+    height: 800px;
+
+    border-radius: 50%;
+
+    background:
+
+        radial-gradient(
+            circle,
+            color-mix(
+                in srgb,
+                var(--accent) 12%,
+                transparent
+            ),
+            transparent 68%
+        );
+
+    pointer-events: none;
+}
+
+
+/* griglia */
+
+.hero-grid {
+
+    position: absolute;
+
+    inset: 0;
+
+    opacity: .22;
+
+    background-image:
+
+        linear-gradient(
+            color-mix(
+                in srgb,
+                var(--text) 6%,
+                transparent
+            ) 1px,
+            transparent 1px
+        ),
+
+        linear-gradient(
+            90deg,
+            color-mix(
+                in srgb,
+                var(--text) 6%,
+                transparent
+            ) 1px,
+            transparent 1px
+        );
+
+    background-size: 60px 60px;
+
+    mask-image:
+        radial-gradient(
+            circle at center,
+            black,
+            transparent 72%
+        );
+
+    pointer-events: none;
+}
+
+
+/* =========================
+   HUB
+   ========================= */
+
+.hub {
+
+    width: min(850px, 94vw);
+
+    height: min(850px, 94vw);
+
+    position: relative;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    transition:
+        transform .25s ease;
+}
+
+
+/* =========================
+   ORBIT
+   ========================= */
+
+.orbit {
+
+    position: absolute;
+
+    border:
+        1px solid var(--line);
+
+    border-radius: 50%;
+
+    pointer-events: none;
+
+    transition: .5s;
+}
+
+.orbit.one {
+
+    width: 42%;
+    height: 42%;
+
+    animation:
+        pulse 5s infinite ease-in-out;
+}
+
+.orbit.two {
+
+    width: 66%;
+    height: 66%;
+
+    opacity: .55;
+
+    animation:
+        pulse 7s infinite ease-in-out reverse;
+}
+
+.orbit.three {
+
+    width: 91%;
+    height: 91%;
+
+    opacity: .22;
+}
+
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
     }
 
-    * {
-      box-sizing: border-box;
+    50% {
+        transform: scale(1.025);
+    }
+}
+
+
+/* =========================
+   RAGGI
+   ========================= */
+
+.rays {
+
+    position: absolute;
+
+    inset: 0;
+
+    pointer-events: none;
+}
+
+
+/*
+   Ogni raggio parte dal centro
+   e arriva verso uno dei nodi.
+*/
+
+.ray {
+
+    position: absolute;
+
+    width: 2px;
+
+    height: 39%;
+
+    left: 50%;
+    top: 11%;
+
+    transform-origin:
+        center bottom;
+
+    background:
+
+        linear-gradient(
+            to bottom,
+            transparent,
+            var(--accent),
+            transparent
+        );
+
+    opacity: .28;
+
+    filter:
+        drop-shadow(
+            0 0 4px
+            var(--accent)
+        );
+
+    transition:
+
+        opacity .35s ease,
+        filter .35s ease,
+        width .35s ease;
+}
+
+
+/*
+   Le direzioni dei sei collegamenti
+*/
+
+.ray:nth-child(1) {
+    transform: rotate(0deg);
+}
+
+.ray:nth-child(2) {
+    transform: rotate(60deg);
+}
+
+.ray:nth-child(3) {
+    transform: rotate(120deg);
+}
+
+.ray:nth-child(4) {
+    transform: rotate(180deg);
+}
+
+.ray:nth-child(5) {
+    transform: rotate(240deg);
+}
+
+.ray:nth-child(6) {
+    transform: rotate(300deg);
+}
+
+
+/* quando un nodo è attivo */
+
+.hub.active-1 .ray:nth-child(1),
+.hub.active-2 .ray:nth-child(2),
+.hub.active-3 .ray:nth-child(3),
+.hub.active-4 .ray:nth-child(4),
+.hub.active-5 .ray:nth-child(5),
+.hub.active-6 .ray:nth-child(6) {
+
+    opacity: 1;
+
+    width: 3px;
+
+    filter:
+
+        drop-shadow(
+            0 0 8px
+            var(--accent-bright)
+        )
+
+        drop-shadow(
+            0 0 18px
+            var(--accent)
+        );
+}
+
+
+/* =========================
+   PROFILO CENTRALE
+   ========================= */
+
+.profile {
+
+    position: relative;
+
+    z-index: 50;
+
+    width: 255px;
+    height: 255px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+
+    background: var(--surface-solid);
+
+    border:
+        2px solid var(--accent);
+
+    box-shadow:
+
+        0 0 0 10px
+        color-mix(
+            in srgb,
+            var(--accent) 7%,
+            transparent
+        ),
+
+        0 0 65px
+        color-mix(
+            in srgb,
+            var(--accent) 22%,
+            transparent
+        );
+
+    transition: .5s;
+}
+
+
+/* foto */
+
+.profile-photo {
+
+    width: 72px;
+    height: 72px;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+
+    border:
+        2px solid var(--accent);
+
+    margin-bottom: 12px;
+
+    display: none;
+}
+
+
+/* nome */
+
+.profile h1 {
+
+    font-size:
+        clamp(25px, 4vw, 36px);
+
+    letter-spacing: -1px;
+
+    margin-bottom: 10px;
+}
+
+.profile h1 span {
+    color: var(--accent);
+}
+
+.profile p {
+
+    font-size: 12px;
+
+    line-height: 1.55;
+
+    color: var(--muted);
+
+    max-width: 200px;
+}
+
+
+/* =========================
+   NODI
+   ========================= */
+
+.node {
+
+    position: absolute;
+
+    z-index: 100;
+
+    transform:
+        translate(-50%, -50%);
+}
+
+
+.node a {
+
+    width: 112px;
+    height: 112px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 6px;
+
+    border-radius: 50%;
+
+    background: var(--surface);
+
+    backdrop-filter: blur(12px);
+
+    border:
+        1px solid var(--line);
+
+    color: var(--text);
+
+    text-decoration: none;
+
+    box-shadow:
+        0 15px 40px var(--shadow);
+
+    transition:
+
+        transform .35s ease,
+        border-color .35s ease,
+        box-shadow .35s ease,
+        background .35s ease;
+}
+
+
+.node a::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 100%;
+    height: 100%;
+
+    border-radius: 50%;
+
+    border:
+        1px solid transparent;
+
+    transition: .35s;
+}
+
+
+.node a:hover {
+
+    transform: scale(1.14);
+
+    border-color:
+        var(--accent);
+
+    box-shadow:
+
+        0 0 28px
+        color-mix(
+            in srgb,
+            var(--accent) 25%,
+            transparent
+        ),
+
+        0 20px 50px
+        var(--shadow);
+}
+
+
+.node a:hover::before {
+
+    border-color:
+        var(--accent);
+
+    transform:
+        scale(1.18);
+
+    opacity: .35;
+}
+
+
+.node-label {
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    letter-spacing: .5px;
+}
+
+
+.node-description {
+
+    color: var(--muted);
+
+    font-size: 10px;
+
+    font-weight: 400;
+}
+
+
+/* POSIZIONAMENTO */
+
+.node-about {
+
+    top: 7%;
+    left: 50%;
+}
+
+.node-ict {
+
+    top: 25%;
+    left: 88%;
+}
+
+.node-projects {
+
+    top: 75%;
+    left: 88%;
+}
+
+.node-ai {
+
+    top: 93%;
+    left: 50%;
+}
+
+.node-books {
+
+    top: 75%;
+    left: 12%;
+}
+
+.node-github {
+
+    top: 25%;
+    left: 12%;
+}
+
+
+/* =========================
+   PANEL CENTRALE
+   ========================= */
+
+.info-panel {
+
+    position: absolute;
+
+    z-index: 200;
+
+    width: 330px;
+
+    min-height: 220px;
+
+    padding: 28px;
+
+    left: 50%;
+    top: 50%;
+
+    transform:
+        translate(-50%, -50%)
+        scale(.88);
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    background: var(--surface-solid);
+
+    border:
+        1px solid var(--line);
+
+    border-radius: 22px;
+
+    box-shadow:
+
+        0 30px 80px
+        var(--shadow),
+
+        0 0 35px
+        color-mix(
+            in srgb,
+            var(--accent) 10%,
+            transparent
+        );
+
+    transition:
+
+        opacity .35s ease,
+        transform .35s ease;
+}
+
+
+/* pannello visibile */
+
+.info-panel.visible {
+
+    opacity: 1;
+
+    transform:
+        translate(-50%, -50%)
+        scale(1);
+
+    pointer-events: auto;
+}
+
+
+.info-panel .close {
+
+    position: absolute;
+
+    top: 12px;
+    right: 16px;
+
+    width: 28px;
+    height: 28px;
+
+    border-radius: 50%;
+
+    border:
+        1px solid var(--line);
+
+    background: transparent;
+
+    color: var(--muted);
+
+    cursor: pointer;
+
+    font-size: 16px;
+
+    transition: .25s;
+}
+
+
+.info-panel .close:hover {
+
+    background: var(--accent);
+
+    color: white;
+}
+
+
+.info-panel h2 {
+
+    font-size: 27px;
+
+    margin-bottom: 12px;
+}
+
+
+.info-panel h2 span {
+    color: var(--accent);
+}
+
+
+.info-panel p {
+
+    color: var(--muted);
+
+    line-height: 1.7;
+
+    font-size: 14px;
+}
+
+
+.info-panel .panel-tags {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 7px;
+
+    margin-top: 20px;
+}
+
+
+.info-panel .panel-tag {
+
+    font-size: 10px;
+
+    padding: 5px 9px;
+
+    border:
+        1px solid var(--line);
+
+    border-radius: 20px;
+
+    color: var(--accent);
+}
+
+
+/* =========================
+   SEZIONI
+   ========================= */
+
+.content {
+
+    max-width: 1100px;
+
+    margin: auto;
+
+    padding:
+        110px 24px;
+}
+
+
+.section-title {
+
+    font-size:
+        clamp(30px, 5vw, 48px);
+
+    margin-bottom: 20px;
+}
+
+
+.section-title span {
+    color: var(--accent);
+}
+
+
+.section-intro {
+
+    max-width: 720px;
+
+    color: var(--muted);
+
+    line-height: 1.8;
+
+    margin-bottom: 45px;
+}
+
+
+/* cards */
+
+.cards {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(240px, 1fr)
+        );
+
+    gap: 20px;
+}
+
+
+.card {
+
+    padding: 28px;
+
+    border-radius: 18px;
+
+    background:
+        var(--surface-solid);
+
+    border:
+        1px solid
+        color-mix(
+            in srgb,
+            var(--text) 8%,
+            transparent
+        );
+
+    transition: .3s;
+}
+
+
+.card:hover {
+
+    transform:
+        translateY(-5px);
+
+    border-color:
+        var(--line);
+
+    box-shadow:
+        0 15px 40px
+        var(--shadow);
+}
+
+
+.card h3 {
+
+    margin-bottom: 10px;
+}
+
+
+.card p {
+
+    color: var(--muted);
+
+    line-height: 1.7;
+
+    font-size: 14px;
+}
+
+
+.tags {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 8px;
+
+    margin-top: 18px;
+}
+
+
+.tag {
+
+    border:
+        1px solid var(--line);
+
+    padding:
+        5px 10px;
+
+    border-radius: 20px;
+
+    font-size: 11px;
+
+    color: var(--accent);
+}
+
+
+/* =========================
+   FOOTER
+   ========================= */
+
+footer {
+
+    text-align: center;
+
+    padding: 50px 20px;
+
+    color: var(--muted);
+
+    font-size: 12px;
+
+    border-top:
+        1px solid
+        color-mix(
+            in srgb,
+            var(--text) 8%,
+            transparent
+        );
+}
+
+
+/* =========================
+   MOBILE
+   ========================= */
+
+@media (max-width: 650px) {
+
+    .topbar {
+        padding: 0 18px;
     }
 
-    html {
-      scroll-behavior: smooth;
+    .hub {
+
+        width: 96vw;
+        height: 96vw;
     }
 
-    body {
-      margin: 0;
-      background: var(--background);
-      color: var(--text);
-      font-family: Arial, Helvetica, sans-serif;
-      line-height: 1.6;
+    .profile {
+
+        width: 175px;
+        height: 175px;
     }
 
-    a {
-      color: var(--accent);
-      text-decoration: none;
+    .profile h1 {
+        font-size: 23px;
     }
 
-    a:hover {
-      text-decoration: underline;
+    .profile p {
+
+        font-size: 10px;
+
+        max-width: 145px;
     }
 
-    .container {
-      width: min(92%, var(--max-width));
-      margin: auto;
+    .node a {
+
+        width: 76px;
+        height: 76px;
+
+        font-size: 10px;
     }
 
-    /* HERO */
-
-    header {
-      min-height: 78vh;
-      display: flex;
-      align-items: center;
-      border-bottom: 1px solid var(--border);
+    .node-label {
+        font-size: 9px;
     }
 
-    .hero {
-      padding: 80px 0;
+    .node-description {
+        font-size: 7px;
     }
 
-    .eyebrow {
-      color: var(--accent);
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      font-size: 0.8rem;
-      font-weight: bold;
+    .node-about {
+
+        top: 2%;
     }
 
-    h1 {
-      font-size: clamp(3.5rem, 9vw, 6.5rem);
-      line-height: 0.9;
-      letter-spacing: -4px;
-      margin: 20px 0;
+    .node-ict {
+
+        top: 25%;
+        left: 94%;
     }
 
-    .subtitle {
-      max-width: 800px;
-      color: var(--muted);
-      font-size: clamp(1.2rem, 2.5vw, 1.7rem);
+    .node-projects {
+
+        top: 75%;
+        left: 94%;
     }
 
-    /* NAVIGATION */
+    .node-ai {
 
-    nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(11, 15, 20, 0.94);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--border);
+        top: 98%;
     }
 
-    nav .container {
-      display: flex;
-      gap: 25px;
-      overflow-x: auto;
-      padding: 15px 0;
-      white-space: nowrap;
+    .node-books {
+
+        top: 75%;
+        left: 6%;
     }
 
-    nav a {
-      color: var(--text);
-      font-size: 0.92rem;
+    .node-github {
+
+        top: 25%;
+        left: 6%;
     }
 
-    /* SECTIONS */
+    .info-panel {
 
-    section {
-      padding: 90px 0;
-      border-bottom: 1px solid var(--border);
+        width: 280px;
+
+        min-height: 210px;
+
+        padding: 24px;
     }
 
-    h2 {
-      font-size: 2.2rem;
-      margin: 0 0 30px;
+    .info-panel h2 {
+        font-size: 23px;
     }
 
-    h3 {
-      font-size: 1.3rem;
+    .info-panel p {
+        font-size: 13px;
     }
 
-    .intro {
-      max-width: 800px;
-      color: var(--muted);
-      font-size: 1.08rem;
+    .content {
+        padding:
+            80px 20px;
     }
+}
 
-    /* CARDS */
-
-    .grid {
-      display: grid;
-      grid-template-columns:
-        repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-      margin-top: 35px;
-    }
-
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 28px;
-    }
-
-    .card p {
-      color: var(--muted);
-    }
-
-    /* FEATURE PROJECT */
-
-    .project {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 35px;
-      margin-top: 30px;
-    }
-
-    .project-title {
-      font-size: 2rem;
-      margin: 10px 0 20px;
-    }
-
-    /* TAGS */
-
-    .tag {
-      display: inline-block;
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      padding: 5px 12px;
-      margin: 4px 4px 4px 0;
-      color: var(--muted);
-      font-size: 0.82rem;
-    }
-
-    /* BUTTON */
-
-    .button {
-      display: inline-block;
-      background: var(--accent);
-      color: #07100a;
-      font-weight: bold;
-      padding: 11px 18px;
-      border-radius: 8px;
-      margin-top: 18px;
-    }
-
-    .button:hover {
-      text-decoration: none;
-      opacity: 0.9;
-    }
-
-    /* FOOTER */
-
-    footer {
-      padding: 35px 0;
-      color: var(--muted);
-      font-size: 0.9rem;
-    }
-
-    /* MOBILE */
-
-    @media (max-width: 600px) {
-
-      header {
-        min-height: 70vh;
-      }
-
-      section {
-        padding: 65px 0;
-      }
-
-      h1 {
-        letter-spacing: -2px;
-      }
-
-      .project {
-        padding: 25px;
-      }
-    }
-  </style>
+</style>
 </head>
 
 
 <body>
 
-  <!-- ========================= -->
-  <!-- HERO -->
-  <!-- ========================= -->
 
-  <header>
+<!-- =========================
+     TOP BAR
+     ========================= -->
 
-    <div class="container hero">
+<header class="topbar">
 
-      <div class="eyebrow">
-        ICT · Technology · Projects · Ideas
-      </div>
-
-      <h1>
-        Simone<br>
-        Rebucci
-      </h1>
-
-      <p class="subtitle">
-        ICT Management &amp; Governance · Infrastructure ·
-        Project Management · Team Leadership · AI &amp; Technology
-      </p>
-
+    <div class="brand">
+        Simone <span>Rebucci</span>
     </div>
 
-  </header>
+    <button
+        class="theme-toggle"
+        id="themeToggle">
+
+        ◐ Tema
+
+    </button>
+
+</header>
 
 
-  <!-- ========================= -->
-  <!-- NAVIGATION -->
-  <!-- ========================= -->
 
-  <nav>
+<!-- =========================
+     HERO / DIGITAL HUB
+     ========================= -->
 
-    <div class="container">
+<section class="hero">
 
-      <a href="#about">About me</a>
-
-      <a href="#projects">Projects</a>
-
-      <a href="#ai">AI Experiments</a>
-
-      <a href="#scacchi">Scacchi D'arme</a>
-
-      <a href="#books">Libri</a>
-
-      <a href="#github">GitHub</a>
-
-      <a href="#contact">Contact</a>
-
-    </div>
-
-  </nav>
+    <div class="hero-grid"></div>
 
 
-  <main>
+    <div class="hub" id="hub">
 
 
-    <!-- ========================= -->
-    <!-- ABOUT -->
-    <!-- ========================= -->
+        <!-- ORBITE -->
 
-    <section id="about">
-
-      <div class="container">
-
-        <h2>About me</h2>
-
-        <p class="intro">
-          Quasi 30 anni nel mondo ICT, iniziando dai sistemi e
-          dall'infrastruttura per arrivare alla gestione di progetti,
-          team e servizi tecnologici.
-        </p>
-
-        <p class="intro">
-          Oggi mi occupo di ICT Management, governance
-          dell'infrastruttura, project management e coordinamento
-          di iniziative tecnologiche.
-        </p>
-
-        <p class="intro">
-          Questo spazio raccoglie alcuni progetti, esperimenti
-          e idee personali: tecnologia, AI, creatività e tutto ciò
-          che mi incuriosisce abbastanza da volerlo trasformare
-          in qualcosa di concreto.
-        </p>
+        <div class="orbit one"></div>
+        <div class="orbit two"></div>
+        <div class="orbit three"></div>
 
 
-        <div class="grid">
+        <!-- RAGGI -->
 
-          <div class="card">
+        <div class="rays">
 
-            <h3>ICT Management</h3>
-
-            <p>
-              Infrastructure, governance, service management
-              e coordinamento tecnologico.
-            </p>
-
-          </div>
-
-
-          <div class="card">
-
-            <h3>Project Management</h3>
-
-            <p>
-              Gestione e coordinamento di progetti ICT
-              e infrastrutturali.
-            </p>
-
-          </div>
-
-
-          <div class="card">
-
-            <h3>Technology &amp; AI</h3>
-
-            <p>
-              Sperimentazione di nuove tecnologie e utilizzo
-              dell'AI come strumento creativo e operativo.
-            </p>
-
-          </div>
+            <div class="ray"></div>
+            <div class="ray"></div>
+            <div class="ray"></div>
+            <div class="ray"></div>
+            <div class="ray"></div>
+            <div class="ray"></div>
 
         </div>
 
-      </div>
 
-    </section>
+        <!-- =====================
+             PROFILO
+             ===================== -->
 
+        <div class="profile">
 
-    <!-- ========================= -->
-    <!-- PROJECTS -->
-    <!-- ========================= -->
+            <img
+                class="profile-photo"
+                src="profile.jpg"
+                alt="Simone Rebucci"
+            >
 
-    <section id="projects">
-
-      <div class="container">
-
-        <h2>Projects</h2>
-
-        <p class="intro">
-          Una raccolta di progetti personali e sperimentazioni.
-          Questa sezione crescerà nel tempo.
-        </p>
-
-
-        <div class="grid">
-
-
-          <div class="card">
-
-            <h3>Scacchi D'arme</h3>
+            <h1>
+                Simone
+                <span>Rebucci</span>
+            </h1>
 
             <p>
-              Un progetto personale ispirato alla mia passione
-              per Battle Chess: una reinterpretazione degli
-              scacchi attraverso la modellazione 3D e l'utilizzo
-              dell'intelligenza artificiale.
+
+                ICT Management & Governance<br>
+
+                Infrastructure · Project Management<br>
+
+                Team Leadership · AI & Technology
+
             </p>
 
-            <a href="#scacchi">
-              Scopri il progetto →
+        </div>
+
+
+        <!-- =====================
+             NODI
+             ===================== -->
+
+        <div
+            class="node node-about"
+            data-panel="about">
+
+            <a href="#"
+               class="node-link">
+
+                <span class="node-label">
+                    ABOUT
+                </span>
+
+                <span class="node-description">
+                    Chi sono
+                </span>
+
             </a>
 
-          </div>
+        </div>
 
 
-          <div class="card">
+        <div
+            class="node node-ict"
+            data-panel="ict">
 
-            <h3>Coming soon</h3>
+            <a href="#"
+               class="node-link">
 
-            <p>
-              Altri progetti e sperimentazioni saranno
-              pubblicati qui.
+                <span class="node-label">
+                    ICT
+                </span>
+
+                <span class="node-description">
+                    Management
+                </span>
+
+            </a>
+
+        </div>
+
+
+        <div
+            class="node node-projects"
+            data-panel="projects">
+
+            <a href="#"
+               class="node-link">
+
+                <span class="node-label">
+                    PROJECTS
+                </span>
+
+                <span class="node-description">
+                    Progetti
+                </span>
+
+            </a>
+
+        </div>
+
+
+        <div
+            class="node node-ai"
+            data-panel="ai">
+
+            <a href="#"
+               class="node-link">
+
+                <span class="node-label">
+                    AI
+                </span>
+
+                <span class="node-description">
+                    Experiments
+                </span>
+
+            </a>
+
+        </div>
+
+
+        <div
+            class="node node-books"
+            data-panel="books">
+
+            <a href="#"
+               class="node-link">
+
+                <span class="node-label">
+                    BOOKS
+                </span>
+
+                <span class="node-description">
+                    Scrittura
+                </span>
+
+            </a>
+
+        </div>
+
+
+        <div
+            class="node node-github"
+            data-panel="github">
+
+            <a href="#"
+               class="node-link">
+
+                <span class="node-label">
+                    GITHUB
+                </span>
+
+                <span class="node-description">
+                    Portfolio
+                </span>
+
+            </a>
+
+        </div>
+
+
+        <!-- =====================
+             PANNELLO CENTRALE
+             ===================== -->
+
+        <div
+            class="info-panel"
+            id="infoPanel">
+
+            <button
+                class="close"
+                id="closePanel">
+
+                ×
+
+            </button>
+
+            <h2 id="panelTitle">
+                Welcome
+            </h2>
+
+            <p id="panelText">
+                Seleziona una delle aree
+                del mio digital hub.
             </p>
 
-          </div>
-
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- ========================= -->
-    <!-- AI -->
-    <!-- ========================= -->
-
-    <section id="ai">
-
-      <div class="container">
-
-        <h2>AI Experiments</h2>
-
-        <p class="intro">
-          Progetti realizzati sperimentando l'intelligenza
-          artificiale come strumento per trasformare idee
-          e concept in risultati concreti.
-        </p>
-
-
-        <div class="card">
-
-          <h3>AI-assisted creation</h3>
-
-          <p>
-            L'AI come strumento creativo, progettuale e tecnico.
-            Non soltanto per generare contenuti, ma per esplorare
-            idee e trasformarle in progetti concreti.
-          </p>
+            <div
+                class="panel-tags"
+                id="panelTags">
+            </div>
 
         </div>
 
-      </div>
-
-    </section>
-
-
-    <!-- ========================= -->
-    <!-- SCACCHI D'ARME -->
-    <!-- ========================= -->
-
-    <section id="scacchi">
-
-      <div class="container">
-
-        <h2>Scacchi D'arme</h2>
-
-
-        <div class="project">
-
-          <div class="eyebrow">
-            3D Project · AI-assisted
-          </div>
-
-
-          <div class="project-title">
-            Un omaggio a Battle Chess
-          </div>
-
-
-          <p class="intro">
-            Ho sempre amato Battle Chess e l'idea di portare
-            gli scacchi oltre la semplice rappresentazione
-            bidimensionale.
-          </p>
-
-
-          <p class="intro">
-            Da questa passione nasce
-            <strong>Scacchi D'arme</strong>:
-            un progetto personale con l'obiettivo di
-            reinterpretare quell'idea attraverso la
-            modellazione 3D e gli strumenti di
-            intelligenza artificiale.
-          </p>
-
-
-          <p class="intro">
-            Il progetto sarà disponibile gratuitamente.
-            Questa pagina racconterà progressivamente
-            la storia del progetto, il processo creativo,
-            le tecnologie utilizzate e le versioni pubblicate.
-          </p>
-
-
-          <div>
-
-            <span class="tag">3D</span>
-
-            <span class="tag">AI-assisted</span>
-
-            <span class="tag">Chess</span>
-
-            <span class="tag">Battle Chess</span>
-
-            <span class="tag">Free Project</span>
-
-          </div>
-
-
-          <!--
-            INSERIRE QUI IL LINK AL REPOSITORY GITHUB
-          -->
-
-          <a
-            class="button"
-            href="#"
-          >
-            Repository GitHub
-          </a>
-
-
-          <!--
-            IN FUTURO:
-
-            - Immagini del modello
-            - Download
-            - Licenza
-            - Versioni
-            - Contatore download
-          -->
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- ========================= -->
-    <!-- BOOKS -->
-    <!-- ========================= -->
-
-    <section id="books">
-
-      <div class="container">
-
-        <h2>Libri</h2>
-
-
-        <div class="card">
-
-          <div class="eyebrow">
-            Coming soon
-          </div>
-
-
-          <h3>
-            Il Romitorio
-          </h3>
-
-
-          <p>
-            Un romanzo di Simone Rebucci,
-            in pubblicazione prossimamente.
-          </p>
-
-
-          <span class="tag">
-            Romanzo
-          </span>
-
-
-          <span class="tag">
-            Coming soon
-          </span>
-
-
-          <!--
-            IN FUTURO:
-
-            - Copertina
-            - Sinossi
-            - Link Amazon / KDP
-            - Data pubblicazione
-          -->
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- ========================= -->
-    <!-- GITHUB -->
-    <!-- ========================= -->
-
-    <section id="github">
-
-      <div class="container">
-
-        <h2>GitHub</h2>
-
-
-        <p class="intro">
-          I repository pubblici raccolgono progetti,
-          esperimenti, documentazione e materiali che
-          desidero condividere.
-        </p>
-
-
-        <!-- SOSTITUIRE # CON IL TUO PROFILO GITHUB -->
-
-        <a
-          class="button"
-          href="#"
-          target="_blank"
-          rel="noopener"
-        >
-          Visita il mio GitHub
-        </a>
-
-      </div>
-
-    </section>
-
-
-    <!-- ========================= -->
-    <!-- CONTACT -->
-    <!-- ========================= -->
-
-    <section id="contact">
-
-      <div class="container">
-
-        <h2>Contact</h2>
-
-
-        <p class="intro">
-          Per informazioni, collaborazioni o semplicemente
-          per parlare di tecnologia e progetti.
-        </p>
-
-
-        <!-- SOSTITUIRE CON LA TUA EMAIL -->
-
-        <a
-          class="button"
-          href="mailto:info@rebucci.it"
-        >
-          Scrivimi
-        </a>
-
-      </div>
-
-    </section>
-
-
-  </main>
-
-
-  <!-- ========================= -->
-  <!-- FOOTER -->
-  <!-- ========================= -->
-
-  <footer>
-
-    <div class="container">
-
-      © 2026 Simone Rebucci · All rights reserved
 
     </div>
 
-  </footer>
+</section>
 
+
+
+<!-- =========================
+     ABOUT
+     ========================= -->
+
+<section
+    class="content"
+    id="about">
+
+    <h2 class="section-title">
+
+        About
+        <span>me</span>
+
+    </h2>
+
+    <p class="section-intro">
+
+        Quasi 30 anni nel mondo ICT,
+        iniziando dai sistemi e
+        dall'infrastruttura per arrivare
+        alla gestione di progetti, team
+        e servizi tecnologici.
+
+        <br><br>
+
+        Oggi mi occupo di ICT Management,
+        governance dell'infrastruttura,
+        project management e coordinamento
+        di iniziative tecnologiche.
+
+        <br><br>
+
+        Questo spazio raccoglie alcuni
+        progetti, esperimenti e idee
+        personali: tecnologia, AI,
+        creatività e tutto ciò che mi
+        incuriosisce abbastanza da volerlo
+        trasformare in qualcosa di concreto.
+
+    </p>
+
+</section>
+
+
+
+<!-- =========================
+     ICT
+     ========================= -->
+
+<section
+    class="content"
+    id="ict">
+
+    <h2 class="section-title">
+
+        ICT
+        <span>Management</span>
+
+    </h2>
+
+    <p class="section-intro">
+
+        Esperienza maturata tra
+        infrastrutture, sistemi, servizi,
+        governance e coordinamento di
+        progetti tecnologici complessi.
+
+    </p>
+
+
+    <div class="cards">
+
+
+        <div class="card">
+
+            <h3>
+                Infrastructure
+            </h3>
+
+            <p>
+
+                Sistemi, reti, cloud,
+                servizi infrastrutturali
+                e gestione dell'evoluzione
+                tecnologica.
+
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Project Management
+            </h3>
+
+            <p>
+
+                Coordinamento di progetti,
+                stakeholder, fornitori,
+                attività e roadmap
+                tecnologiche.
+
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Governance
+            </h3>
+
+            <p>
+
+                Processi, organizzazione,
+                gestione dei servizi,
+                rischio e allineamento
+                tra tecnologia e business.
+
+            </p>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     PROJECTS
+     ========================= -->
+
+<section
+    class="content"
+    id="projects">
+
+    <h2 class="section-title">
+
+        Selected
+        <span>Projects</span>
+
+    </h2>
+
+    <p class="section-intro">
+
+        Progetti personali nei quali
+        tecnologia, creatività e
+        sperimentazione si incontrano.
+
+    </p>
+
+
+    <div class="cards">
+
+
+        <div class="card">
+
+            <h3>
+                Scacchi D'arme
+            </h3>
+
+            <p>
+
+                Un omaggio a Battle Chess.
+
+                <br><br>
+
+                Un progetto personale nato
+                dall'idea di portare gli scacchi
+                oltre la semplice rappresentazione
+                bidimensionale, attraverso
+                modellazione 3D e strumenti
+                di intelligenza artificiale.
+
+            </p>
+
+
+            <div class="tags">
+
+                <span class="tag">
+                    3D
+                </span>
+
+                <span class="tag">
+                    AI-assisted
+                </span>
+
+                <span class="tag">
+                    Chess
+                </span>
+
+                <span class="tag">
+                    Battle Chess
+                </span>
+
+                <span class="tag">
+                    Free Project
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Coming soon
+            </h3>
+
+            <p>
+
+                Nuovi progetti e
+                sperimentazioni tecnologiche
+                verranno pubblicati qui.
+
+            </p>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     AI
+     ========================= -->
+
+<section
+    class="content"
+    id="ai">
+
+    <h2 class="section-title">
+
+        AI
+        <span>Experiments</span>
+
+    </h2>
+
+    <p class="section-intro">
+
+        Sperimentazioni personali con
+        strumenti di intelligenza
+        artificiale, automazione e
+        sviluppo assistito.
+
+    </p>
+
+
+    <div class="cards">
+
+
+        <div class="card">
+
+            <h3>
+                AI-assisted creation
+            </h3>
+
+            <p>
+
+                L'intelligenza artificiale
+                come strumento per trasformare
+                idee in prototipi, contenuti
+                e progetti concreti.
+
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Technology experiments
+            </h3>
+
+            <p>
+
+                Test, prove e piccoli laboratori
+                dedicati alle tecnologie che
+                ritengo interessanti.
+
+            </p>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     BOOKS
+     ========================= -->
+
+<section
+    class="content"
+    id="books">
+
+    <h2 class="section-title">
+
+        <span>Books</span>
+
+    </h2>
+
+
+    <div class="cards">
+
+        <div class="card">
+
+            <h3>
+                Il Romitorio
+            </h3>
+
+            <p>
+                Romanzo — coming soon.
+            </p>
+
+
+            <div class="tags">
+
+                <span class="tag">
+                    Romanzo
+                </span>
+
+                <span class="tag">
+                    Coming soon
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     FOOTER
+     ========================= -->
+
+<footer>
+
+    © 2026 Simone Rebucci ·
+    All rights reserved.
+
+</footer>
+
+
+
+<script>
+
+
+/* ==================================================
+   DATI DEI PANNELLI
+   ================================================== */
+
+const panels = {
+
+    about: {
+
+        title:
+            'About <span>me</span>',
+
+        text:
+            'Quasi 30 anni nel mondo ICT, ' +
+            'tra infrastrutture, sistemi, ' +
+            'progetti, servizi e tecnologia.',
+
+        tags: [
+            'ICT',
+            'Management',
+            'Leadership'
+        ]
+    },
+
+
+    ict: {
+
+        title:
+            'ICT <span>Management</span>',
+
+        text:
+            'Infrastructure, governance, ' +
+            'project management e coordinamento ' +
+            'di iniziative tecnologiche.',
+
+        tags: [
+            'Infrastructure',
+            'Governance',
+            'Project Management'
+        ]
+    },
+
+
+    projects: {
+
+        title:
+            'Selected <span>Projects</span>',
+
+        text:
+            'Progetti personali che trasformano ' +
+            'idee, tecnologia e creatività ' +
+            'in qualcosa di concreto.',
+
+        tags: [
+            'Scacchi D\'arme',
+            '3D',
+            'Technology'
+        ]
+    },
+
+
+    ai: {
+
+        title:
+            'AI <span>Experiments</span>',
+
+        text:
+            'Sperimentazioni con intelligenza ' +
+            'artificiale, automazione e strumenti ' +
+            'AI-assisted.',
+
+        tags: [
+            'AI',
+            'Automation',
+            'Experiments'
+        ]
+    },
+
+
+    books: {
+
+        title:
+            '<span>Books</span>',
+
+        text:
+            'La tecnologia non è l\'unico modo ' +
+            'in cui trasformo le idee in qualcosa ' +
+            'di concreto.',
+
+        tags: [
+            'Il Romitorio',
+            'Writing'
+        ]
+    },
+
+
+    github: {
+
+        title:
+            '<span>GitHub</span>',
+
+        text:
+            'Il laboratorio tecnico dove raccolgo ' +
+            'progetti, esperimenti e codice.',
+
+        tags: [
+            'Open Source',
+            'Projects',
+            'Portfolio'
+        ]
+    }
+
+};
+
+
+/* ==================================================
+   ELEMENTI
+   ================================================== */
+
+const hub =
+    document.getElementById('hub');
+
+const infoPanel =
+    document.getElementById('infoPanel');
+
+const panelTitle =
+    document.getElementById('panelTitle');
+
+const panelText =
+    document.getElementById('panelText');
+
+const panelTags =
+    document.getElementById('panelTags');
+
+const closePanel =
+    document.getElementById('closePanel');
+
+
+/* ==================================================
+   APRI PANNELLO
+   ================================================== */
+
+function openPanel(name, index) {
+
+    const data = panels[name];
+
+    if (!data) {
+        return;
+    }
+
+
+    /* evidenzia raggio */
+
+    hub.className =
+        hub.className
+            .replace(/active-\d/g, '');
+
+    hub.classList.add(
+        `active-${index}`
+    );
+
+
+    /* contenuto */
+
+    panelTitle.innerHTML =
+        data.title;
+
+    panelText.textContent =
+        data.text;
+
+
+    panelTags.innerHTML = '';
+
+
+    data.tags.forEach(tag => {
+
+        const element =
+            document.createElement('span');
+
+        element.className =
+            'panel-tag';
+
+        element.textContent =
+            tag;
+
+        panelTags.appendChild(
+            element
+        );
+
+    });
+
+
+    infoPanel.classList.add(
+        'visible'
+    );
+}
+
+
+/* ==================================================
+   NODI
+   ================================================== */
+
+document
+    .querySelectorAll('.node')
+    .forEach((node, index) => {
+
+        const link =
+            node.querySelector('.node-link');
+
+        const panel =
+            node.dataset.panel;
+
+
+        link.addEventListener(
+            'mouseenter',
+            () => {
+
+                hub.className =
+                    hub.className
+                        .replace(/active-\d/g, '');
+
+                hub.classList.add(
+                    `active-${index + 1}`
+                );
+
+            }
+        );
+
+
+        link.addEventListener(
+            'mouseleave',
+            () => {
+
+                if (
+                    !infoPanel.classList
+                        .contains('visible')
+                ) {
+
+                    hub.className =
+                        hub.className
+                            .replace(/active-\d/g, '');
+
+                }
+
+            }
+        );
+
+
+        link.addEventListener(
+            'click',
+            event => {
+
+                event.preventDefault();
+
+                openPanel(
+                    panel,
+                    index + 1
+                );
+
+            }
+        );
+
+    });
+
+
+/* ==================================================
+   CHIUDI
+   ================================================== */
+
+closePanel.addEventListener(
+    'click',
+    () => {
+
+        infoPanel.classList.remove(
+            'visible'
+        );
+
+        hub.className =
+            hub.className
+                .replace(/active-\d/g, '');
+
+    }
+);
+
+
+/* ==================================================
+   CLICK FUORI DAL PANNELLO
+   ================================================== */
+
+document.addEventListener(
+    'click',
+    event => {
+
+        if (
+            infoPanel.classList.contains(
+                'visible'
+            ) &&
+
+            !infoPanel.contains(event.target) &&
+
+            !event.target.closest('.node')
+        ) {
+
+            infoPanel.classList.remove(
+                'visible'
+            );
+
+            hub.className =
+                hub.className
+                    .replace(/active-\d/g, '');
+
+        }
+
+    }
+);
+
+
+/* ==================================================
+   TEMA AUTOMATICO
+   ================================================== */
+
+const toggle =
+    document.getElementById(
+        'themeToggle'
+    );
+
+
+function automaticTheme() {
+
+    const hour =
+        new Date().getHours();
+
+
+    if (
+        hour >= 7 &&
+        hour < 19
+    ) {
+
+        document.body
+            .classList
+            .remove('dark');
+
+    } else {
+
+        document.body
+            .classList
+            .add('dark');
+
+    }
+
+}
+
+
+function setTheme() {
+
+    const saved =
+        localStorage.getItem(
+            'theme'
+        );
+
+
+    if (saved === 'dark') {
+
+        document.body
+            .classList
+            .add('dark');
+
+        return;
+
+    }
+
+
+    if (saved === 'light') {
+
+        document.body
+            .classList
+            .remove('dark');
+
+        return;
+
+    }
+
+
+    automaticTheme();
+
+}
+
+
+toggle.addEventListener(
+    'click',
+    () => {
+
+        if (
+            document.body
+                .classList
+                .contains('dark')
+        ) {
+
+            document.body
+                .classList
+                .remove('dark');
+
+            localStorage.setItem(
+                'theme',
+                'light'
+            );
+
+        } else {
+
+            document.body
+                .classList
+                .add('dark');
+
+            localStorage.setItem(
+                'theme',
+                'dark'
+            );
+
+        }
+
+    }
+);
+
+
+setTheme();
+
+
+/* ==================================================
+   MOVIMENTO LEGGERO DEL HUB
+   ================================================== */
+
+document.addEventListener(
+    'mousemove',
+    event => {
+
+        const x =
+            (event.clientX /
+            window.innerWidth -
+            .5) * 7;
+
+        const y =
+            (event.clientY /
+            window.innerHeight -
+            .5) * 7;
+
+
+        hub.style.transform =
+            `translate(${x}px, ${y}px)`;
+
+    }
+);
+
+</script>
 
 </body>
 </html>
