@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Scacchi D'Arme | Diario di sviluppo · Simone Rebucci</title>
+<meta name="description" content="Scacchi D'Arme — diario di sviluppo di un progetto personale ispirato a Battle Chess e sviluppato attraverso VibeCoding con Claude.">
+
+<style>
+:root {
+    --bg: #edf3ef;
+    --bg-deep: #e3ebe6;
+    --surface: rgba(255,255,255,.68);
+    --surface-strong: rgba(255,255,255,.90);
+    --text: #15201b;
+    --muted: #66736d;
+    --accent: #19a052;
+    --accent-bright: #31c86d;
+    --accent-dark: #0d7037;
+    --line: rgba(18,120,60,.16);
+    --grid: rgba(21,120,66,.075);
+    --shadow: 0 28px 70px rgba(26,48,37,.12);
+    --shadow-strong: 0 35px 90px rgba(22,51,37,.18);
+}
+
+body.dark {
+    --bg: #06100b;
+    --bg-deep: #09150f;
+    --surface: rgba(13,25,19,.65);
+    --surface-strong: rgba(14,28,21,.92);
+    --text: #ecf7f0;
+    --muted: #93a49b;
+    --accent: #31d878;
+    --accent-bright: #55ee94;
+    --accent-dark: #17a651;
+    --line: rgba(59,217,122,.18);
+    --grid: rgba(70,220,130,.065);
+    --shadow: 0 28px 80px rgba(0,0,0,.34);
+    --shadow-strong: 0 35px 100px rgba(0,0,0,.46);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+    margin: 0;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    color: var(--text);
+    background:
+        radial-gradient(circle at 50% 10%, rgba(34,185,91,.11), transparent 28%),
+        radial-gradient(circle at 10% 82%, rgba(34,185,91,.06), transparent 22%),
+        var(--bg);
+    transition: background .5s ease, color .5s ease;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    pointer-events: none;
+    background-image:
+        linear-gradient(var(--grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 44px 44px;
+    mask-image: linear-gradient(to bottom, black 0%, rgba(0,0,0,.55) 45%, transparent 100%);
+}
+
+body::after {
+    content: "";
+    position: fixed;
+    width: 520px;
+    height: 520px;
+    right: -160px;
+    top: 22%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(31,194,93,.10), transparent 70%);
+    filter: blur(12px);
+    animation: ambientFloat 11s ease-in-out infinite alternate;
+    z-index: -1;
+    pointer-events: none;
+}
+
+@keyframes ambientFloat {
+    from { transform: translate3d(0,0,0) scale(1); }
+    to { transform: translate3d(-70px,40px,0) scale(1.12); }
+}
+
+a { color: inherit; }
+
+/* TOP BAR */
+.topbar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 34px;
+    background: color-mix(in srgb, var(--bg) 78%, transparent);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid var(--line);
+}
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: .92rem;
+    font-weight: 700;
+    letter-spacing: .04em;
+}
+.brand-mark {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 15px var(--accent);
+}
+.brand span { color: var(--accent); }
+.top-actions { display: flex; align-items: center; gap: 20px; }
+.top-nav { display: flex; gap: 22px; }
+.top-nav a {
+    text-decoration: none;
+    font-size: .67rem;
+    letter-spacing: .14em;
+    color: var(--muted);
+    transition: color .2s ease;
+}
+.top-nav a:hover { color: var(--accent); }
+#themeToggle {
+    width: 38px; height: 38px;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    background: var(--surface);
+    color: var(--text);
+    cursor: pointer;
+    font-size: .95rem;
+    transition: transform .25s ease, background .25s ease, border-color .25s ease;
+}
+#themeToggle:hover {
+    transform: rotate(18deg);
+    background: var(--surface-strong);
+    border-color: var(--accent);
+}
+
+/* HERO */
+.hero {
+    min-height: 82vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 135px 24px 90px;
+    overflow: hidden;
+}
+.hero::before {
+    content: "";
+    position: absolute;
+    width: 860px; height: 860px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    opacity: .55;
+    pointer-events: none;
+}
+.hero-content {
+    position: relative;
+    width: min(1100px, 92vw);
+    text-align: center;
+}
+.hero-kicker {
+    font-size: .62rem;
+    letter-spacing: .24em;
+    text-transform: uppercase;
+    color: var(--accent);
+}
+.hero h1 {
+    margin: 14px 0 14px;
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    letter-spacing: -.065em;
+    line-height: .95;
+}
+.hero-subtitle {
+    max-width: 760px;
+    margin: 0 auto;
+    color: var(--muted);
+    font-size: .95rem;
+    line-height: 1.85;
+}
+.hero-meta {
+    margin-top: 26px;
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+}
+.meta-pill {
+    padding: 8px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--muted);
+    font-size: .59rem;
+    letter-spacing: .10em;
+    text-transform: uppercase;
+}
+.hero-actions {
+    margin-top: 28px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.hero-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 11px 16px;
+    border-radius: 999px;
+    text-decoration: none;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    font-size: .72rem;
+    font-weight: 700;
+    transition: .25s ease;
+}
+.hero-button.primary {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+}
+.hero-button:hover { transform: translateY(-3px); border-color: var(--accent); }
+
+/* INTRO / NOTE */
+.container {
+    width: min(1120px, 92vw);
+    margin: 0 auto;
+    padding-bottom: 110px;
+}
+.intro-card, .note-card {
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    padding: 34px;
+    background: linear-gradient(145deg, var(--surface-strong), var(--surface));
+    box-shadow: var(--shadow);
+}
+.intro-card { margin-top: -35px; position: relative; z-index: 5; }
+.intro-kicker, .section-index {
+    font-size: .60rem;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--accent);
+}
+.intro-card p {
+    color: var(--muted);
+    line-height: 1.9;
+    font-size: .9rem;
+    margin: 14px 0 0;
+}
+
+/* TIMELINE */
+.timeline {
+    position: relative;
+    margin-top: 70px;
+}
+.timeline::before {
+    content: "";
+    position: absolute;
+    left: 26px;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--accent), var(--line), transparent);
+}
+.entry {
+    position: relative;
+    padding-left: 74px;
+    margin-bottom: 70px;
+    scroll-margin-top: 100px;
+}
+.entry::before {
+    content: "";
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 18px rgba(25,160,82,.30);
+    border: 3px solid var(--bg);
+}
+.entry-date {
+    font-size: .66rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+}
+.entry-title {
+    margin: 0;
+    font-size: clamp(1.65rem, 3vw, 2.5rem);
+    letter-spacing: -.04em;
+    line-height: 1.05;
+}
+.entry-lead {
+    margin: 10px 0 0;
+    color: var(--muted);
+    font-size: .74rem;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+}
+.entry-copy {
+    margin-top: 22px;
+    padding: 28px;
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    background: linear-gradient(145deg, var(--surface-strong), var(--surface));
+    box-shadow: var(--shadow);
+}
+.entry-copy p {
+    margin: 0 0 18px;
+    color: var(--muted);
+    line-height: 1.9;
+    font-size: .91rem;
+}
+.entry-copy p:last-child { margin-bottom: 0; }
+.entry-copy strong { color: var(--text); }
+
+/* IMAGES */
+.image-gallery {
+    margin-top: 24px;
+    display: grid;
+    grid-template-columns: 1.3fr .9fr;
+    gap: 14px;
+}
+.image-slot {
+    min-height: 220px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 18px;
+    border: 1px solid var(--line);
+    background:
+        radial-gradient(circle at 50% 40%, rgba(25,160,82,.13), transparent 35%),
+        var(--surface);
+}
+.image-slot.tall { min-height: 340px; }
+.image-slot img {
+    width: 100%;
+    height: 100%;
+    min-height: inherit;
+    object-fit: cover;
+    display: block;
+}
+.image-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 8px;
+    color: var(--muted);
+    text-align: center;
+    padding: 20px;
+}
+.image-placeholder .icon { font-size: 1.6rem; color: var(--accent); }
+.image-placeholder span { font-size: .65rem; line-height: 1.5; text-transform: uppercase; letter-spacing: .10em; }
+.image-caption {
+    position: absolute;
+    left: 12px; right: 12px; bottom: 12px;
+    padding: 8px 10px;
+    border-radius: 10px;
+    background: rgba(0,0,0,.42);
+    color: white;
+    font-size: .57rem;
+    letter-spacing: .05em;
+    backdrop-filter: blur(7px);
+}
+
+/* PIECE DIVIDER */
+.piece-divider {
+    margin: 90px 0 50px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+.piece-divider::before, .piece-divider::after {
+    content: "";
+    height: 1px;
+    flex: 1;
+    background: var(--line);
+}
+.piece-divider span {
+    padding: 9px 13px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    color: var(--accent);
+    font-size: .58rem;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    background: var(--surface);
+}
+
+/* FINAL NOTE */
+.note-card { margin-top: 30px; }
+.note-card h2 { margin: 0 0 18px; font-size: 1.7rem; letter-spacing: -.03em; }
+.note-card blockquote {
+    margin: 0;
+    padding: 22px 24px;
+    border-left: 3px solid var(--accent);
+    background: rgba(25,160,82,.05);
+    border-radius: 0 14px 14px 0;
+    color: var(--muted);
+    line-height: 1.9;
+    font-size: .88rem;
+}
+.note-card .artifact-link {
+    display: inline-flex;
+    margin-top: 18px;
+    padding: 10px 15px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    color: var(--accent);
+    text-decoration: none;
+    font-size: .68rem;
+    font-weight: 700;
+    transition: .25s ease;
+}
+.note-card .artifact-link:hover { border-color: var(--accent); transform: translateY(-2px); }
+
+footer {
+    border-top: 1px solid var(--line);
+    padding: 32px 24px 40px;
+    text-align: center;
+    color: var(--muted);
+    font-size: .61rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+}
+
+@media (max-width: 760px) {
+    .topbar { padding: 0 18px; }
+    .top-nav { display: none; }
+    .hero { min-height: 72vh; padding: 115px 16px 70px; }
+    .hero h1 { font-size: 3.2rem; }
+    .container { width: min(94vw, 1120px); }
+    .intro-card, .note-card, .entry-copy { padding: 24px; }
+    .timeline::before { left: 16px; }
+    .entry { padding-left: 48px; }
+    .entry::before { left: 10px; }
+    .image-gallery { grid-template-columns: 1fr; }
+    .image-slot, .image-slot.tall { min-height: 240px; }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+    <div class="brand">
+        <div class="brand-mark"></div>
+        <div>Simone <span>Rebucci</span></div>
+    </div>
+    <div class="top-actions">
+        <nav class="top-nav">
+            <a href="index.html">HOME</a>
+            <a href="#diario">DIARIO</a>
+            <a href="#nota">NOTE</a>
+        </nav>
+        <button id="themeToggle" aria-label="Cambia tema">◐</button>
+    </div>
+</header>
+
+<main>
+<section class="hero">
+    <div class="hero-content">
+        <div class="hero-kicker">Personal Project · Development Diary</div>
+        <h1>Scacchi D'Arme</h1>
+        <p class="hero-subtitle">
+            Un omaggio a Battle Chess e un esperimento personale nato dall'idea di trasformare una partita di scacchi in un piccolo campo di battaglia tridimensionale.
+            Questa pagina racconta, giorno dopo giorno, come il progetto è cresciuto attraverso VibeCoding, test, iterazioni e nuove idee.
+        </p>
+        <div class="hero-meta">
+            <span class="meta-pill">3D Chess</span>
+            <span class="meta-pill">Animated Battles</span>
+            <span class="meta-pill">2D / 3D</span>
+            <span class="meta-pill">AI Opponent</span>
+            <span class="meta-pill">VibeCoding with Claude</span>
+        </div>
+        <div class="hero-actions">
+            <a class="hero-button primary" href="#diario">Leggi il diario ↓</a>
+            <a class="hero-button" href="index.html">← Torna al sito</a>
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    <section class="intro-card">
+        <div class="intro-kicker">Il progetto</div>
+        <p>
+            Scacchi D'Arme nasce come progetto personale ispirato al concetto reso celebre da <em>Battle Chess</em>: quando un pezzo cattura un avversario, la cattura diventa una breve scena di combattimento.
+            L'obiettivo non è riprodurre il gioco originale, ma reinterpretarne l'idea con una propria identità visiva, propri personaggi e proprie animazioni.
+        </p>
+        <p>
+            Lo sviluppo è avvenuto progressivamente, costruendo e testando <strong>un elemento alla volta</strong>: prima la partita e le regole, poi i pezzi, poi le singole battaglie, quindi il campo 3D, l'avversario artificiale, la vista 2D, le scacchiere e infine le ambientazioni.
+        </p>
+    </section>
+
+    <section id="diario" class="timeline">
+
+        <!-- 12 SEPTEMBER -->
+        <article class="entry" id="2026-09-12">
+            <div class="entry-date">12 settembre 2026</div>
+            <h2 class="entry-title">Il campo di battaglia</h2>
+            <div class="entry-lead">Nuova direzione per l'ambiente esterno</div>
+            <div class="entry-copy">
+                <p>
+                    Dopo aver lavorato per settimane sulla scacchiera, sui pezzi, sulle regole e sulle modalità di gioco, il passo successivo è stato guardare finalmente oltre le 64 caselle.
+                </p>
+                <p>
+                    Fin dall'inizio avevo immaginato Scacchi D'Arme come qualcosa di più di una scacchiera tridimensionale. Il gioco avrebbe dovuto avere l'aspetto di una vera arena, quasi un piccolo teatro nel quale i pezzi potessero muoversi e combattere.
+                </p>
+                <p>
+                    Da qui nasce l'idea di separare due elementi che fino a quel momento erano rimasti uniti: <strong>la scacchiera e il terreno che la circonda</strong>.
+                </p>
+                <p>
+                    La scacchiera avrebbe potuto avere un proprio materiale, mentre il mondo esterno avrebbe potuto rappresentare l'ambiente della battaglia. Comincio quindi a pensare a quattro possibilità molto diverse tra loro: <strong>mare, erba, deserto e ghiaccio</strong>.
+                </p>
+                <p>
+                    La cosa importante è che queste scelte non devono modificare minimamente le regole. Un pedone deve muoversi allo stesso modo sul ghiaccio e sull'erba. Una torre deve attaccare nello stesso modo sul deserto e sul mare. L'ambiente è soltanto una nuova dimensione visiva.
+                </p>
+                <p>
+                    Mi accorgo, ancora una volta, che il progetto è cresciuto in maniera quasi organica. All'inizio volevo soltanto reinterpretare il concetto di Battle Chess. Ora sto costruendo un piccolo universo intorno agli scacchi.
+                </p>
+                <div class="image-gallery">
+                    <div class="image-slot tall" data-image="images/scacchi-2026-09-12-01.jpg" data-caption="Prototipo / ambientazione esterna">
+                        <div class="image-placeholder"><div class="icon">◫</div><span>Inserisci qui una foto<br>del campo di battaglia</span></div>
+                    </div>
+                    <div class="image-slot" data-image="images/scacchi-2026-09-12-02.jpg" data-caption="Studio delle ambientazioni">
+                        <div class="image-placeholder"><div class="icon">◫</div><span>Seconda immagine<br>opzionale</span></div>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- 5 SEPTEMBER -->
+        <article class="entry" id="2026-09-05">
+            <div class="entry-date">5 settembre 2026</div>
+            <h2 class="entry-title">Cinque scacchiere</h2>
+            <div class="entry-lead">Pietra · Marmo · Legno · Onice e Oro · Cristallo</div>
+            <div class="entry-copy">
+                <p>
+                    La possibilità di cambiare ambiente porta naturalmente a un'altra domanda: perché non poter cambiare anche la scacchiera?
+                </p>
+                <p>
+                    Viene così introdotto il menu <strong>Opzioni → Scacchiera</strong>.
+                </p>
+                <p>
+                    La prima versione rimane quella originale, <strong>Pietra</strong>, che considero quasi il materiale “ufficiale” di Scacchi D'Arme. È la superficie con cui il progetto ha iniziato a costruire la propria identità.
+                </p>
+                <p>
+                    Poi arriva il <strong>Marmo</strong>, più elegante e monumentale, con riquadri chiari e scuri caratterizzati da venature e una cornice coordinata.
+                </p>
+                <p>
+                    Il <strong>Legno</strong> porta il progetto in una direzione completamente diversa. La combinazione acero e noce rende la partita più classica, quasi tradizionale, pur mantenendo l'atmosfera fantasy del gioco.
+                </p>
+                <p>
+                    Con <strong>Onice e Oro</strong> il progetto cambia tono ancora una volta. Nero, ambra e venature dorate trasformano la scacchiera quasi in un oggetto da sala del trono.
+                </p>
+                <p>
+                    Infine arriva il <strong>Cristallo</strong>, pensato con superfici più fredde e traslucide e un bordo argentato.
+                </p>
+                <p>
+                    Una cosa che mi interessa molto è che il cambio di tema non deve mai toccare lo stato della partita. Se sto giocando una partita da dieci minuti e cambio da marmo a legno, non deve succedere nulla al gioco vero e proprio. La posizione, i pezzi, il turno, le catture e lo stato dello scacco rimangono identici.
+                </p>
+                <p>
+                    Anche questa scelta nasce dalla logica che ormai accompagna tutto il progetto: <strong>la rappresentazione può cambiare, la partita no</strong>.
+                </p>
+                <div class="image-gallery">
+                    <div class="image-slot tall" data-image="images/scacchi-2026-09-05-01.jpg" data-caption="Le cinque superfici della scacchiera">
+                        <div class="image-placeholder"><div class="icon">◫</div><span>Inserisci qui una composizione<br>dei cinque temi</span></div>
+                    </div>
+                    <div class="image-slot" data-image="images/scacchi-2026-09-05-02.jpg" data-caption="Dettaglio materiali">
+                        <div class="image-placeholder"><div class="icon">◫</div><span>Seconda immagine<br>opzionale</span></div>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- 29 AUGUST -->
+        <article class="entry" id="2026-08-29">
+            <div class="entry-date">29 agosto 2026</div>
+            <h2 class="entry-title">2D e 3D diventano due modi di vedere la stessa partita</h2>
+            <div class="entry-lead">Una partita · Due prospettive</div>
+            <div class="entry-copy">
+                <p>
+                    La versione 3D è diventata progressivamente sempre più ricca, ma proprio per questo sento la necessità di introdurre un'alternativa. Una modalità più semplice. Più diretta. Più vicina all'idea tradizionale di scacchi.
+                </p>
+                <p>
+                    Nasce così il pulsante che consente di passare da <strong>Vista 3D</strong> a <strong>Vista 2D</strong>.
+                </p>
+                <p>
+                    La cosa importante, però, è come viene implementata. Non voglio avere due giochi distinti. Non voglio una partita 3D e una partita 2D. Voglio una sola partita, con due modalità di visualizzazione.
+                </p>
+                <p>
+                    Quindi la posizione rimane identica. Restano il turno, la mossa evidenziata, lo scacco, i pezzi catturati, le promozioni, l'arrocco e tutte le altre condizioni.
+                </p>
+                <p>
+                    Anche durante una battaglia si può cambiare modalità. L'animazione in corso viene interrotta e la nuova vista mostra immediatamente la posizione aggiornata.
+                </p>
+                <p>
+                    La versione 2D mantiene inoltre il sistema delle battaglie. Non diventa quindi un semplice clone degli scacchi tradizionali. Il cavaliere continua a caricare, la torre continua ad attaccare, la regina continua ad avere la propria sequenza, il re continua a combattere.
+                </p>
+                <p>
+                    La differenza è soltanto nella prospettiva. In modalità 2D il rendering tridimensionale viene fermato, così il browser non continua a consumare risorse inutilmente.
+                </p>
+                <p>
+                    Anche la scelta della vista viene ricordata. <strong>La logica della partita esiste indipendentemente dalla grafica con cui viene mostrata.</strong>
+                </p>
+                <div class="image-gallery">
+                    <div class="image-slot tall" data-image="images/scacchi-2026-08-29-01.jpg" data-caption="Vista 3D">
+                        <div class="image-placeholder"><div class="icon">◫</div><span>Inserisci qui una schermata<br>della vista 3D</span></div>
+                    </div>
+                    <div class="image-slot" data-image="images/scacchi-2026-08-29-02.jpg" data-caption="Vista 2D">
+                        <div class="image-placeholder"><div class="icon">◫</div><span>Inserisci qui una schermata<br>della vista 2D</span></div>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- 20 AUGUST -->
+        <article class="entry" id="2026-08-20">
+            <div class="entry-date">20 agosto 2026</div>
+            <h2 class="entry-title">Il Maestro entra in campo</h2>
+            <div class="entry-lead">L'avversario artificiale</div>
+            <div class="entry-copy">
+                <p>
+                    Una volta resa stabile la versione 2D/3D, arriva il momento di portare l'avversario artificiale dentro la nuova architettura.
+                </p>
+                <p>
+                    Il motore di scacchi utilizzato nella precedente versione 2D viene integrato anche nella versione tridimensionale.
+                </p>
+                <p>
+                    Non è soltanto una questione di “far muovere il computer”. L'IA deve rispettare le stesse regole del giocatore umano e deve funzionare insieme a tutto il resto: catture, promozione, arrocco, scacco, matto, stallo e condizioni di patta.
+                </p>
+                <p>
+                    Vengono mantenuti tre livelli di difficoltà, con un livello più avanzato che richiede un tempo di elaborazione maggiore. Una delle cose interessanti è che il motore deve anche evitare di entrare continuamente in sequenze ripetitive quando ha un vantaggio.
+                </p>
+                <p>
+                    Da questo momento posso finalmente lasciare il computer giocare partite complete. Ed è qui che lo sviluppo cambia di nuovo.
+                </p>
+                <p>
+                    Prima potevo chiedere a Claude di aggiungere una funzione e verificarla con una situazione specifica. Ora devo osservare il comportamento del gioco nel suo insieme.
+                </p>
+                <p>
+                    Il VibeCoding smette progressivamente di essere soltanto “scrivere codice con l'AI”. Diventa un ciclo continuo: <strong>idea → implementazione → partita → problema → correzione → nuova partita</strong>.
+                </p>
+                <div class="image-gallery">
+                    <div class="image-slot tall" data-image="images/scacchi-2026-08-20-01.jpg" data-caption="Una partita contro il Maestro">
+                        <div class="image-placeholder"><div class="icon">◫</div><span>Inserisci qui una foto<br>dell'IA in partita</span></div>
+                    </div>
+                    <div class="image-slot" data-image="images/scacchi-2026-08-20-02.jpg" data-caption="Livelli di difficoltà">
+                        <div class="image-placeholder"><div class="icon">◫</div><span>Seconda immagine<br>opzionale</span></div>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- 8 AUGUST -->
+        <article class="entry" id="2026-08-08">
+            <div class="entry-date">8 agosto 2026</div>
+            <h2 class="entry-title">Le regole diventano davvero quelle degli scacchi</h2>
+            <div class="entry-lead">Scacco · Matto · Stallo · Patte</div>
+            <div class="entry-copy">
+                <p>
+                    A questo punto era necessario fermarsi e fare un controllo importante. Le prime versioni avevano utilizzato anche alcune regole provvisorie per rendere il prototipo immediatamente giocabile.
+                </p>
+                <p>
+                    Ora però il progetto era diventato abbastanza complesso da non poter più accettare compromessi.
+                </p>
+                <p>
+                    Scacchi D'Arme deve essere un gioco di scacchi completo. La vittoria non dipende più dal raggiungimento del fondo della scacchiera da parte di un pedone e non si vince semplicemente eliminando tutti i pezzi.
+                </p>
+                <p>
+                    La partita deve terminare per <strong>scacco matto</strong>.
+                </p>
+                <p>
+                    Vengono consolidati scacco e scacco matto, stallo, arrocco corto e lungo, en passant e promozione. Entrano inoltre le condizioni di patta più importanti: <strong>ripetizione della posizione, regola delle 50 mosse e materiale insufficiente</strong>.
+                </p>
+                <p>
+                    Prima stavamo costruendo un gioco che assomigliava agli scacchi. Da qui in avanti stiamo costruendo <strong>un gioco di scacchi che ha scelto un modo diverso di rappresentare le catture</strong>.
+                </p>
+                <p>
+                    Questa diventa una delle regole non scritte dell'intero progetto: <strong>prima il gioco, poi lo spettacolo</strong>.
+                </p>
+                <div class="image-gallery">
+                    <div class="image-slot tall" data-image="images/scacchi-2026-08-08-01.jpg" data-caption="Scacco e scacco matto">
+                        <div class="image-placeholder"><div class="icon">◫</div><span>Inserisci qui una schermata<br>di scacco o matto</span></div>
+                    </div>
+                    <div class="image-slot" data-image="images/scacchi-2026-08-08-02.jpg" data-caption="Promozione / regole">
+                        <div class="image-placeholder"><div class="icon">◫</div><span>Seconda immagine<br>opzionale</span></div>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- PIECE DIVIDER -->
+        <div class="piece-divider"><span>La costruzione dei pezzi</span></div>
+
+        <!-- KING -->
+        <article class="entry" id="2026-08-01-re">
+            <div class="entry-date">1 agosto 2026 · Il Re</div>
+            <h2 class="entry-title">Il re entra finalmente in scena</h2>
+            <div class="entry-lead">Il sovrano dell'esercito</div>
+            <div class="entry-copy">
+                <p>
+                    Il re è l'ultimo dei pezzi principali che costruisco, ma è anche quello che richiede più attenzione. Non volevo una pedina generica: doveva sembrare davvero il sovrano dell'esercito.
+                </p>
+                <p>
+                    Nasce così un personaggio in armatura e mantello, con <strong>collare d'ermellino, corazza decorata con una croce dorata, elmo con visiera e corona</strong>. La spada rimane normalmente appoggiata a terra.
+                </p>
+                <p>
+                    Durante la cattura il re la estrae e affronta l'avversario con una sequenza di tre colpi. I primi due generano scintille e scosse. Il terzo è quello decisivo. Poi la spada torna nella posizione iniziale.
+                </p>
+                <p>
+                    Ma il comportamento più importante arriva con lo scacco matto. Il re non viene semplicemente rimosso dalla scacchiera: <strong>cade</strong>. Cade sul proprio lato, con una nuvola di polvere e una breve scossa.
+                </p>
+                <p>
+                    Mi interessava moltissimo questo dettaglio perché il matto, negli scacchi tradizionali, è una condizione astratta. Qui invece diventa un evento visivo immediatamente riconoscibile.
+                </p>
+                <p>
+                    Il motore deve sapere che il re non può essere catturato come un pezzo qualsiasi. La scena di combattimento è quindi la rappresentazione di una situazione che il motore ha già validato.
+                </p>
+                <p>
+                    <strong>La grafica non decide cosa succede nella partita. Rappresenta ciò che la partita ha già deciso.</strong>
+                </p>
+                <div class="image-gallery">
+                    <div class="image-slot tall" data-image="images/scacchi-2026-08-01-re-01.jpg" data-caption="Il Re in armatura">
+                        <div class="image-placeholder"><div class="icon">♔</div><span>Inserisci qui il primo render<br>del Re</span></div>
+                    </div>
+                    <div class="image-slot" data-image="images/scacchi-2026-08-01-re-02.jpg" data-caption="Battaglia del Re">
+                        <div class="image-placeholder"><div class="icon">◫</div><span>Inserisci qui una schermata<br>della battaglia del Re</span></div>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- QUEEN -->
+        <article class="entry" id="2026-07-27-regina">
+            <div class="entry-date">27 luglio 2026 · La Regina</div>
+            <h2 class="entry-title">La Regina</h2>
+            <div class="entry-lead">Potenza e attacco a distanza</div>
+            <div class="entry-copy">
+                <p>
+                    La regina è il pezzo che più naturalmente permette di introdurre spettacolarità. È il pezzo con la maggiore libertà di movimento e quindi deve avere anche una presenza visiva adeguata.
+                </p>
+                <p>
+                    Non volevo però trasformarla semplicemente in un pezzo che produce un effetto luminoso. La richiesta era che avesse una propria identità e che l'attacco fosse immediatamente riconoscibile.
+                </p>
+                <p>
+                    Nasce così una sequenza basata sull'energia e sulla distanza. La regina può colpire da lontano e la sua battaglia deve trasmettere la sensazione di un pezzo dominante.
+                </p>
+                <p>
+                    Il sistema deve quindi distinguere tra una cattura ravvicinata e una cattura a distanza. Ogni unità possiede una sequenza diversa, ma tutte devono inserirsi nello stesso sistema di gioco.
+                </p>
+                <p>
+                    Se posso sostituire la sequenza della regina senza modificare la logica della partita, significa che l'architettura è stata costruita nel modo giusto.
+                </p>
+                <div class="image-gallery">
+                    <div class="image-slot tall" data-image="images/scacchi-2026-07-27-regina-01.jpg" data-caption="La Regina">
+                        <div class="image-placeholder"><div class="icon">♕</div><span>Inserisci qui il render<br>della Regina</span></div>
+                    </div>
+                    <div class="image-slot" data-image="images/scacchi-2026-07-27-regina-02.jpg" data-caption="Attacco della Regina">
+                        <div class="image-placeholder"><div class="icon">◫</div><span>Inserisci qui una schermata<br>della sua battaglia</span></div>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- BISHOP -->
+        <article class="entry" id="2026-07-24-alfiere">
+            <div class="entry-date">24 luglio 2026 · L'Alfiere</div>
+            <h2 class="entry-title">L'Alfiere</h2>
+            <div class="entry-lead">Diagonali e attacchi a distanza</div>
+            <div class="entry-copy">
+                <p>
+                    L'alfiere è un pezzo particolarmente interessante perché ha un'identità diversa da quella della torre o del cavaliere. Si muove lungo le diagonali e la sua forza è legata alla distanza.
+                </p>
+                <p>
+                    Per questo la sua battaglia viene pensata come un attacco più mistico e meno fisico. L'alfiere viene associato a un <strong>raggio di energia</strong> che permette di rappresentare visivamente la natura del suo movimento.
+                </p>
+                <p>
+                    Il sistema deve sapere quando l'animazione può iniziare, mantenere l'avversario visibile durante la scena, eliminare il pezzo catturato al momento giusto e passare il turno senza alterare lo stato della partita.
+                </p>
+                <p>
+                    Ancora una volta il pezzo viene sviluppato come piccolo progetto autonomo: prima come movimento, poi come combattimento, poi come parte integrante della partita completa.
+                </p>
+                <p>
+                    È proprio questa modalità di lavoro che rende possibile aggiungere effetti visivi senza ricostruire ogni volta il gioco da zero.
+                </p>
+                <div class="image-gallery">
+                    <div class="image-slot tall" data-image="images/scacchi-2026-07-24-alfiere-01.jpg" data-caption="L'Alfiere">
+                        <div class="image-placeholder"><div class="icon">♗</div><span>Inserisci qui il render<br>dell'Alfiere</span></div>
+                    </div>
+                    <div class="image-slot" data-image="images/scacchi-2026-07-24-alfiere-02.jpg" data-caption="Attacco dell'Alfiere">
+                        <div class="image-placeholder"><div class="icon">◫</div><span>Inserisci qui una schermata<br>della sua battaglia</span></div>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- KNIGHT -->
+        <article class="entry" id="2026-07-20-cavaliere">
+            <div class="entry-date">20 luglio 2026 · Il Cavaliere</div>
+            <h2 class="entry-title">Il Cavaliere</h2>
+            <div class="entry-lead">La carica</div>
+            <div class="entry-copy">
+                <p>
+                    Il cavaliere è probabilmente il pezzo che si presta meglio a essere trasformato in un combattente. La sua caratteristica naturale è il movimento a L, ma scenicamente ciò che mi interessa è il concetto di <strong>carica</strong>.
+                </p>
+                <p>
+                    La cattura viene quindi pensata come un attacco dinamico. Il cavaliere deve dare l'impressione di arrivare rapidamente sull'obiettivo, quasi come una vera unità di cavalleria.
+                </p>
+                <p>
+                    Qui il sistema di animazione diventa più complesso. Un pezzo non può semplicemente comparire sulla casa di destinazione: deve effettuare il movimento, raggiungere l'avversario e poi iniziare la battaglia.
+                </p>
+                <p>
+                    Movimento degli scacchi e combattimento diventano quindi due eventi distinti. Il primo appartiene alla partita, il secondo alla rappresentazione.
+                </p>
+                <p>
+                    Il cavaliere diventa uno dei primi test reali della sequenza completa: <strong>mossa valida → movimento → battaglia → eliminazione → aggiornamento della posizione → passaggio del turno</strong>.
+                </p>
+                <div class="image-gallery">
+                    <div class="image-slot tall" data-image="images/scacchi-2026-07-20-cavaliere-01.jpg" data-caption="Il Cavaliere">
+                        <div class="image-placeholder"><div class="icon">♘</div><span>Inserisci qui il render<br>del Cavaliere</span></div>
+                    </div>
+                    <div class="image-slot" data-image="images/scacchi-2026-07-20-cavaliere-02.jpg" data-caption="La carica del Cavaliere">
+                        <div class="image-placeholder"><div class="icon">◫</div><span>Inserisci qui una schermata<br>della carica</span></div>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- ROOK -->
+        <article class="entry" id="2026-07-16-torre">
+            <div class="entry-date">16 luglio 2026 · La Torre</div>
+            <h2 class="entry-title">La Torre</h2>
+            <div class="entry-lead">Forza e impatto</div>
+            <div class="entry-copy">
+                <p>
+                    La torre è il primo pezzo che mi porta a pensare seriamente alla forza visiva dell'impatto. È un pezzo massiccio, lineare, potente. La sua battaglia deve quindi essere coerente con questa identità.
+                </p>
+                <p>
+                    Nasce una sequenza molto più fisica: la torre raggiunge il bersaglio e lo travolge con un attacco pesante.
+                </p>
+                <p>
+                    Anche qui la sfida è trovare il giusto equilibrio tra durata e spettacolo. Una battaglia troppo breve sembra insignificante; una battaglia troppo lunga spezza il ritmo della partita.
+                </p>
+                <p>
+                    La torre diventa quindi anche un test del <strong>ritmo di gioco</strong>. Inizio a osservare non soltanto se la battaglia funziona, ma come ci si sente mentre si gioca.
+                </p>
+                <p>
+                    Un software può essere tecnicamente corretto e contemporaneamente poco piacevole da usare. Scacchi D'Arme, invece, vuole essere prima di tutto un'esperienza.
+                </p>
+                <div class="image-gallery">
+                    <div class="image-slot tall" data-image="images/scacchi-2026-07-16-torre-01.jpg" data-caption="La Torre">
+                        <div class="image-placeholder"><div class="icon">♖</div><span>Inserisci qui il render<br>della Torre</span></div>
+                    </div>
+                    <div class="image-slot" data-image="images/scacchi-2026-07-16-torre-02.jpg" data-caption="Schianto della Torre">
+                        <div class="image-placeholder"><div class="icon">◫</div><span>Inserisci qui una schermata<br>della battaglia della Torre</span></div>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- PAWN -->
+        <article class="entry" id="2026-07-12-pedone">
+            <div class="entry-date">12 luglio 2026 · Il Pedone</div>
+            <h2 class="entry-title">Il Pedone</h2>
+            <div class="entry-lead">Il primo vero soldato</div>
+            <div class="entry-copy">
+                <p>
+                    Il pedone è il primo pezzo a cui viene data una vera identità. È anche il più difficile da rendere spettacolare senza esagerare.
+                </p>
+                <p>
+                    Un pedone non dovrebbe sembrare un guerriero leggendario. È un soldato semplice. Quindi anche la sua cattura deve avere una scala diversa.
+                </p>
+                <p>
+                    Viene costruita una sequenza più breve e diretta, ma soprattutto viene utilizzata per verificare il meccanismo fondamentale della battaglia.
+                </p>
+                <p>
+                    Il pedone deve muoversi correttamente, catturare, essere catturato e arrivare all'ultima traversa. Proprio quest'ultimo punto porta alla <strong>promozione</strong>.
+                </p>
+                <p>
+                    Quando il pedone raggiunge il fondo della scacchiera, il gioco deve fermarsi e chiedere quale nuovo pezzo creare: regina, torre, alfiere o cavaliere. La trasformazione viene accompagnata da una nube dorata.
+                </p>
+                <p>
+                    Il pedone è quindi il pezzo che dimostra per la prima volta quanto sia stretto il rapporto tra movimento, regole, interfaccia e animazione.
+                </p>
+                <div class="image-gallery">
+                    <div class="image-slot tall" data-image="images/scacchi-2026-07-12-pedone-01.jpg" data-caption="Il Pedone">
+                        <div class="image-placeholder"><div class="icon">♙</div><span>Inserisci qui il render<br>del Pedone</span></div>
+                    </div>
+                    <div class="image-slot" data-image="images/scacchi-2026-07-12-pedone-02.jpg" data-caption="Promozione del Pedone">
+                        <div class="image-placeholder"><div class="icon">◫</div><span>Inserisci qui una schermata<br>della promozione</span></div>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- 8 JULY -->
+        <article class="entry" id="2026-07-08">
+            <div class="entry-date">8 luglio 2026</div>
+            <h2 class="entry-title">La prima versione 3D</h2>
+            <div class="entry-lead">La scacchiera diventa un'arena</div>
+            <div class="entry-copy">
+                <p>
+                    Dopo aver costruito una prima base funzionante, chiedo di portare il progetto nella terza dimensione.
+                </p>
+                <p>
+                    La richiesta non è semplicemente “fammi una scacchiera 3D”. Voglio un'arena. La superficie diventa <strong>pietra</strong>, compare una cornice, compare il bordo e agli angoli entrano i bracieri.
+                </p>
+                <p>
+                    I pezzi iniziano a vivere all'interno della scena. La scacchiera non è più soltanto uno spazio logico nel quale avvengono le mosse: è diventata un luogo.
+                </p>
+                <p>
+                    Questa trasformazione apre una quantità enorme di nuove possibilità: telecamera, illuminazione, materiali, effetti, battaglie e ambientazioni.
+                </p>
+                <p>
+                    Inizia qui la vera seconda fase del progetto: <strong>non più soltanto scacchi con animazioni, ma un piccolo mondo attorno a una partita di scacchi.</strong>
+                </p>
+                <div class="image-gallery">
+                    <div class="image-slot tall" data-image="images/scacchi-2026-07-08-01.jpg" data-caption="Prima arena 3D">
+                        <div class="image-placeholder"><div class="icon">◫</div><span>Inserisci qui la prima<br>schermata 3D</span></div>
+                    </div>
+                    <div class="image-slot" data-image="images/scacchi-2026-07-08-02.jpg" data-caption="Bracieri e cornice">
+                        <div class="image-placeholder"><div class="icon">◫</div><span>Seconda immagine<br>opzionale</span></div>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- 3 JULY -->
+        <article class="entry" id="2026-07-03">
+            <div class="entry-date">3 luglio 2026</div>
+            <h2 class="entry-title">Le regole prima di tutto</h2>
+            <div class="entry-lead">La partita viene prima dello spettacolo</div>
+            <div class="entry-copy">
+                <p>
+                    La prima fase reale del progetto non riguarda la grafica. Riguarda la partita.
+                </p>
+                <p>
+                    La richiesta iniziale è quella di creare una <strong>scacchiera completa e giocabile contro un altro giocatore</strong>, direttamente in una singola pagina HTML apribile nel browser.
+                </p>
+                <p>
+                    Il progetto deve conoscere il movimento dei pezzi e impedire le mosse illegali. Da lì vengono aggiunti progressivamente lo scacco, lo scacco matto, lo stallo e l'arrocco. Poi arriva l'en passant. Poi la promozione. Poi la necessità di riconoscere le situazioni di patta.
+                </p>
+                <p>
+                    Il criterio rimane sempre lo stesso: ogni nuova regola viene chiesta, provata e verificata prima di costruirci sopra altro.
+                </p>
+                <p>
+                    Sarebbe stato facile partire subito dalle animazioni perché sono la parte più spettacolare. Ho preferito invece costruire prima una partita che funzionasse.
+                </p>
+                <p>
+                    Una nuova regola viene aggiunta. Viene testata. Poi si passa a quella successiva. <strong>Un problema alla volta. Un test alla volta.</strong>
+                </p>
+                <div class="image-gallery">
+                    <div class="image-slot tall" data-image="images/scacchi-2026-07-03-01.jpg" data-caption="Prima scacchiera giocabile">
+                        <div class="image-placeholder"><div class="icon">♟</div><span>Inserisci qui la prima<br>schermata giocabile</span></div>
+                    </div>
+                    <div class="image-slot" data-image="images/scacchi-2026-07-03-02.jpg" data-caption="Test delle regole">
+                        <div class="image-placeholder"><div class="icon">◫</div><span>Seconda immagine<br>opzionale</span></div>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- 1 JULY -->
+        <article class="entry" id="2026-07-01">
+            <div class="entry-date">1 luglio 2026</div>
+            <h2 class="entry-title">Nasce Scacchi D'Arme</h2>
+            <div class="entry-lead">La prima idea</div>
+            <div class="entry-copy">
+                <p>
+                    Tutto parte da una domanda molto semplice: <strong>si può reinterpretare oggi l'idea di Battle Chess senza copiarla?</strong>
+                </p>
+                <p>
+                    La risposta diventa Scacchi D'Arme. L'idea è creare una partita di scacchi completa nella quale le catture diventano piccole scene di combattimento, con pezzi e animazioni originali.
+                </p>
+                <p>
+                    Il progetto non nasce come prodotto commerciale. Nasce come esperimento personale.
+                </p>
+                <p>
+                    Il codice viene sviluppato attraverso <strong>VibeCoding con Claude</strong>. Io descrivo quello che voglio ottenere, chiedo una funzione, provo il risultato, osservo ciò che non mi convince e torno con una nuova richiesta.
+                </p>
+                <p>
+                    Non c'è una grande specifica scritta tutta in anticipo. Il progetto cresce progressivamente.
+                </p>
+                <p>
+                    Prima la partita. Poi i pezzi. Poi le battaglie. Poi il 3D. Poi l'intelligenza artificiale. Poi la modalità 2D. Poi i materiali. Poi le ambientazioni.
+                </p>
+                <p>
+                    In pratica, ogni giorno aggiunge un piccolo pezzo al progetto. Ed è proprio questo che rende interessante raccontarlo.
+                </p>
+                <p>
+                    Scacchi D'Arme non è nato in una sola sessione. È nato <strong>per iterazioni</strong>: un'idea, una richiesta, una prova, una correzione, un'altra idea. Il risultato finale è la somma di tutte queste piccole decisioni.
+                </p>
+                <div class="image-gallery">
+                    <div class="image-slot tall" data-image="images/scacchi-2026-07-01-01.jpg" data-caption="Il primo prototipo">
+                        <div class="image-placeholder"><div class="icon">♞</div><span>Inserisci qui la prima<br>immagine del progetto</span></div>
+                    </div>
+                    <div class="image-slot" data-image="images/scacchi-2026-07-01-02.jpg" data-caption="La prima idea">
+                        <div class="image-placeholder"><div class="icon">◫</div><span>Seconda immagine<br>opzionale</span></div>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </section>
+
+    <section id="nota" class="note-card">
+        <div class="section-index">Nota sul processo</div>
+        <h2>VibeCoding, AI e direzione del progetto</h2>
+        <blockquote>
+            <strong>Scacchi D'Arme è un progetto personale sviluppato attraverso un processo di VibeCoding con Claude.</strong><br><br>
+            L'intelligenza artificiale è stata utilizzata come strumento di progettazione, prototipazione e implementazione. La direzione del progetto, le specifiche funzionali e visive, le scelte progettuali, i test, le verifiche e le iterazioni fanno parte del processo creativo e di sviluppo.<br><br>
+            Il progetto prende ispirazione dal concetto di combattimento tra i pezzi reso celebre da <em>Battle Chess</em>, ma utilizza una propria identità visiva, proprie animazioni e proprie scelte progettuali.
+        </blockquote>
+        <a class="artifact-link" href="https://claude.ai/artifact/Vz5WXyDGuEptGin9AXgb1E" target="_blank" rel="noopener noreferrer">
+            Apri l'Artefact originale su Claude →
+        </a>
+    </section>
+</div>
+</main>
+
+<footer>
+    Scacchi D'Arme · Personal Project · Simone Rebucci · 2026
+</footer>
+
+<script>
+const themeToggle = document.getElementById('themeToggle');
+
+function applyAutomaticTheme() {
+    const hour = new Date().getHours();
+    if (hour >= 7 && hour < 19) {
+        document.body.classList.remove('dark');
+    } else {
+        document.body.classList.add('dark');
+    }
+}
+
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme === 'dark') {
+    document.body.classList.add('dark');
+} else if (savedTheme === 'light') {
+    document.body.classList.remove('dark');
+} else {
+    applyAutomaticTheme();
+}
+
+themeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('dark');
+    localStorage.setItem(
+        'theme',
+        document.body.classList.contains('dark') ? 'dark' : 'light'
+    );
+});
+
+/* IMAGE SLOTS
+   Per inserire una foto basta aggiungere il file nel percorso indicato
+   da data-image. Se il file non esiste, resta un segnaposto elegante.
+*/
+document.querySelectorAll('.image-slot').forEach(slot => {
+    const src = slot.dataset.image;
+    const caption = slot.dataset.caption || '';
+    const img = document.createElement('img');
+    img.src = src;
+    img.alt = caption;
+    img.onload = () => {
+        slot.querySelector('.image-placeholder')?.remove();
+        if (caption) {
+            const label = document.createElement('div');
+            label.className = 'image-caption';
+            label.textContent = caption;
+            slot.appendChild(label);
+        }
+    };
+    img.onerror = () => {
+        img.remove();
+    };
+    slot.prepend(img);
+});
+</script>
+</body>
+</html>
