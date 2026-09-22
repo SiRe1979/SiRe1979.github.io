@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Il Romitorio | Simone Rebucci</title>
+
+<meta name="description" content="Il Romitorio — romanzo di Simone Rebucci. Disponibile in formato digitale; edizione cartacea in arrivo nelle prossime settimane.">
+
+<style>
+:root {
+    --bg: #07100c;
+    --bg2: #0b1711;
+    --surface: rgba(14, 28, 21, .76);
+    --text: #edf7f0;
+    --muted: #9aaea3;
+    --accent: #35d879;
+    --accent-dark: #159447;
+    --line: rgba(53,216,121,.20);
+    --shadow: 0 30px 90px rgba(0,0,0,.42);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+    margin: 0;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    color: var(--text);
+    background:
+        radial-gradient(circle at 72% 20%, rgba(45,190,105,.11), transparent 26%),
+        radial-gradient(circle at 18% 72%, rgba(45,190,105,.06), transparent 22%),
+        var(--bg);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image:
+        linear-gradient(rgba(53,216,121,.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(53,216,121,.045) 1px, transparent 1px);
+    background-size: 44px 44px;
+    mask-image: linear-gradient(to bottom, black, rgba(0,0,0,.45), transparent);
+}
+
+a { color: inherit; }
+
+.topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 34px;
+    background: rgba(7,16,12,.72);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid var(--line);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: .88rem;
+    font-weight: 700;
+    letter-spacing: .04em;
+}
+
+.brand-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 14px var(--accent);
+}
+
+.brand span { color: var(--accent); }
+
+.back {
+    text-decoration: none;
+    color: var(--muted);
+    font-size: .64rem;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    transition: color .2s ease;
+}
+
+.back:hover { color: var(--accent); }
+
+.hero {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 120px 24px 80px;
+}
+
+.hero-grid {
+    width: min(1120px, 92vw);
+    display: grid;
+    grid-template-columns: minmax(250px, .7fr) minmax(280px, .9fr) minmax(290px, 1.1fr);
+    gap: 55px;
+    align-items: center;
+}
+
+.cover-zone {
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+.cover-frame {
+    position: relative;
+    width: min(300px, 70vw);
+    border-radius: 12px;
+    padding: 10px;
+    background: linear-gradient(145deg, rgba(255,255,255,.16), rgba(255,255,255,.03));
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+}
+
+.cover-frame::after {
+    content: "";
+    position: absolute;
+    inset: 20px -30px -30px 30px;
+    z-index: -1;
+    background: radial-gradient(circle, rgba(53,216,121,.20), transparent 66%);
+    filter: blur(12px);
+}
+
+.cover {
+    display: block;
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+    border-radius: 6px;
+    background: #101713;
+}
+
+.cover-fallback {
+    min-height: 450px;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    padding: 30px;
+    background:
+        linear-gradient(145deg, #102116, #07100c);
+    color: var(--muted);
+    font-size: .72rem;
+    line-height: 1.7;
+}
+
+.eyebrow {
+    font-size: .62rem;
+    letter-spacing: .24em;
+    color: var(--accent);
+    text-transform: uppercase;
+}
+
+h1 {
+    margin: 13px 0 0;
+    font-size: clamp(3rem, 7vw, 6.3rem);
+    line-height: .92;
+    letter-spacing: -.065em;
+}
+
+.author {
+    margin-top: 19px;
+    font-size: .82rem;
+    color: var(--muted);
+}
+
+.status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 30px;
+    padding: 8px 12px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--accent);
+    font-size: .61rem;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+}
+
+.status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 12px var(--accent);
+}
+
+.synopsis-card {
+    padding: 28px;
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    background: var(--surface);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(14px);
+}
+
+.synopsis-card h2 {
+    margin: 0 0 14px;
+    font-size: 1.08rem;
+}
+
+.synopsis-card p {
+    margin: 0;
+    color: var(--muted);
+    font-size: .82rem;
+    line-height: 1.85;
+}
+
+.notice {
+    margin-top: 22px;
+    padding: 18px;
+    border-radius: 16px;
+    background: rgba(53,216,121,.055);
+    border: 1px solid var(--line);
+}
+
+.notice strong {
+    display: block;
+    color: var(--accent);
+    font-size: .67rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    margin-bottom: 7px;
+}
+
+.notice span {
+    color: var(--muted);
+    font-size: .76rem;
+    line-height: 1.6;
+}
+
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 24px;
+}
+
+.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 18px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-size: .69rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    transition: transform .2s ease, background .2s ease, border-color .2s ease;
+}
+
+.button.primary {
+    background: var(--accent);
+    color: #06100b;
+}
+
+.button.secondary {
+    border: 1px solid var(--line);
+    color: var(--text);
+    background: rgba(255,255,255,.02);
+}
+
+.button:hover { transform: translateY(-2px); }
+.button.primary:hover { background: var(--accent-dark); color: white; }
+.button.secondary:hover { border-color: var(--accent); }
+
+.content {
+    width: min(980px, 92vw);
+    margin: 0 auto;
+    padding-bottom: 100px;
+}
+
+.section {
+    padding: 90px 0;
+    border-top: 1px solid var(--line);
+}
+
+.section-index {
+    color: var(--accent);
+    font-size: .6rem;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+}
+
+.section h2 {
+    margin: 0;
+    font-size: clamp(2rem, 4vw, 3.4rem);
+    letter-spacing: -.05em;
+}
+
+.section p {
+    max-width: 760px;
+    margin-top: 22px;
+    color: var(--muted);
+    line-height: 1.9;
+    font-size: .85rem;
+}
+
+.meta-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-top: 34px;
+}
+
+.meta {
+    padding: 18px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: rgba(255,255,255,.025);
+}
+
+.meta-label {
+    font-size: .55rem;
+    color: var(--muted);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+}
+
+.meta-value {
+    margin-top: 8px;
+    font-size: .76rem;
+    line-height: 1.5;
+}
+
+.author-box {
+    margin-top: 34px;
+    padding: 26px;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    background: var(--surface);
+}
+
+.author-box h3 {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.author-box p {
+    margin-bottom: 0;
+}
+
+footer {
+    border-top: 1px solid var(--line);
+    padding: 30px 24px 40px;
+    text-align: center;
+    color: var(--muted);
+    font-size: .58rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+}
+
+@media (max-width: 900px) {
+    .hero-grid {
+        grid-template-columns: 1fr;
+        max-width: 700px;
+        gap: 35px;
+    }
+
+    .cover-frame {
+        width: min(330px, 74vw);
+    }
+
+    .meta-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 580px) {
+    .topbar {
+        padding: 0 18px;
+    }
+
+    .hero {
+        padding-top: 100px;
+    }
+
+    h1 {
+        font-size: 3.6rem;
+    }
+
+    .meta-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header class="topbar">
+    <div class="brand">
+        <div class="brand-dot"></div>
+        <div>Simone <span>Rebucci</span></div>
+    </div>
+
+    <a class="back" href="index.html">← Torna alla home</a>
+</header>
+
+<main>
+
+<section class="hero">
+    <div class="hero-grid">
+
+        <div class="cover-zone">
+            <div class="cover-frame">
+                <img
+                    class="cover"
+                    src="romitorio-cover.jpg"
+                    alt="Copertina de Il Romitorio di Simone Rebucci"
+                    onerror="this.style.display='none'; document.getElementById('coverFallback').style.display='grid';"
+                >
+
+                <div id="coverFallback" class="cover-fallback" style="display:none;">
+                    Inserisci la copertina del romanzo nella stessa cartella di questa pagina con il nome:
+                    <strong>romitorio-cover.jpg</strong>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="eyebrow">Romanzo · Italiano</div>
+            <h1>Il<br>Romitorio</h1>
+            <div class="author">di Simone Rebucci</div>
+
+            <div class="status">
+                <span class="status-dot"></span>
+                Disponibile in digitale
+            </div>
+        </div>
+
+        <div class="synopsis-card">
+            <h2>Il libro</h2>
+            <p>
+                Il Romitorio è il primo romanzo pubblicato da Simone Rebucci.
+                Questa pagina raccoglie le informazioni essenziali sull'opera e accompagnerà
+                il percorso del libro nelle sue diverse edizioni.
+            </p>
+
+            <div class="notice">
+                <strong>Prossima uscita</strong>
+                <span>
+                    L'edizione cartacea sarà disponibile fra qualche settimana.
+                </span>
+            </div>
+
+            <div class="actions">
+                <a
+                    class="button primary"
+                    href="https://www.amazon.it/Romitorio-Simone-Rebucci-ebook/dp/B0H6LN3X8B"
+                    target="_blank"
+                    rel="noopener noreferrer">
+                    Acquista l'edizione digitale →
+                </a>
+
+                <a class="button secondary" href="#details">
+                    Dettagli del libro ↓
+                </a>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<section class="section" id="details">
+    <div class="section-index">01 / DETTAGLI</div>
+    <h2>Il Romitorio</h2>
+
+    <p>
+        Il titolo è disponibile su Amazon in edizione digitale Kindle.
+        La scheda Amazon identifica l'opera come <em>Il Romitorio (Italian Edition)</em>,
+        con Simone Rebucci come autore.
+    </p>
+
+    <div class="meta-grid">
+        <div class="meta">
+            <div class="meta-label">Autore</div>
+            <div class="meta-value">Simone Rebucci</div>
+        </div>
+
+        <div class="meta">
+            <div class="meta-label">Formato</div>
+            <div class="meta-value">eBook / Kindle</div>
+        </div>
+
+        <div class="meta">
+            <div class="meta-label">Pubblicazione</div>
+            <div class="meta-value">25 giugno 2026</div>
+        </div>
+
+        <div class="meta">
+            <div class="meta-label">ASIN</div>
+            <div class="meta-value">B0H6LN3X8B</div>
+        </div>
+
+        <div class="meta">
+            <div class="meta-label">Editore</div>
+            <div class="meta-value">Alkemio de Inko kaj Vitro</div>
+        </div>
+    </div>
+
+    <div class="author-box">
+        <h3>L'autore</h3>
+        <p>
+            Simone Rebucci è nato a Modena nel 1979 e vive a Reggio Emilia.
+            Accanto al percorso professionale nel mondo ICT coltiva da anni
+            la scrittura e i progetti creativi personali.
+        </p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="section-index">02 / EDIZIONI</div>
+    <h2>Digitale oggi.<br>Cartaceo a breve.</h2>
+
+    <p>
+        Il Romitorio è attualmente disponibile in formato digitale.
+        L'edizione cartacea è prevista nelle prossime settimane e sarà
+        aggiunta a questa pagina non appena disponibile.
+    </p>
+
+    <div class="actions">
+        <a
+            class="button primary"
+            href="https://www.amazon.it/Romitorio-Simone-Rebucci-ebook/dp/B0H6LN3X8B"
+            target="_blank"
+            rel="noopener noreferrer">
+            Vai alla pagina Amazon →
+        </a>
+    </div>
+</section>
+
+</main>
+
+<footer>
+    © 2026 Simone Rebucci · Il Romitorio
+</footer>
+
+</body>
+</html>
