@@ -177,6 +177,27 @@ details summary{min-height:44px;display:flex;align-items:center;cursor:pointer;f
   background:var(--ink);color:var(--bg);padding:11px 18px;border-radius:999px;font-size:15px;opacity:0;pointer-events:none;
   transition:opacity .2s,transform .2s;z-index:30;max-width:88vw;text-align:center}
 #toast.on{opacity:1;transform:translate(-50%,0)}
+.quote{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,var(--soft),var(--card) 85%)}
+.quote .qm{font:700 46px/.7 var(--serif);color:var(--accent);opacity:.45;align-self:flex-start;margin-top:8px}
+.quote p{margin:0;flex:1;font:italic 500 17px/1.4 var(--serif)}
+.qnext{width:40px;height:40px;flex:none;border-radius:50%;display:grid;place-items:center;color:var(--accent);background:var(--card);border:1px solid var(--line)}
+.qnext:active{transform:rotate(-90deg)}
+.chart-card{--tint:var(--t-slate)}
+.cg{width:100%;height:auto;display:block;margin-top:6px;overflow:visible}
+.cg-grid{stroke:var(--line);stroke-width:1}
+.cg-t{fill:var(--muted);font:11px var(--sans)}
+.cg-area{fill:url(#wg)}
+.cg-line{fill:none;stroke:var(--accent);stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}
+.cg-dot{fill:var(--card);stroke:var(--accent);stroke-width:2.5}
+.cg-dot.sel{fill:var(--accent);stroke:var(--card);stroke-width:3}
+.cg-hit{fill:transparent;cursor:pointer}
+.readout{margin:10px 0 0;font-size:14px;line-height:1.25}
+.readout b{font:600 26px var(--serif)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.stat{background:var(--bg);border-radius:14px;padding:9px 10px}
+.stat small{display:block;font-size:11.5px;color:var(--muted);margin-bottom:2px}
+.stat b{font-size:16px}
+.stat.dn b{color:var(--accent)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -339,6 +360,15 @@ const cardHead=(ic,title,sub,right)=>'<div class="mh"><span class="tile" aria-hi
 const addBtn=(act,attrs,label)=>'<button class="add" data-act="'+act+'" '+attrs+' aria-label="'+esc(label)+'"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>';
 const chipHtml=(it,attrs,extra)=>'<button class="chip" '+attrs+'><span class="ico" aria-hidden="true">'+foodIcon(it.n)+'</span><span>'+esc(it.n)+'</span>'+(it.q?'<b>'+esc(tidyQ(it.q))+'</b>':'')+(extra||'')+'</button>';
 
+const QUOTES=["Non serve la perfezione: serve tornare, ogni giorno, alla scelta successiva.", "Un pasto fuori programma non cancella una settimana di buone scelte.", "I piccoli passi costanti battono gli scatti che durano due giorni.", "Oggi conta il prossimo pasto: scegli con calma.", "Il corpo cambia piano. La costanza lavora anche quando non la vedi.", "Mangiare bene è prendersi cura di sé, non una punizione.", "Annotare ciò che mangi non è un giudizio: è uno specchio gentile.", "Ogni giornata registrata è una scelta fatta per te.", "Un bicchiere d'acqua in più è già una buona decisione.", "Fame e sazietà sono alleate: imparare ad ascoltarle fa parte del percorso.", "Il progresso non è una linea dritta: qualche curva è normale.", "Sii paziente con te come lo saresti con una persona a cui vuoi bene.", "Non devi fare tutto oggi, devi solo fare la prossima cosa giusta.", "Se inciampi, non ricominciare da capo: riprendi da dove sei.", "La costanza silenziosa vale più dell'entusiasmo rumoroso.", "Ogni pasto è una nuova occasione, e non ce n'è uno solo che decide tutto.", "Cambiare abitudini richiede tempo: il tempo sta lavorando per te.", "Quello che fai il martedì conta quanto quello che fai il sabato.", "Non confrontare il tuo inizio con il punto di arrivo di qualcun altro.", "Preparare il pasto di domani è un regalo che fai a te stesso di domani.", "La disciplina è una forma di gentilezza verso il tuo futuro.", "Mangia con attenzione: il gusto si apprezza meglio quando ci sei davvero.", "Una giornata storta è solo una giornata, non un verdetto.", "Ogni verdura nel piatto è un piccolo voto a favore della tua salute.", "Fidati del percorso, anche nei giorni in cui la bilancia non dice ciò che vorresti.", "Il peso è un numero: la tua giornata è molto di più.", "Fermati, respira, scegli: bastano pochi secondi per cambiare un pasto.", "Le abitudini si costruiscono un mattone alla volta, e oggi hai il tuo mattone.", "Non serve rinunciare a tutto: serve trovare un equilibrio che puoi mantenere.", "Il senso di colpa non aiuta nessun percorso: lascialo fuori dal piatto.", "Festeggia i piccoli traguardi: contano più di quanto sembri.", "Muoversi un po' ogni giorno fa bene al corpo e anche all'umore.", "Un buon sonno è un ingrediente della dieta: trattalo come tale.", "La voglia di un momento passa: tu sei più grande di lei.", "Non aspettare la motivazione: costruisci una routine, la motivazione arriverà dopo.", "Fai pace con il piatto: il cibo è un alleato, non un avversario.", "Il percorso è tuo: i tempi li decidi tu, insieme a chi ti segue.", "Oggi hai già fatto qualcosa di buono: segnalo e vai avanti.", "Ogni volta che scegli con intenzione, rendi più facile la scelta successiva.", "Chi tiene un diario capisce di più, e chi capisce di più sceglie meglio.", "La pazienza è un ingrediente: non si compra e non si può saltare.", "Anche un passo lento resta un passo avanti.", "Prenditi il tempo di sederti a tavola: mangiare in fretta spegne il piacere.", "Non serve essere al cento per cento: l'ottanta fatto bene, ogni giorno, funziona.", "Il traguardo non è una taglia: è stare bene dentro la propria giornata.", "Dopo ogni scelta difficile, la parte più dura è già passata.", "Una buona colazione è un inizio, non una promessa da mantenere per tutto il giorno.", "Ricordati perché hai cominciato, e ricordalo con gentilezza.", "Il piatto di oggi racconta la cura che hai per te.", "Un passo alla volta si arriva lontano, anche senza accorgersene.", "Se oggi è stata dura, domani non riparte da zero: riparte da tutto quello che hai già fatto.", "Prenditi il merito di ciò che sta funzionando.", "La varietà nel piatto rende il percorso più facile da seguire.", "Non serve vincere ogni giornata: serve non smettere di giocare.", "Mangiare con calma è già metà del lavoro.", "Ogni pasto registrato è un dato in più per capire cosa funziona per te.", "Ciò che è sostenibile oggi sarà ancora possibile domani: scegli quello.", "La fretta è nemica dei buoni propositi: dai tempo al tempo.", "Oggi puoi scegliere qualcosa di cui sarai contento stasera.", "Il tuo corpo ti accompagna ovunque: trattalo da buon compagno di viaggio.", "Quando hai un dubbio, scegli il piatto che ti farà stare bene dopo, non solo mentre mangi.", "I risultati arrivano in silenzio: tu continua a presentarti.", "Una pausa non è una resa: puoi fermarti e ripartire.", "Hai già dimostrato di saper cominciare: ora si tratta solo di continuare."];
+let qShift=0,qDay=null;
+function quoteFor(ds,shift){const d=dparse(ds);const idx=Math.floor(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())/864e5);const n=QUOTES.length;return QUOTES[(((idx+shift)%n)+n)%n]}
+function quoteCard(){
+  if(qDay!==cur){qDay=cur;qShift=0}
+  return '<section class="card quote"><span class="qm" aria-hidden="true">“</span><p>'+esc(quoteFor(cur,qShift))+'</p>'+
+   '<button class="qnext" data-act="qnext" aria-label="Mostra un’altra frase"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 4v5h-5"/></svg></button></section>';
+}
+
 /* ---------- pittogrammi scala di Bristol ---------- */
 function bsvg(n){
   const f='fill="currentColor"';
@@ -380,7 +410,7 @@ function dayView(){
     '<div class="ttl"><h1>'+esc(longDate(cur))+esc(yearTxt)+'</h1><div class="sub">'+sub+'</div></div>'+
     '<button class="arrow" data-act="day" data-v="1" aria-label="Giorno successivo"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>'+
     '</div>'+weekStrip()+(cur!==today()?'<button class="gotoday" data-act="goto" data-d="'+today()+'">Torna a oggi</button>':'')+'</div></header>';
-  h+='<main class="wrap">';
+  h+='<main class="wrap">'+quoteCard();
   MEALS.forEach(M=>{h+=mealCard(M,d)});
   h+=waterCard(d)+fecesCard(d)+symptomsCard(d)+weightCard(d);
   return h+'</main>';
@@ -434,7 +464,7 @@ function weightCard(d){
   let note='Una volta a settimana, al mattino, dopo aver urinato e senza vestiti.';
   if(last&&last!==cur){const n=Math.round((dparse(cur)-dparse(last))/864e5);note='Ultimo peso: '+fmtNum(S.days[last].p)+' kg, '+(n===1?'ieri':n+' giorni fa')+'. '+note}
   return '<section class="card peso-card">'+cardHead('⚖️','Peso','Facoltativo')+'<label class="l" for="fp" style="margin-top:0">Chilogrammi</label>'+
-   '<input id="fp" type="text" inputmode="decimal" autocomplete="off" data-bind="p" placeholder="0,0" value="'+(d.p==null?'':fmtNum(d.p))+'"><p class="note">'+esc(note)+'</p></section>';
+   '<input id="fp" type="text" inputmode="decimal" autocomplete="off" data-bind="p" placeholder="0,0" value="'+(d.p==null?'':fmtNum(d.p))+'"><p class="note">'+esc(note)+'</p>'+(weights().length>=2?'<div class="row-actions"><button class="pill" data-act="nav" data-v="history">Vedi l’andamento</button></div>':'')+'</section>';
 }
 
 function dayCounts(d){
@@ -446,13 +476,61 @@ function dayCounts(d){
   return parts.join(' · ');
 }
 
+/* ---------- grafico del peso ---------- */
+let chartRange='all',chartSel=null;
+function weights(){return Object.keys(S.days).filter(k=>S.days[k].p!=null&&!isNaN(S.days[k].p)).sort().map(k=>({ds:k,p:S.days[k].p}))}
+function niceStep(r){const c=[0.5,1,2,5,10,20];for(let i=0;i<c.length;i++){if(r/c[i]<=4)return c[i]}return 50}
+const r1=x=>Math.round(x*10)/10;
+const kgTxt=x=>fmtNum(r1(x))+' kg';
+const diffTxt=x=>{const v=r1(x);return (v>0?'+':v<0?'−':'')+fmtNum(Math.abs(v))+' kg'};
+function chartCard(){
+  const total=weights();let pts=total.slice();
+  if(chartRange!=='all'){const lim=addDays(today(),-(+chartRange));pts=pts.filter(x=>x.ds>=lim)}
+  const rng=[['30','30 giorni'],['90','90 giorni'],['all','Tutto']];
+  const head=cardHead('📈','Andamento del peso',total.length?total.length+(total.length===1?' pesata':' pesate'):'');
+  if(!total.length)
+    return '<section class="card chart-card">'+head+'<p class="empty">Registra il peso nella schermata Giorno, una volta a settimana: qui comparirà il grafico.</p></section>';
+  const seg='<div class="seg">'+rng.map(r=>'<button data-act="chartrange" data-v="'+r[0]+'" aria-pressed="'+(chartRange===r[0])+'">'+r[1]+'</button>').join('')+'</div>';
+  if(!pts.length)
+    return '<section class="card chart-card">'+head+seg+'<p class="empty" style="margin-top:10px">Nessun peso registrato in questo periodo.</p></section>';
+  const W=340,H=210,L=40,R=16,T=14,B=30,n=pts.length;
+  if(chartSel==null||chartSel>=n)chartSel=n-1;
+  const t0=dparse(pts[0].ds).getTime(),t1=dparse(pts[n-1].ds).getTime(),span=Math.max(t1-t0,864e5);
+  const xs=p=>n===1?L+(W-L-R)/2:L+((dparse(p.ds).getTime()-t0)/span)*(W-L-R);
+  const vals=pts.map(p=>p.p);const mn=Math.min.apply(null,vals),mx=Math.max.apply(null,vals);
+  const step=niceStep(Math.max(mx-mn,0.5));
+  const lo=Math.floor((mn-step*0.2)/step)*step,hi=Math.ceil((mx+step*0.2)/step)*step;
+  const ys=v=>T+(1-(v-lo)/(hi-lo))*(H-T-B);
+  let g='';
+  for(let v=lo;v<=hi+1e-9;v+=step){const y=ys(v).toFixed(1);g+='<line class="cg-grid" x1="'+L+'" x2="'+(W-R)+'" y1="'+y+'" y2="'+y+'"/><text class="cg-t" x="'+(L-6)+'" y="'+(+y+4)+'" text-anchor="end">'+fmtNum(Math.round(v*100)/100)+'</text>'}
+  const xl=n===1?[0]:[0,1/3,2/3,1];let xt='';
+  xl.forEach((f,i)=>{const d=new Date(t0+f*span);const x=n===1?xs(pts[0]):L+f*(W-L-R);
+    const a=n===1?'middle':(i===0?'start':i===xl.length-1?'end':'middle');
+    xt+='<text class="cg-t" x="'+x.toFixed(1)+'" y="'+(H-8)+'" text-anchor="'+a+'">'+d.getDate()+' '+MOS[d.getMonth()]+'</text>'});
+  const line=pts.map((p,i)=>(i?'L':'M')+xs(p).toFixed(1)+' '+ys(p.p).toFixed(1)).join(' ');
+  const area=n>1?'<path class="cg-area" d="'+line+' L'+xs(pts[n-1]).toFixed(1)+' '+(H-B)+' L'+xs(pts[0]).toFixed(1)+' '+(H-B)+' Z"/>':'';
+  const dots=pts.map((p,i)=>'<circle class="cg-dot'+(i===chartSel?' sel':'')+'" cx="'+xs(p).toFixed(1)+'" cy="'+ys(p.p).toFixed(1)+'" r="'+(i===chartSel?6:4)+'"/>'+
+    '<circle class="cg-hit" data-act="chartpt" data-i="'+i+'" cx="'+xs(p).toFixed(1)+'" cy="'+ys(p.p).toFixed(1)+'" r="16" role="button" aria-label="'+esc(shortDate(p.ds)+': '+kgTxt(p.p))+'"/>').join('');
+  const sel=pts[chartSel],prev=chartSel>0?pts[chartSel-1]:null;
+  const read='<p class="readout"><span style="color:var(--muted)">'+esc(shortDate(sel.ds))+'</span><br><b>'+kgTxt(sel.p)+'</b>'+(prev?' <span style="color:var(--muted)">('+diffTxt(sel.p-prev.p)+' rispetto alla pesata precedente)</span>':'')+'</p>';
+  const first=pts[0],last=pts[n-1],dif=last.p-first.p;
+  const stats='<div class="stats"><div class="stat"><small>Primo · '+esc(shortDate(first.ds))+'</small><b>'+kgTxt(first.p)+'</b></div>'+
+    '<div class="stat"><small>Ultimo · '+esc(shortDate(last.ds))+'</small><b>'+kgTxt(last.p)+'</b></div>'+
+    '<div class="stat'+(r1(dif)<0?' dn':'')+'"><small>Variazione</small><b>'+(n>1?diffTxt(dif):'—')+'</b></div></div>';
+  return '<section class="card chart-card">'+head+seg+read+
+    '<svg class="cg" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Grafico dell’andamento del peso">'+
+    '<defs><linearGradient id="wg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--accent);stop-opacity:.32"/><stop offset="1" style="stop-color:var(--accent);stop-opacity:0"/></linearGradient></defs>'+
+    g+area+(n>1?'<path class="cg-line" d="'+line+'"/>':'')+dots+xt+'</svg>'+stats+
+    (n===1?'<p class="note">Con una sola pesata non c’è ancora un andamento: registra il prossimo peso per vederlo.</p>':'')+'</section>';
+}
+
 function historyView(){
   const t=today();const keys=Object.keys(S.days).filter(k=>hasData(S.days[k])||S.days[k].nf).sort();
   let from=keys.length?keys[0]:addDays(t,-13);const lim=addDays(t,-120);if(from<lim)from=lim;if(from>addDays(t,-13))from=addDays(t,-13);
   let rows='';for(let ds=t;ds>=from;ds=addDays(ds,-1)){const d=getDay(ds);const dd=dparse(ds);const c=dayCounts(d);
     rows+='<button class="hrow'+(c?'':' void')+'" data-act="open" data-d="'+ds+'"><span class="d">'+dd.getDate()+' '+MOS[dd.getMonth()]+'<small>'+WDS[dd.getDay()]+'</small></span><span class="s">'+(c||'Niente di registrato')+'</span></button>'}
   return '<header class="top"><div class="wrap"><div class="dayhead"><div class="ttl" style="text-align:left;padding-left:6px"><h1>Storico</h1><div class="sub">Tocca un giorno per aprirlo</div></div></div></div></header>'+
-   '<main class="wrap"><div class="card list">'+rows+'</div>'+
+   '<main class="wrap">'+chartCard()+'<div class="card list">'+rows+'</div>'+
    '<div class="card"><label class="l" for="jd" style="margin-top:0">Vai a una data</label><input id="jd" type="date" value="'+cur+'" data-act="jump"></div></main>';
 }
 
@@ -469,8 +547,10 @@ function exportView(){
   '<section class="card"><h2>Backup nel cloud</h2>'+
   '<p class="note" style="margin-top:4px">I dati vengono copiati su JSONBin, in un archivio privato legato alla tua chiave. Se cambi telefono o cancelli i dati del browser li ritrovi qui.</p>'+
   '<label class="l" for="jk">Chiave JSONBin (Master Key)</label><input id="jk" type="password" autocomplete="off" value="'+esc(S.settings.key||'')+'" data-bind="jkey">'+
-  '<label class="l" for="jb">ID del bin (si compila da solo al primo salvataggio)</label><input id="jb" type="text" autocomplete="off" value="'+esc(S.settings.bin||'')+'" data-bind="jbin">'+
-  '<div class="grid2" style="margin-top:10px"><button class="btn primary" data-act="syncnow">Sincronizza ora</button><button class="btn" data-act="restore">Ripristina dal cloud</button></div>'+
+  '<label class="l" for="jb">ID del bin (si compila da solo al primo caricamento)</label><input id="jb" type="text" autocomplete="off" value="'+esc(S.settings.bin||'')+'" data-bind="jbin">'+
+  '<div class="grid2" style="margin-top:10px"><button class="btn" data-act="clouddown">Scarica dal cloud</button><button class="btn primary" data-act="cloudup">Carica sul cloud</button></div>'+
+  '<p class="note"><b>Su un nuovo telefono o PC:</b> inserisci chiave e ID del bin, poi tocca <b>Scarica dal cloud</b>. “Carica” unisce i dati senza cancellare quelli già nel cloud, e si ferma se questo dispositivo è vuoto.</p>'+
+  (S.settings.key?'<p class="note">Copia automatica: '+(S.settings.armed?'attiva.':'in attesa. Parte dopo il primo Scarica o Carica.')+'</p>':'')+
   (st?'<p class="status '+(st.ok?'ok':'err')+'">'+esc(st.msg)+'</p>':'')+
   '<p class="note">Dimensione dei dati: '+Math.round(bytes/1024*10)/10+' KB. Controlla il limite per bin del tuo piano JSONBin.</p></section>'+
   '<section class="card"><h2>Backup su file</h2><div class="grid2" style="margin-top:8px"><button class="btn" data-act="jsonout">Salva copia (.json)</button><button class="btn" data-act="jsonin">Carica copia</button></div></section>'+
@@ -598,9 +678,12 @@ const A={
   async download(){await doExport(false)},
   jsonout(){const blob=new Blob([JSON.stringify(snapshot())],{type:'application/json'});saveBlob(blob,'diario-alimentare-backup-'+today()+'.json')},
   jsonin(){$('#fileIn').click()},
+  qnext(){qShift++;render()},
+  chartrange(el){chartRange=el.dataset.v;chartSel=null;render()},
+  chartpt(el){chartSel=+el.dataset.i;render()},
   theme(){setTheme(curTheme()==='dark'?'light':'dark')},
-  async syncnow(){await syncNow(true)},
-  async restore(){await restoreCloud()}
+  async clouddown(){await downloadCloud()},
+  async cloudup(){await uploadCloud()}
 };
 
 /* campi che si salvano mentre scrivi (senza ridisegnare, per non perdere il cursore) */
@@ -619,8 +702,8 @@ document.addEventListener('change',e=>{
   const el=e.target;const b=el.dataset&&el.dataset.bind;if(!b)return;
   if(b==='s'||b==='p'){clearTimeout(bindT);bindSave(el)}
   else if(b==='expFrom'||b==='expTo'){if(el.value){if(b==='expFrom')expFrom=el.value;else expTo=el.value;if(expFrom>expTo){if(b==='expFrom')expTo=expFrom;else expFrom=expTo}render()}}
-  else if(b==='jkey'){S.settings.key=el.value.trim();persist()}
-  else if(b==='jbin'){S.settings.bin=el.value.trim();persist()}
+  else if(b==='jkey'){S.settings.key=el.value.trim();S.settings.armed=false;persist();render()}
+  else if(b==='jbin'){S.settings.bin=el.value.trim();S.settings.armed=false;persist();render()}
 });
 document.addEventListener('change',e=>{const el=e.target;if(el.dataset&&el.dataset.act==='jump'&&el.value){cur=el.value;view='day';render();window.scrollTo(0,0)}});
 document.addEventListener('keydown',e=>{
@@ -716,8 +799,9 @@ async function doExport(share){
 /* ---------- backup (JSONBin) e file ---------- */
 function snapshot(){const days={};Object.keys(S.days).forEach(k=>{const d=S.days[k];if(hasData(d)||d.nf)days[k]=d});return {v:1,days,foods:S.foods,templates:S.templates,libU:S.libU}}
 function mergeIn(r){
+  mergeIn.lastDays=0;
   if(!r||typeof r!=='object')return 0;let n=0;
-  Object.keys(r.days||{}).forEach(ds=>{const rd=normDay(r.days[ds]);const ld=S.days[ds];if(!ld||rd.u>(ld.u||0)){S.days[ds]=rd;n++}});
+  Object.keys(r.days||{}).forEach(ds=>{const rd=normDay(r.days[ds]);const ld=S.days[ds];if(!ld||rd.u>(ld.u||0)){S.days[ds]=rd;n++;mergeIn.lastDays++}});
   if((r.libU||0)>(S.libU||0)){S.foods=r.foods||{};S.templates=r.templates||[];S.libU=r.libU;n++}
   return n;
 }
@@ -731,9 +815,9 @@ async function jb(method,path,body){
   return j;
 }
 let syncing=false,syncT;
-function scheduleSync(){if(!S.settings.key)return;clearTimeout(syncT);syncT=setTimeout(()=>syncNow(false),6000)}
+function scheduleSync(){if(!S.settings.key||!S.settings.armed)return;clearTimeout(syncT);syncT=setTimeout(()=>syncNow(false),6000)}
 async function syncNow(manual){
-  if(!S.settings.key){if(manual)toast('Inserisci prima la chiave JSONBin');return}
+  if(!S.settings.key||!S.settings.armed)return;
   if(syncing)return;syncing=true;
   try{
     if(S.settings.bin){const j=await jb('GET','/b/'+encodeURIComponent(S.settings.bin)+'/latest');mergeIn(j.record)}
@@ -746,10 +830,38 @@ async function syncNow(manual){
   }catch(e){setStatus(false,'Backup non riuscito: '+e.message);if(manual)toast('Backup non riuscito')}
   finally{syncing=false}
 }
-async function restoreCloud(){
+const binPath=()=>'/b/'+encodeURIComponent(S.settings.bin)+'/latest';
+async function downloadCloud(){
   if(!S.settings.key||!S.settings.bin){toast('Servono la chiave e l’ID del bin');return}
-  try{const j=await jb('GET','/b/'+encodeURIComponent(S.settings.bin)+'/latest');const n=mergeIn(j.record);persist();setStatus(true,'Ripristino completato ('+n+' elementi aggiornati)');render();toast('Ripristino completato')}
-  catch(e){setStatus(false,'Ripristino non riuscito: '+e.message);toast('Ripristino non riuscito')}
+  if(syncing)return;syncing=true;
+  try{
+    const j=await jb('GET',binPath());mergeIn(j.record);const dd=mergeIn.lastDays;
+    S.settings.armed=true;persist();
+    setStatus(true,'Scaricato dal cloud: '+dd+(dd===1?' giorno aggiornato':' giorni aggiornati'));render();toast('Scaricato dal cloud');
+  }catch(e){setStatus(false,'Download non riuscito: '+e.message);toast('Download non riuscito')}
+  finally{syncing=false}
+}
+async function uploadCloud(){
+  if(!S.settings.key){toast('Inserisci prima la chiave JSONBin');return}
+  if(syncing)return;syncing=true;
+  try{
+    const localDays=Object.keys(snapshot().days).length;
+    if(S.settings.bin){
+      const j=await jb('GET',binPath());
+      const cloudDays=Object.keys((j.record&&j.record.days)||{}).length;
+      if(cloudDays>0&&localDays===0){
+        setStatus(false,'Questo dispositivo è vuoto e nel cloud ci sono già dati: tocca prima “Scarica dal cloud”');toast('Prima scarica dal cloud');return}
+      mergeIn(j.record);
+      await jb('PUT','/b/'+encodeURIComponent(S.settings.bin),snapshot());
+    }else{
+      const j=await jb('POST','/b',snapshot());S.settings.bin=j.metadata.id;
+    }
+    S.settings.armed=true;
+    setStatus(true,'Caricato sul cloud: '+Object.keys(snapshot().days).length+' giorni');
+    try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}
+    render();toast('Caricato sul cloud');
+  }catch(e){setStatus(false,'Upload non riuscito: '+e.message);toast('Upload non riuscito')}
+  finally{syncing=false}
 }
 $('#fileIn').addEventListener('change',e=>{
   const f=e.target.files[0];if(!f)return;const rd=new FileReader();
@@ -757,7 +869,7 @@ $('#fileIn').addEventListener('change',e=>{
   rd.readAsText(f);e.target.value='';
 });
 document.addEventListener('visibilitychange',()=>{
-  if(document.visibilityState==='hidden'){if(S.settings.key){clearTimeout(syncT);syncNow(false)}}
+  if(document.visibilityState==='hidden'){if(S.settings.key&&S.settings.armed){clearTimeout(syncT);syncNow(false)}}
   else{const t=today();if(t!==loadedToday){if(cur===loadedToday)cur=t;loadedToday=t;render()}}
 });
 
@@ -788,7 +900,7 @@ function seedFoods(){
 }
 seedFoods();
 updateThemeBtn();render();setupPwa();
-if(S.settings.key&&S.settings.bin)setTimeout(()=>syncNow(false),800);
+if(S.settings.key&&S.settings.bin&&S.settings.armed)setTimeout(()=>syncNow(false),800);
 })();
 </script>
 </body>
