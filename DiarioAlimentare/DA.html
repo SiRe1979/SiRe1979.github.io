@@ -165,7 +165,9 @@ nav button#themeBtn{flex:.8;border-left:1px solid var(--line);border-radius:0 22
 .hrow .s{font-size:14px;color:var(--muted)}
 .hrow.void .s{opacity:.6}
 .card.list{padding:0;overflow:hidden}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px}
+.grid2>*{min-width:0}
+input[type=date],input[type=time]{min-width:0;max-width:100%;-webkit-appearance:none;appearance:none}
 .note{font-size:13px;color:var(--muted);margin:8px 0 0}
 .status{font-size:14px;margin:8px 0 0}
 .status.ok{color:var(--accent)} .status.err{color:var(--danger)}
@@ -198,6 +200,24 @@ details summary{min-height:44px;display:flex;align-items:center;cursor:pointer;f
 .stat small{display:block;font-size:11.5px;color:var(--muted);margin-bottom:2px}
 .stat b{font-size:16px}
 .stat.dn b{color:var(--accent)}
+.sum-card{--tint:var(--t-green)}
+.srow{display:flex;justify-content:space-between;gap:14px;padding:10px 0;border-bottom:1px solid var(--line)}
+.srow:last-child{border-bottom:0;padding-bottom:0}
+.srow span{color:var(--muted);font-size:14px;flex:0 0 36%}
+.srow b{font-weight:600;font-size:15px;text-align:right;flex:1;line-height:1.35}
+.check{display:flex;gap:12px;align-items:center;margin-top:12px;min-height:44px;font-size:15px}
+.check input{width:22px;height:22px;flex:none;accent-color:var(--accent)}
+.sy-ic{width:52px;flex:none;font:26px/1 var(--emoji);text-align:center}
+.dots{color:var(--accent);letter-spacing:1px}
+.symchips{display:flex;flex-wrap:wrap;gap:7px}
+.symchips .chip{background:var(--bg);border:1px solid var(--line)}
+.symchips .chip[aria-pressed=true]{background:linear-gradient(160deg,var(--accent2),var(--accent));color:var(--on);border-color:transparent;font-weight:700}
+.btn.ghost-btn{background:transparent;border:1px solid var(--line);color:var(--muted)}
+.mail-card{--tint:var(--t-blue)}
+.mail-card details summary{font-size:15px}
+.mail-card .note b{color:var(--ink)}
+.act-card{--tint:var(--t-green)}
+.appfoot{max-width:560px;margin:6px auto 0;padding:0 14px;text-align:center;font-size:12px;color:var(--muted)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -304,18 +324,18 @@ const BRISTOL=[
 const TAGS=['muco','galleggiante','materiale indigerito','untuosità','odore forte'];
 const KEY='diarioAlimentare.v1';
 
-const newDay=()=>({m:{colazione:[],spuntino1:[],pranzo:[],spuntino2:[],cena:[],spuntino3:[]},w:0,f:[],nf:false,s:'',sl:null,sq:'',p:null,u:0});
+const newDay=()=>({m:{colazione:[],spuntino1:[],pranzo:[],spuntino2:[],cena:[],spuntino3:[]},w:0,f:[],nf:false,s:'',sy:[],ac:[],sl:null,sq:'',p:null,u:0});
 function normDay(d){const n=newDay();if(!d)return n;
   MEALS.forEach(m=>{n.m[m.k]=Array.isArray(d.m&&d.m[m.k])?d.m[m.k]:[]});
-  n.w=+d.w||0;n.f=Array.isArray(d.f)?d.f:[];n.nf=!!d.nf;n.s=d.s||'';n.sl=d.sl==null?null:+d.sl;n.sq=d.sq||'';n.p=d.p==null?null:+d.p;n.u=+d.u||0;return n}
-function hasData(d){if(!d)return false;return MEALS.some(m=>(d.m[m.k]||[]).length)||d.w>0||d.f.length>0||d.nf||!!(d.s&&d.s.trim())||d.sl!=null||!!d.sq||d.p!=null}
+  n.w=+d.w||0;n.f=Array.isArray(d.f)?d.f:[];n.nf=!!d.nf;n.s=d.s||'';n.sy=Array.isArray(d.sy)?d.sy.filter(x=>x&&x.n).map(x=>({n:String(x.n),i:x.i==null?null:+x.i,h:x.h||'',o:x.o||''})):[];n.ac=Array.isArray(d.ac)?d.ac.filter(x=>x&&x.n).map(x=>({n:String(x.n),d:+x.d||0,i:x.i||'',h:x.h||'',o:x.o||''})):[];n.sl=d.sl==null?null:+d.sl;n.sq=d.sq||'';n.p=d.p==null?null:+d.p;n.u=+d.u||0;return n}
+function hasData(d){if(!d)return false;return MEALS.some(m=>(d.m[m.k]||[]).length)||d.w>0||d.f.length>0||d.nf||!!(d.s&&d.s.trim())||(d.sy&&d.sy.length>0)||(d.ac&&d.ac.length>0)||d.sl!=null||!!d.sq||d.p!=null}
 
 let S=load();
 function load(){
   try{const r=JSON.parse(localStorage.getItem(KEY)||'null');
     if(r&&r.days){const days={};Object.keys(r.days).forEach(k=>days[k]=normDay(r.days[k]));
-      return {days,foods:r.foods||{},templates:r.templates||[],libU:r.libU||0,settings:r.settings||{},seeded:r.seeded||0}}}catch(e){}
-  return {days:{},foods:{},templates:[],libU:0,settings:{}};
+      return {days,foods:r.foods||{},templates:r.templates||[],symLib:Array.isArray(r.symLib)?r.symLib:[],actLib:Array.isArray(r.actLib)?r.actLib:[],libU:r.libU||0,settings:r.settings||{},seeded:r.seeded||0}}}catch(e){}
+  return {days:{},foods:{},templates:[],symLib:[],actLib:[],libU:0,settings:{}};
 }
 let saveFailed=false;
 function persist(){
@@ -389,7 +409,7 @@ function bsvg(n){
 function render(){
   const y=window.scrollY;
   const app=$('#app');
-  app.innerHTML=view==='day'?dayView():view==='history'?historyView():exportView();
+  app.innerHTML=(view==='day'?dayView():view==='history'?historyView():exportView())+footerHtml();
   document.querySelectorAll('#nav button').forEach(b=>b.setAttribute('aria-current',b.dataset.v===view?'page':'false'));
   window.scrollTo(0,y);
 }
@@ -412,7 +432,7 @@ function dayView(){
     '</div>'+weekStrip()+(cur!==today()?'<button class="gotoday" data-act="goto" data-d="'+today()+'">Torna a oggi</button>':'')+'</div></header>';
   h+='<main class="wrap">'+quoteCard();
   MEALS.forEach(M=>{h+=mealCard(M,d)});
-  h+=waterCard(d)+fecesCard(d)+symptomsCard(d)+weightCard(d);
+  h+=waterCard(d)+fecesCard(d)+symptomsCard(d)+activityCard(d)+weightCard(d);
   return h+'</main>';
 }
 
@@ -448,10 +468,19 @@ function fecesCard(d){
   return h+'</section>';
 }
 
+const SYM_PRESETS=[['gonfiore','🎈'],['reflusso','🔥'],['dolore addominale','😖'],['aerofagia','💨'],['meteorismo e flatulenza','☁️'],['manifestazioni cutanee','🧴'],['nausea','🤢'],['mal di testa','🤕'],['stanchezza','😴']];
+const symIcon=n=>{const k=String(n||'').toLowerCase();for(let i=0;i<SYM_PRESETS.length;i++){if(SYM_PRESETS[i][0]===k)return SYM_PRESETS[i][1]}return '🩺'};
+const cap=t=>t?t.charAt(0).toUpperCase()+t.slice(1):t;
+const dotsTxt=i=>'●'.repeat(i)+'○'.repeat(5-i);
 function symptomsCard(d){
   const q=['Scarso','Discreto','Buono'];
-  return '<section class="card sint-card">'+cardHead('🌙','Sintomi e sonno','Facoltativo')+
-   '<label class="l" for="fs" style="margin-top:0">Sintomi, con l’orario (gonfiore, reflusso, dolore, pelle…)</label>'+
+  const list=(d.sy||[]).map((e,i)=>({e,i})).sort((a,b)=>(a.e.h||'').localeCompare(b.e.h||''));
+  const rows=list.map(x=>{const e=x.e;
+    return '<button class="erow" data-act="syedit" data-i="'+x.i+'"><span class="sy-ic" aria-hidden="true">'+symIcon(e.n)+'</span><span><span class="t">'+esc(cap(e.n))+(e.h?' · '+esc(e.h):'')+'</span>'+
+      ((e.i||e.o)?'<span class="n"><br>'+(e.i?'<span class="dots">'+dotsTxt(e.i)+'</span> '+e.i+'/5':'')+(e.o?(e.i?' · ':'')+esc(e.o):'')+'</span>':'')+'</span></button>'}).join('');
+  return '<section class="card sint-card">'+cardHead('🌙','Sintomi e sonno',(d.sy&&d.sy.length)?d.sy.length+(d.sy.length===1?' sintomo':' sintomi'):'Facoltativo',addBtn('syadd','','Aggiungi un sintomo'))+
+   (rows||'<p class="empty">Nessun sintomo segnato.</p>')+
+   '<label class="l" for="fs">Altre note sui sintomi (con l’orario)</label>'+
    '<textarea id="fs" data-bind="s" placeholder="Per esempio: 16:30 gonfiore">'+esc(d.s)+'</textarea>'+
    '<div class="row-actions"><button class="pill" data-act="stime">Inserisci l’ora</button></div>'+
    '<label class="l">Sonno della notte</label>'+
@@ -459,6 +488,53 @@ function symptomsCard(d){
    '<div class="seg" style="margin-top:8px">'+q.map(x=>'<button data-act="sq" data-v="'+x+'" aria-pressed="'+(d.sq===x)+'">'+x+'</button>').join('')+'</div></section>';
 }
 
+function openSymptom(idx){
+  const d=getDay(cur);const e=idx!=null?d.sy[idx]:null;
+  const known=SYM_PRESETS.map(x=>x[0]).concat(S.symLib||[]);
+  const inKnown=e&&known.some(k=>k.toLowerCase()===e.n.toLowerCase());
+  ctx={t:'sym',idx,name:inKnown?known.filter(k=>k.toLowerCase()===e.n.toLowerCase())[0]:'',int:e&&e.i?e.i:null};
+  const custom=e&&!inKnown?e.n:'';
+  const chips=known.map(k=>'<button class="chip" data-act="symsel" data-v="'+esc(k)+'" aria-pressed="'+(ctx.name===k)+'"><span class="ico" aria-hidden="true">'+symIcon(k)+'</span><span>'+esc(cap(k))+'</span></button>').join('');
+  openSheet('<div class="sh-head"><h2>'+(e?'Modifica sintomo':'Nuovo sintomo')+'</h2><button class="x" data-act="close" aria-label="Chiudi">×</button></div>'+
+   '<div class="symchips">'+chips+'</div>'+
+   '<label class="l" for="syCustom">Un altro sintomo</label><input id="syCustom" type="text" autocomplete="off" placeholder="Scrivilo qui" value="'+esc(custom)+'">'+
+   '<div class="sec">Intensità (1 appena percepibile, 5 molto forte)</div><div class="seg" id="syInt">'+[1,2,3,4,5].map(n=>'<button data-act="syint" data-v="'+n+'" aria-pressed="'+(ctx.int===n)+'">'+n+'</button>').join('')+'</div>'+
+   '<label class="l" for="syTime">Orario</label><input id="syTime" type="time" value="'+esc(e&&e.h?e.h:nowHM())+'">'+
+   '<label class="l" for="syNote">Nota (facoltativa)</label><input id="syNote" type="text" autocomplete="off" value="'+esc(e?e.o||'':'')+'">'+
+   '<div class="grid2" style="margin-top:14px">'+(e?'<button class="btn danger" data-act="sydel">Elimina</button>':'<button class="btn" data-act="close">Annulla</button>')+'<button class="btn primary" data-act="sysave">Salva</button></div>');
+}
+
+const ACT_PRESETS=[['camminata','🚶'],['corsa','🏃'],['bicicletta','🚴'],['palestra','🏋️'],['nuoto','🏊'],['yoga e stretching','🧘'],['ballo','💃'],['escursione','🥾']];
+const actIcon=n=>{const k=String(n||'').toLowerCase();for(let i=0;i<ACT_PRESETS.length;i++){if(ACT_PRESETS[i][0]===k)return ACT_PRESETS[i][1]}return '🏅'};
+const ACT_INT=['Leggera','Moderata','Intensa'];
+function activityCard(d){
+  const list=(d.ac||[]).map((e,i)=>({e,i})).sort((a,b)=>(a.e.h||'').localeCompare(b.e.h||''));
+  const tot=(d.ac||[]).reduce((x,e)=>x+(e.d||0),0);
+  const rows=list.map(x=>{const e=x.e;const meta=[e.i,e.h,e.o].filter(Boolean).map(esc).join(' · ');
+    return '<button class="erow" data-act="acedit" data-i="'+x.i+'"><span class="sy-ic" aria-hidden="true">'+actIcon(e.n)+'</span><span><span class="t">'+esc(cap(e.n))+' · '+e.d+' min</span>'+(meta?'<span class="n"><br>'+meta+'</span>':'')+'</span></button>'}).join('');
+  return '<section class="card act-card">'+cardHead('🏃','Attività fisica',tot?tot+' min in totale':'Facoltativo',addBtn('acadd','','Aggiungi un’attività'))+
+    (rows||'<p class="empty">Nessuna attività segnata.</p>')+'</section>';
+}
+function openActivity(idx){
+  const d=getDay(cur);const e=idx!=null?d.ac[idx]:null;
+  const known=ACT_PRESETS.map(x=>x[0]).concat(S.actLib||[]);
+  const inKnown=e&&known.some(k=>k.toLowerCase()===e.n.toLowerCase());
+  ctx={t:'act',idx,name:inKnown?known.filter(k=>k.toLowerCase()===e.n.toLowerCase())[0]:'',dur:e&&e.d?e.d:30,int:e&&e.i?e.i:''};
+  const custom=e&&!inKnown?e.n:'';
+  const chips=known.map(k=>'<button class="chip" data-act="acsel" data-v="'+esc(k)+'" aria-pressed="'+(ctx.name===k)+'"><span class="ico" aria-hidden="true">'+actIcon(k)+'</span><span>'+esc(cap(k))+'</span></button>').join('');
+  openSheet('<div class="sh-head"><h2>'+(e?'Modifica attività':'Nuova attività')+'</h2><button class="x" data-act="close" aria-label="Chiudi">×</button></div>'+
+   '<div class="symchips" id="acChips">'+chips+'</div>'+
+   '<label class="l" for="acCustom">Un’altra attività</label><input id="acCustom" type="text" autocomplete="off" placeholder="Scrivila qui" value="'+esc(custom)+'">'+
+   '<div class="sec">Durata</div><div class="stepper"><button class="pill" data-act="acdur" data-v="-5" aria-label="Meno minuti">−5</button><output id="acDur">'+ctx.dur+' min</output><button class="pill" data-act="acdur" data-v="5" aria-label="Più minuti">+5</button></div>'+
+   '<div class="seg" style="margin-top:8px">'+[15,30,45,60,90].map(n=>'<button data-act="acset" data-v="'+n+'">'+n+' min</button>').join('')+'</div>'+
+   '<div class="sec">Intensità (facoltativa)</div><div class="seg" id="acInt">'+ACT_INT.map(x=>'<button data-act="acint" data-v="'+x+'" aria-pressed="'+(ctx.int===x)+'">'+x+'</button>').join('')+'</div>'+
+   '<label class="l" for="acTime">Orario</label><input id="acTime" type="time" value="'+esc(e&&e.h?e.h:nowHM())+'">'+
+   '<label class="l" for="acNote">Nota (facoltativa)</label><input id="acNote" type="text" autocomplete="off" value="'+esc(e?e.o||'':'')+'">'+
+   '<div class="grid2" style="margin-top:14px">'+(e?'<button class="btn danger" data-act="acdel">Elimina</button>':'<button class="btn" data-act="close">Annulla</button>')+'<button class="btn primary" data-act="acsave">Salva</button></div>');
+}
+
+const APP_VERSION='2.0',APP_START=2026;
+function footerHtml(){const y=new Date().getFullYear();return '<footer class="appfoot">Diario Alimentare v. '+APP_VERSION+' - Simone Rebucci © '+(y>APP_START?APP_START+' - '+y:APP_START)+'</footer>'}
 function weightCard(d){
   let last=null;Object.keys(S.days).sort().forEach(k=>{if(S.days[k].p!=null&&k<=cur)last=k});
   let note='Una volta a settimana, al mattino, dopo aver urinato e senza vestiti.';
@@ -472,7 +548,8 @@ function dayCounts(d){
   if(n)parts.push(n+(n===1?' alimento':' alimenti'));
   if(d.w>0)parts.push(fmtNum(d.w)+' l');
   if(d.f.length)parts.push(d.f.length+(d.f.length===1?' evacuazione':' evacuazioni'));else if(d.nf)parts.push('nessuna evacuazione');
-  if(d.s&&d.s.trim())parts.push('sintomi');
+  if((d.sy&&d.sy.length)||(d.s&&d.s.trim()))parts.push('sintomi');
+  if(d.ac&&d.ac.length)parts.push(d.ac.reduce((x,e)=>x+(e.d||0),0)+' min di attività');
   return parts.join(' · ');
 }
 
@@ -534,6 +611,67 @@ function historyView(){
    '<div class="card"><label class="l" for="jd" style="margin-top:0">Vai a una data</label><input id="jd" type="date" value="'+cur+'" data-act="jump"></div></main>';
 }
 
+/* ---------- riepilogo del periodo ---------- */
+function summarize(from,to){
+  const days=[];for(let ds=from;ds<=to;ds=addDays(ds,1)){days.push(ds);if(days.length>400)break}
+  const logged=days.filter(k=>hasData(S.days[k]));
+  const rows=[];const add=(l,v)=>{if(v!==''&&v!=null)rows.push([l,v])};
+  const L=logged.map(k=>S.days[k]);
+  const pl=(n,a,b)=>n+' '+(n===1?a:b);
+  const avg=a=>a.reduce((x,y)=>x+y,0)/a.length;
+  add('Periodo',slashDate(from)+' – '+slashDate(to)+' ('+pl(days.length,'giorno','giorni')+')');
+  add('Giorni compilati',logged.length+' su '+days.length);
+  if(!logged.length)return {rows,days:days.length,logged:0};
+  const main=L.filter(d=>d.m.colazione.length&&d.m.pranzo.length&&d.m.cena.length).length;
+  add('Colazione, pranzo e cena registrati',main+' su '+pl(logged.length,'giorno compilato','giorni compilati'));
+  const dc=L.filter(d=>d.m.spuntino3.length).length;
+  add('Spuntino dopo cena',dc?pl(dc,'giorno','giorni'):'mai');
+  const wd=L.filter(d=>d.w>0).map(d=>d.w);
+  if(wd.length)add('Acqua',fmtNum(r1(avg(wd)))+' l al giorno in media (da '+fmtNum(Math.min.apply(null,wd))+' a '+fmtNum(Math.max.apply(null,wd))+' l)');
+  const ev=[];L.forEach(d=>d.f.forEach(e=>ev.push(e)));
+  const nfd=L.filter(d=>d.nf).length;
+  if(ev.length||nfd){
+    add('Evacuazioni',ev.length+' in totale, '+fmtNum(r1(ev.length/logged.length))+' al giorno compilato');
+    if(nfd)add('Giorni senza evacuazione',String(nfd));
+    if(ev.length){
+      const c={};ev.forEach(e=>{c[e.t]=(c[e.t]||0)+1});
+      const keys=Object.keys(c).map(Number).sort((a,b)=>a-b);
+      add('Tipi di feci (Bristol)',keys.map(k=>'tipo '+k+' × '+c[k]).join(', '));
+      const top=keys.slice().sort((a,b)=>c[b]-c[a]||a-b)[0];
+      add('Tipo più frequente','tipo '+top+' ('+BRISTOL[top-1].s.toLowerCase()+')');
+      const tg={};ev.forEach(e=>(e.g||[]).forEach(t=>{tg[t]=(tg[t]||0)+1}));
+      const tk=Object.keys(tg).sort((a,b)=>tg[b]-tg[a]);
+      if(tk.length)add('Particolarità segnalate',tk.map(t=>t+' × '+tg[t]).join(', '));
+    }
+  }
+  const sd=L.filter(d=>(d.sy&&d.sy.length)||(d.s&&d.s.trim())).length;
+  add('Sintomi annotati',sd?'in '+pl(sd,'giorno','giorni'):'nessuno');
+  const sc={};L.forEach(d=>(d.sy||[]).forEach(e=>{const k=e.n.trim().toLowerCase();if(!sc[k])sc[k]={n:k,c:0,s:0,k:0};sc[k].c++;if(e.i){sc[k].s+=e.i;sc[k].k++}}));
+  const sk=Object.keys(sc).map(k=>sc[k]).sort((a,b)=>b.c-a.c||a.n.localeCompare(b.n,'it')).slice(0,5);
+  if(sk.length)add('Sintomi più frequenti',sk.map(x=>x.n+' × '+x.c+(x.k?' (intensità media '+fmtNum(r1(x.s/x.k))+'/5)':'')).join(', '));
+  const sl=L.filter(d=>d.sl!=null).map(d=>d.sl);
+  if(sl.length)add('Sonno',fmtNum(r1(avg(sl)))+' ore a notte in media ('+pl(sl.length,'notte registrata','notti registrate')+')');
+  const AC=[];L.forEach(d=>(d.ac||[]).forEach(e=>AC.push(e)));
+  if(AC.length){
+    const tot=AC.reduce((x,e)=>x+(e.d||0),0);const dd=L.filter(d=>d.ac&&d.ac.length).length;
+    const tc={};AC.forEach(e=>{const k=e.n.trim().toLowerCase();tc[k]=(tc[k]||0)+1});
+    const tk=Object.keys(tc).sort((a,b)=>tc[b]-tc[a]||a.localeCompare(b,'it')).slice(0,3);
+    add('Attività fisica',pl(AC.length,'sessione','sessioni')+' in '+pl(dd,'giorno','giorni')+', '+tot+' minuti in totale ('+tk.map(k=>k+' × '+tc[k]).join(', ')+')');
+  }
+  const wt=weights().filter(x=>x.ds>=from&&x.ds<=to);
+  if(wt.length>=2){const a=wt[0],b=wt[wt.length-1];add('Peso',kgTxt(a.p)+' → '+kgTxt(b.p)+' ('+diffTxt(b.p-a.p)+')')}
+  else if(wt.length===1)add('Peso',kgTxt(wt[0].p));
+  const fc={};L.forEach(d=>MEALS.forEach(M=>d.m[M.k].forEach(it=>{const k=it.n.trim().toLowerCase();if(!fc[k])fc[k]={n:it.n.trim(),c:0};fc[k].c++})));
+  const top6=Object.keys(fc).map(k=>fc[k]).sort((a,b)=>b.c-a.c||a.n.localeCompare(b.n,'it')).slice(0,6);
+  if(top6.length)add('Alimenti più frequenti',top6.map(x=>x.n+' ('+x.c+')').join(', '));
+  return {rows,days:days.length,logged:logged.length};
+}
+function summaryCard(){
+  const sm=summarize(expFrom,expTo);
+  return '<section class="card sum-card">'+cardHead('📋','Riepilogo del periodo','Medie sui giorni compilati')+
+    (sm.logged?sm.rows.map(r=>'<div class="srow"><span>'+esc(r[0])+'</span><b>'+esc(r[1])+'</b></div>').join(''):'<p class="empty">Nessun giorno compilato in questo periodo.</p>')+'</section>';
+}
+
 function exportView(){
   const days=[];for(let ds=expFrom;ds<=expTo;ds=addDays(ds,1)){days.push(ds);if(days.length>400)break}
   const withData=days.filter(k=>hasData(S.days[k])||(S.days[k]&&S.days[k].nf)).length;
@@ -543,7 +681,9 @@ function exportView(){
   '<section class="card"><h2>File Excel</h2><div class="grid2"><div><label class="l" for="ef">Dal</label><input id="ef" type="date" value="'+expFrom+'" data-bind="expFrom"></div><div><label class="l" for="et">Al</label><input id="et" type="date" value="'+expTo+'" data-bind="expTo"></div></div>'+
   '<div class="seg" style="margin-top:10px"><button data-act="range" data-v="7">Ultimi 7 giorni</button><button data-act="range" data-v="14">14 giorni</button><button data-act="range" data-v="30">30 giorni</button></div>'+
   '<p class="note" id="expInfo">'+days.length+' giorni nel periodo, '+withData+' con dati registrati.</p>'+
-  '<button class="btn primary wide" data-act="share">Condividi per email</button><button class="btn wide" data-act="download">Scarica il file</button></section>'+
+  '<label class="check"><input type="checkbox" data-bind="xsum"'+(S.settings.xsum!==false?' checked':'')+'> Includi il riepilogo nel file Excel</label>'+
+  '<button class="btn primary wide" data-act="share">Condividi per email</button><button class="btn wide" data-act="download">Scarica il file</button>'+(validEmail(docCfg().e)?'<button class="btn ghost-btn wide" data-act="copymail">Copia indirizzo email</button>':'')+'</section>'+
+  summaryCard()+emailCard()+
   '<section class="card"><h2>Backup nel cloud</h2>'+
   '<p class="note" style="margin-top:4px">I dati vengono copiati su JSONBin, in un archivio privato legato alla tua chiave. Se cambi telefono o cancelli i dati del browser li ritrovi qui.</p>'+
   '<label class="l" for="jk">Chiave JSONBin (Master Key)</label><input id="jk" type="password" autocomplete="off" value="'+esc(S.settings.key||'')+'" data-bind="jkey">'+
@@ -679,6 +819,30 @@ const A={
   jsonout(){const blob=new Blob([JSON.stringify(snapshot())],{type:'application/json'});saveBlob(blob,'diario-alimentare-backup-'+today()+'.json')},
   jsonin(){$('#fileIn').click()},
   qnext(){qShift++;render()},
+  acadd(){openActivity(null)},
+  acedit(el){openActivity(+el.dataset.i)},
+  acsel(el){const v=el.dataset.v;ctx.name=ctx.name===v?'':v;document.querySelectorAll('#acChips .chip').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.v===ctx.name)));if(ctx.name){const c=$('#acCustom');if(c)c.value=''}},
+  acdur(el){ctx.dur=Math.max(5,Math.min(600,ctx.dur+(+el.dataset.v)));$('#acDur').textContent=ctx.dur+' min'},
+  acset(el){ctx.dur=+el.dataset.v;$('#acDur').textContent=ctx.dur+' min'},
+  acint(el){const v=el.dataset.v;ctx.int=ctx.int===v?'':v;document.querySelectorAll('#acInt button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.v===ctx.int)))},
+  acsave(){const custom=$('#acCustom').value.trim();const name=(custom||ctx.name||'').trim();if(!name){toast('Scegli o scrivi un’attività');return}
+    const e={n:name,d:ctx.dur,i:ctx.int,h:$('#acTime').value||nowHM(),o:$('#acNote').value.trim()};
+    const known=ACT_PRESETS.map(x=>x[0]).concat(S.actLib||[]);
+    if(custom&&!known.some(k=>k.toLowerCase()===custom.toLowerCase())){S.actLib=(S.actLib||[]).concat(custom);touchLib()}
+    const idx=ctx.idx;mutate(cur,d=>{if(idx!=null)d.ac[idx]=e;else d.ac.push(e)});closeSheet();render()},
+  acdel(){const idx=ctx.idx;mutate(cur,d=>{d.ac.splice(idx,1)});closeSheet();render()},
+  async mail(){await writeDraft()},
+  async copymail(){await copyMail()},
+  syadd(){openSymptom(null)},
+  syedit(el){openSymptom(+el.dataset.i)},
+  symsel(el){const v=el.dataset.v;ctx.name=ctx.name===v?'':v;document.querySelectorAll('.symchips .chip').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.v===ctx.name)));if(ctx.name){const c=$('#syCustom');if(c)c.value=''}},
+  syint(el){const v=+el.dataset.v;ctx.int=ctx.int===v?null:v;document.querySelectorAll('#syInt button').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.v===ctx.int)))},
+  sysave(){const custom=$('#syCustom').value.trim();const name=(custom||ctx.name||'').trim();if(!name){toast('Scegli o scrivi un sintomo');return}
+    const e={n:name,i:ctx.int,h:$('#syTime').value||nowHM(),o:$('#syNote').value.trim()};
+    const known=SYM_PRESETS.map(x=>x[0]).concat(S.symLib||[]);
+    if(custom&&!known.some(k=>k.toLowerCase()===custom.toLowerCase())){S.symLib=(S.symLib||[]).concat(custom);touchLib()}
+    const idx=ctx.idx;mutate(cur,d=>{if(idx!=null)d.sy[idx]=e;else d.sy.push(e)});closeSheet();render()},
+  sydel(){const idx=ctx.idx;mutate(cur,d=>{d.sy.splice(idx,1)});closeSheet();render()},
   chartrange(el){chartRange=el.dataset.v;chartSel=null;render()},
   chartpt(el){chartSel=+el.dataset.i;render()},
   theme(){setTheme(curTheme()==='dark'?'light':'dark')},
@@ -696,12 +860,16 @@ let bindT;
 document.addEventListener('input',e=>{
   const el=e.target;
   if(el.id==='fName'){refreshLib();return}
+  if(el.id==='acCustom'&&ctx&&ctx.t==='act'&&el.value.trim()){ctx.name='';document.querySelectorAll('#acChips .chip').forEach(b=>b.setAttribute('aria-pressed','false'));return}
+  if(el.id==='syCustom'&&ctx&&ctx.t==='sym'&&el.value.trim()){ctx.name='';document.querySelectorAll('.symchips .chip').forEach(b=>b.setAttribute('aria-pressed','false'));return}
   if(el.dataset&&(el.dataset.bind==='s'||el.dataset.bind==='p')){clearTimeout(bindT);bindT=setTimeout(()=>bindSave(el),350);return}
 });
 document.addEventListener('change',e=>{
   const el=e.target;const b=el.dataset&&el.dataset.bind;if(!b)return;
   if(b==='s'||b==='p'){clearTimeout(bindT);bindSave(el)}
   else if(b==='expFrom'||b==='expTo'){if(el.value){if(b==='expFrom')expFrom=el.value;else expTo=el.value;if(expFrom>expTo){if(b==='expFrom')expTo=expFrom;else expFrom=expTo}render()}}
+  else if(b==='docn'||b==='doce'||b==='docf'){S.settings.doc=Object.assign({},S.settings.doc||{},{[b==='docn'?'n':b==='doce'?'e':'f']:el.value.trim(),u:Date.now()});persist();render()}
+  else if(b==='xsum'){S.settings.xsum=el.checked;persist()}
   else if(b==='jkey'){S.settings.key=el.value.trim();S.settings.armed=false;persist();render()}
   else if(b==='jbin'){S.settings.bin=el.value.trim();S.settings.armed=false;persist();render()}
 });
@@ -725,7 +893,8 @@ function dayRow(ds){
     row.t=l.map(e=>e.t).join('/');
     row.n=l.map(e=>{const x=[].concat(e.g||[],e.n?[e.n]:[]).join(', ');return (e.h||'')+(x?' ('+x+')':'')}).join(' - ')}
   else if(d.nf){row.t='\\';row.n='\\'}else{row.t='';row.n=''}
-  const sy=[];if(d.s&&d.s.trim())sy.push(d.s.trim());
+  const sy=(d.sy||[]).slice().sort((a,b)=>(a.h||'').localeCompare(b.h||'')).map(e=>(e.h?e.h+' ':'')+e.n+(e.i?' (intensità '+e.i+'/5)':'')+(e.o?' – '+e.o:''));
+  if(d.s&&d.s.trim())sy.push(d.s.trim());
   if(d.sl!=null||d.sq){sy.push('Sonno: '+[d.sl!=null?fmtNum(d.sl)+' h':'',d.sq?d.sq.toLowerCase():''].filter(Boolean).join(', '))}
   row.sy=sy.join('\n');row.p=d.p;
   return row;
@@ -767,6 +936,29 @@ async function buildXlsx(from,to){
   ws.mergeCells(top,1,bottom,11);
   const c=ws.getCell(top,1);c.value=INSTR;c.font={name:'Calibri',size:11};c.alignment={horizontal:'left',vertical:'top',wrapText:true};
   for(let r=top;r<=bottom;r++){ws.getRow(r).height=19;for(let k=1;k<=11;k++){ws.getCell(r,k).border=border}}
+  if(S.settings.xsum!==false){
+    const sm=summarize(from,to);
+    if(sm.logged>0){
+      const w3=wb.addWorksheet('Riepilogo',{pageSetup:{orientation:'portrait',paperSize:9,fitToPage:true,fitToWidth:1,fitToHeight:0}});
+      w3.columns=[{width:36},{width:84}];
+      const h3=w3.addRow(['VOCE','VALORE']);h3.height=22;h3.eachCell(c=>{c.font={name:'Calibri',size:11,bold:true};c.alignment=al;c.border=border});
+      sm.rows.forEach(r=>{const row=w3.addRow(r);row.height=Math.max(22,lines(r[1],84)*15+6);
+        row.getCell(1).font={name:'Calibri',size:11,bold:true};row.getCell(2).font={name:'Calibri',size:11};
+        row.eachCell(c=>{c.alignment={horizontal:'left',vertical:'middle',wrapText:true};c.border=border})});
+      const nr=w3.rowCount+2;w3.mergeCells(nr,1,nr,2);
+      const nc=w3.getCell(nr,1);nc.value='Riepilogo calcolato dall’app sui giorni compilati nel diario. Le medie non includono i giorni senza dati.';
+      nc.font={name:'Calibri',size:10,italic:true};nc.alignment={wrapText:true,vertical:'top'};w3.getRow(nr).height=30;
+    }
+  }
+  const acts=[];
+  for(let ds=from;ds<=to;ds=addDays(ds,1)){const d=S.days[ds];
+    if(d&&d.ac)d.ac.slice().sort((a,b)=>(a.h||'').localeCompare(b.h||'')).forEach(e=>acts.push([WDX[dparse(ds).getDay()]+' '+slashDate(ds),cap(e.n),e.d||'',e.i||'',e.h||'',e.o||'']));
+    if(ds>addDays(from,500))break}
+  if(acts.length){
+    const w4=wb.addWorksheet('Attività');w4.columns=[{width:21},{width:24},{width:14},{width:14},{width:10},{width:36}];
+    const h4=w4.addRow(['DATA','ATTIVITÀ','DURATA (min)','INTENSITÀ','ORA','NOTE']);h4.height=22;h4.eachCell(c=>{c.font={name:'Calibri',size:11,bold:true};c.alignment=al;c.border=border});
+    acts.forEach(r=>{const row=w4.addRow(r);row.eachCell({includeEmpty:true},c=>{c.font={name:'Calibri',size:11};c.alignment=al;c.border=border})});
+  }
   if(pesi.length){const w2=wb.addWorksheet('Peso');w2.columns=[{width:16},{width:14}];
     const h2=w2.addRow(['DATA','PESO (kg)']);h2.eachCell(c=>{c.font={name:'Calibri',size:11,bold:true};c.alignment=al;c.border=border});
     pesi.forEach(p=>{const r=w2.addRow([p[0],p[1]]);r.eachCell(c=>{c.font={name:'Calibri',size:11};c.alignment=al;c.border=border});r.getCell(2).numFmt='0.0'})}
@@ -776,33 +968,79 @@ function saveBlob(blob,name){
   const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();
   setTimeout(()=>{URL.revokeObjectURL(url);a.remove()},4000);
 }
+const validEmail=e=>/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(e||'').trim());
+const docCfg=()=>S.settings.doc||{};
+function mailInfo(from,to){
+  const d=docCfg();const per='dal '+slashDate(from)+' al '+slashDate(to);const sign=(d.f||'').trim();
+  const subject='Diario alimentare'+(sign?' di '+sign:'')+' - '+per;
+  const hi=(d.n||'').trim()?'Gentile '+d.n.trim()+',':'Buongiorno,';
+  const body=hi+'\n\nin allegato il diario alimentare'+(sign?' di '+sign:'')+' relativo al periodo '+per+'.\n\nCordiali saluti'+(sign?'\n'+sign:'');
+  return {to:(d.e||'').trim(),subject,body};
+}
+function mailtoUrl(from,to){
+  const m=mailInfo(from,to);
+  return 'mailto:'+m.to+'?subject='+encodeURIComponent(m.subject)+'&body='+encodeURIComponent(m.body.replace(/\n/g,'\r\n'));
+}
+async function makeFile(){
+  const buf=await buildXlsx(expFrom,expTo);
+  const type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+  return {blob:new Blob([buf],{type}),type,name:'Diario_alimentare_'+expFrom+'_'+expTo+'.xlsx'};
+}
 async function doExport(share){
   if(!window.ExcelJS){toast('Libreria Excel non disponibile');return}
-  const from=expFrom,to=expTo;
   try{
-    const buf=await buildXlsx(from,to);
-    const type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-    const name='Diario_alimentare_'+from+'_'+to+'.xlsx';
-    const blob=new Blob([buf],{type});
+    const f=await makeFile();const mi=mailInfo(expFrom,expTo);
     if(share&&navigator.canShare&&typeof File!=='undefined'){
-      const file=new File([blob],name,{type});
+      const file=new File([f.blob],f.name,{type:f.type});
       if(navigator.canShare({files:[file]})){
-        try{await navigator.share({files:[file],title:'Diario alimentare',text:'Diario alimentare dal '+slashDate(from)+' al '+slashDate(to)});return}
+        try{await navigator.share({files:[file],title:mi.subject,text:mi.body});return}
         catch(e){if(e&&e.name==='AbortError')return}
       }
     }
-    saveBlob(blob,name);
+    saveBlob(f.blob,f.name);
     toast(share?'Condivisione non disponibile: file scaricato':'File scaricato');
   }catch(e){toast('Errore nella creazione del file');console.error(e)}
 }
+async function writeDraft(){
+  const d=docCfg();if(!validEmail(d.e)){toast('Inserisci un indirizzo email valido');return}
+  if(!window.ExcelJS){toast('Libreria Excel non disponibile');return}
+  try{
+    const f=await makeFile();saveBlob(f.blob,f.name);
+    toast('File scaricato: allegalo alla bozza');
+    setTimeout(()=>{location.href=mailtoUrl(expFrom,expTo)},500);
+  }catch(e){toast('Errore nella creazione del file');console.error(e)}
+}
+async function copyMail(){
+  const d=docCfg();if(!validEmail(d.e)){toast('Inserisci un indirizzo email valido');return}
+  const addr=d.e.trim();
+  try{await navigator.clipboard.writeText(addr);toast('Indirizzo copiato')}
+  catch(e){
+    try{const t=document.createElement('textarea');t.value=addr;t.style.position='fixed';t.style.opacity='0';document.body.appendChild(t);t.select();document.execCommand('copy');t.remove();toast('Indirizzo copiato')}
+    catch(x){toast('Copia non riuscita: '+addr)}
+  }
+}
+function emailCard(){
+  const d=docCfg();const ok=validEmail(d.e);const mi=mailInfo(expFrom,expTo);
+  return '<section class="card mail-card">'+cardHead('✉️','Email alla dottoressa',ok?esc(d.e.trim()):'Da impostare una volta')+
+   '<label class="l" for="dn" style="margin-top:0">Nome per il saluto</label><input id="dn" type="text" autocomplete="off" placeholder="Per esempio: Dott.ssa Rossi" value="'+esc(d.n||'')+'" data-bind="docn">'+
+   '<label class="l" for="de">Indirizzo email</label><input id="de" type="text" inputmode="email" autocapitalize="off" autocomplete="off" placeholder="nome@esempio.it" value="'+esc(d.e||'')+'" data-bind="doce">'+
+   (d.e&&!ok?'<p class="status err">L’indirizzo non sembra valido.</p>':'')+
+   '<label class="l" for="df">Firma (il nome nel messaggio)</label><input id="df" type="text" autocomplete="off" placeholder="Il nome di chi compila il diario" value="'+esc(d.f||'')+'" data-bind="docf">'+
+   '<details style="margin-top:8px"><summary>Anteprima del messaggio</summary><p class="note" style="white-space:pre-wrap"><b>Oggetto:</b> '+esc(mi.subject)+'\n\n'+esc(mi.body)+'</p></details>'+
+   '<div class="grid2" style="margin-top:10px"><button class="btn" data-act="copymail"'+(ok?'':' disabled')+'>Copia indirizzo</button><button class="btn primary" data-act="mail"'+(ok?'':' disabled')+'>Scrivi alla dottoressa</button></div>'+
+   '<p class="note"><b>Dal telefono:</b> usa “Condividi per email” nella scheda del file. Allega già l’Excel e prepara oggetto e testo. Il sistema di condivisione non permette di precompilare il destinatario, quindi incolla l’indirizzo copiato qui.</p>'+
+   '<p class="note"><b>Da computer:</b> “Scrivi alla dottoressa” scarica il file e apre una bozza con destinatario, oggetto e testo: ti resta da allegare il file.</p>'+
+   '<p class="note">Questi dati vengono salvati anche nel backup cloud (se attivo), così non vanno reinseriti su un altro dispositivo.</p></section>';
+}
 
 /* ---------- backup (JSONBin) e file ---------- */
-function snapshot(){const days={};Object.keys(S.days).forEach(k=>{const d=S.days[k];if(hasData(d)||d.nf)days[k]=d});return {v:1,days,foods:S.foods,templates:S.templates,libU:S.libU}}
+function snapshot(){const days={};Object.keys(S.days).forEach(k=>{const d=S.days[k];if(hasData(d)||d.nf)days[k]=d});return {v:1,days,foods:S.foods,templates:S.templates,symLib:S.symLib||[],actLib:S.actLib||[],doc:S.settings.doc||null,libU:S.libU}}
 function mergeIn(r){
   mergeIn.lastDays=0;
   if(!r||typeof r!=='object')return 0;let n=0;
   Object.keys(r.days||{}).forEach(ds=>{const rd=normDay(r.days[ds]);const ld=S.days[ds];if(!ld||rd.u>(ld.u||0)){S.days[ds]=rd;n++;mergeIn.lastDays++}});
-  if((r.libU||0)>(S.libU||0)){S.foods=r.foods||{};S.templates=r.templates||[];S.libU=r.libU;n++}
+  if((r.libU||0)>(S.libU||0)){S.foods=r.foods||{};S.templates=r.templates||[];if(Array.isArray(r.symLib))S.symLib=r.symLib;if(Array.isArray(r.actLib))S.actLib=r.actLib;S.libU=r.libU;n++}
+  if(r.doc&&typeof r.doc==='object'&&(!S.settings.doc||(r.doc.u||0)>(S.settings.doc.u||0))){S.settings.doc={n:r.doc.n||'',e:r.doc.e||'',f:r.doc.f||'',u:r.doc.u||0};n++}
   return n;
 }
 function setStatus(ok,msg){S.settings.last={ok,msg:msg+' ('+new Date().toLocaleString('it-IT',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})+')'};try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}if(view==='export'&&!ctx)render()}
@@ -891,7 +1129,7 @@ function setupPwa(){
   if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol))navigator.serviceWorker.register('sw.js').catch(()=>{});
 }
 
-window.__diario={get S(){return S},buildXlsx,dayRow,addDays,fmtItem,stepQ,mergeIn,render,A,setView(v){view=v},setCur(d){cur=d}};
+window.__diario={get S(){return S},summarize,buildXlsx,footerHtml,mailInfo,mailtoUrl,doExport,validEmail,dayRow,addDays,fmtItem,stepQ,mergeIn,render,A,setView(v){view=v},setCur(d){cur=d}};
 const SEED=[["caffè orzo", "1", 17], ["caffè", "1", 15], ["caffè cicoria", "1", 4], ["tisana camomilla", "1", 6], ["melatonina", "", 6], ["pane", "30g", 13], ["ricotta", "", 5], ["marmellata", "", 5], ["mirtilli", "", 5], ["latte d'avena", "", 5], ["latte vegetale", "1 bicchiere", 4], ["yogurt", "", 4], ["cereali", "", 2], ["porridge", "", 2], ["avena", "60g", 4], ["pasta", "60g", 5], ["riso", "35g", 6], ["quinoa", "60g", 1], ["pollo", "120g", 5], ["pesce", "150g", 6], ["tonno", "150g", 1], ["arrosto di vitello", "120g", 1], ["uova", "2 medie", 6], ["frittata", "2 uova", 2], ["feta", "30g", 3], ["ceci", "50g", 2], ["lenticchie", "50g", 2], ["insalata", "70g", 7], ["radicchio", "70g", 5], ["pomodorini", "150g", 7], ["carote", "150g", 4], ["cetrioli", "150g", 2], ["fagiolini", "150g", 2], ["zucchine", "220g", 2], ["melanzane", "220g", 1], ["verdure cotte", "220g", 1], ["patate", "130g", 3], ["mais", "150g", 1], ["verdure stecchini", "", 3], ["pesca", "", 6], ["banana", "", 5], ["albicocca", "", 2], ["torta carote", "", 3], ["budino", "", 2], ["tiramisù", "", 2], ["banana bread", "", 1]];
 function seedFoods(){
   if(S.seeded)return;
