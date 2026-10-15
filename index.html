@@ -7,7 +7,7 @@
 <title>Simone Rebucci | ICT Management · Infrastructure · Project Management</title>
 
 <meta name="description"
-      content="Simone Rebucci — ICT Management, Infrastructure, Project Management e Team Leadership.">
+      content="Simone Rebucci — ICT Management, Infrastructure, Project Management, Team Leadership e autore di Il Romitorio e L'ultima orbita.">
 
 <style>
 
@@ -2039,6 +2039,246 @@ footer {
     }
 }
 
+
+
+/* =========================================================
+   BOOKS SHOWCASE — catalogo editoriale in crescita
+========================================================= */
+.books-showcase {
+    padding: 115px 0 118px;
+}
+.books-showcase .books-wrap {
+    width: 100%;
+    margin: 0 auto;
+}
+.books-showcase .books-head {
+    max-width: 720px;
+    margin-bottom: 42px;
+}
+.books-showcase .books-head h2 {
+    margin: 0;
+    font-size: clamp(2.5rem, 5vw, 4.7rem);
+    line-height: .98;
+    letter-spacing: -.065em;
+    font-weight: 650;
+}
+.books-showcase .books-intro {
+    margin: 22px 0 0;
+    max-width: 620px;
+    color: var(--muted);
+    line-height: 1.8;
+    font-size: .9rem;
+}
+.books-showcase .books-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+}
+.books-showcase .book-card {
+    min-width: 0;
+    display: grid;
+    grid-template-columns: minmax(105px, .68fr) minmax(0, 1.32fr);
+    gap: 22px;
+    align-items: center;
+    padding: 24px;
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    background: linear-gradient(145deg, var(--surface-strong), var(--surface));
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(14px);
+    transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+}
+.books-showcase .book-card::after {
+    content: none;
+}
+.books-showcase .book-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent);
+    box-shadow: var(--shadow-strong);
+}
+.books-showcase .book-cover {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 2 / 3;
+    min-width: 0;
+    border-radius: 8px;
+    background: linear-gradient(145deg, #26372e, #0d1711);
+    box-shadow: 0 18px 35px rgba(0,0,0,.2);
+    text-decoration: none;
+}
+.books-showcase .book-cover img {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.books-showcase .cover-fallback {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 14px;
+    color: #f2f6f1;
+    background:
+        radial-gradient(circle at 70% 20%, rgba(104,180,128,.34), transparent 36%),
+        linear-gradient(155deg, #293c31, #0a120d 76%);
+}
+.books-showcase .cover-fallback .cover-small {
+    font-size: .48rem;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    opacity: .72;
+    margin-bottom: 9px;
+}
+.books-showcase .cover-fallback strong {
+    font-family: Georgia, serif;
+    font-size: clamp(.95rem, 1.6vw, 1.4rem);
+    line-height: .98;
+    overflow-wrap: anywhere;
+}
+.books-showcase .book-kicker {
+    color: var(--accent);
+    font-size: .57rem;
+    font-weight: 700;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+    line-height: 1.6;
+    margin-bottom: 11px;
+}
+.books-showcase .book-copy h3 {
+    margin: 0;
+    font-size: clamp(1.35rem, 2vw, 1.85rem);
+    line-height: 1.05;
+    letter-spacing: -.045em;
+}
+.books-showcase .book-copy p {
+    color: var(--muted);
+    font-size: .76rem;
+    line-height: 1.75;
+    margin: 14px 0;
+}
+.books-showcase .format-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0 0 17px;
+}
+.books-showcase .format-tag {
+    padding: 6px 8px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-size: .53rem;
+    line-height: 1.4;
+    color: var(--muted);
+}
+.books-showcase .book-links {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 9px;
+}
+.books-showcase .book-link {
+    display: inline-block;
+    color: var(--accent);
+    font-size: .67rem;
+    line-height: 1.5;
+    font-weight: 750;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    padding-bottom: 2px;
+}
+.books-showcase .book-link:hover {
+    border-bottom-color: currentColor;
+}
+.books-showcase .upcoming-book {
+    background: linear-gradient(145deg, var(--surface), var(--surface-strong));
+    border-style: dashed;
+    box-shadow: none;
+}
+.books-showcase .upcoming-cover {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 14px;
+    color: #f2f6f1;
+    background:
+        radial-gradient(circle at 75% 20%, rgba(104,180,128,.30), transparent 38%),
+        linear-gradient(155deg, #293c31, #0a120d 76%);
+    border: 1px solid rgba(97, 170, 122, .28);
+}
+.books-showcase .upcoming-cover .cover-small {
+    font-size: .46rem;
+    line-height: 1.5;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+    opacity: .75;
+}
+.books-showcase .upcoming-cover strong {
+    display: block;
+    align-self: flex-end;
+    font-family: Georgia, serif;
+    font-size: clamp(3rem, 5vw, 4.7rem);
+    font-weight: 400;
+    line-height: .85;
+    color: rgba(240, 250, 242, .78);
+}
+.books-showcase .upcoming-book .book-kicker {
+    color: var(--muted);
+}
+.books-showcase .upcoming-book .format-tag {
+    color: var(--accent);
+}
+.books-showcase .books-note {
+    margin-top: 27px;
+    color: var(--muted);
+    font-size: .74rem;
+    line-height: 1.8;
+    max-width: 760px;
+}
+@media (max-width: 980px) {
+    .books-showcase .books-grid {
+        grid-template-columns: 1fr;
+    }
+    .books-showcase .book-card {
+        grid-template-columns: minmax(140px, .38fr) minmax(0, 1fr);
+    }
+    .books-showcase .cover-fallback strong {
+        font-size: clamp(1.1rem, 3vw, 1.75rem);
+    }
+}
+@media (max-width: 650px) {
+    .books-showcase {
+        padding: 82px 0 88px;
+    }
+    .books-showcase .books-head {
+        margin-bottom: 28px;
+    }
+    .books-showcase .book-card {
+        grid-template-columns: 105px minmax(0, 1fr);
+        gap: 16px;
+        padding: 16px;
+        border-radius: 18px;
+    }
+    .books-showcase .book-copy p {
+        font-size: .73rem;
+        margin: 11px 0;
+    }
+    .books-showcase .cover-fallback {
+        padding: 10px;
+    }
+    .books-showcase .cover-fallback .cover-small {
+        font-size: .39rem;
+        letter-spacing: .09em;
+    }
+    .books-showcase .cover-fallback strong {
+        font-size: 1rem;
+    }
+}
+
 </style>
 </head>
 
@@ -2800,100 +3040,134 @@ footer {
 
 
     <!-- =====================================================
-     BOOKS
+     BOOKS — Il Romitorio e L'ultima orbita
 ====================================================== -->
-
-<section
-    class="section"
-    id="books">
-
-    <div class="section-grid">
-
-        <div>
-
-            <div class="section-index">
-                04 / BOOKS
-            </div>
-
-            <h2>
-                Another side<br>
-                of the story.
-            </h2>
-
-            <p class="section-lead">
-                Tecnologia e management sono solo
-                una parte del percorso.
+<section class="section books-showcase" id="books">
+    <div class="books-wrap">
+        <div class="books-head">
+            <div class="section-index">04 / BOOKS</div>
+            <h2>Another side<br>of the story.</h2>
+            <p class="books-intro">
+                Tecnologia e management sono una parte del mio percorso.
+                La scrittura è un altro modo per esplorare le idee, le persone
+                e ciò che può nascondersi dietro una domanda.
+                Oggi sono disponibili i miei primi due libri; altri tre romanzi
+                sono già in lavorazione.
             </p>
-
         </div>
 
-
-        <div>
-
-            <div class="book-card"
-                 style="display:grid;
-                        grid-template-columns:140px 1fr;
-                        gap:28px;
-                        align-items:center;">
-
-                <div>
-
-                    <img
-                        src="romitorio-cover.jpg"
-                        alt="Copertina de Il Romitorio"
-                        style="width:100%;
-                               aspect-ratio:2/3;
-                               object-fit:cover;
-                               border-radius:8px;
-                               display:block;
-                               border:1px solid var(--line);
-                               box-shadow:0 18px 40px rgba(0,0,0,.18);">
-
-                </div>
-
-
-                <div>
-
-                    <div class="book-kicker">
-                        Romanzo · 2026
-                    </div>
-
-
-                    <div class="book-title"
-                         style="font-size:2.4rem;">
-                        Il Romitorio
-                    </div>
-
-
-                    <p class="book-description">
-
-                        Il mio primo romanzo.
-
-                        Attualmente disponibile in formato
-                        digitale; l'edizione cartacea sarà
-                        disponibile nelle prossime settimane.
-
+        <div class="books-grid">
+            <article class="book-card">
+                <a class="book-cover" href="romitorio.html" aria-label="Scopri Il Romitorio">
+                    <img src="romitorio-cover.jpg" alt="Copertina de Il Romitorio di Simone Rebucci"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <span class="cover-fallback" style="display:none;">
+                        <span class="cover-small">Simone Rebucci</span>
+                        <strong>Il<br>Romitorio</strong>
+                    </span>
+                </a>
+                <div class="book-copy">
+                    <div class="book-kicker">Primo romanzo · 2026</div>
+                    <h3>Il Romitorio</h3>
+                    <p>
+                        Quattordici estranei, un romitorio isolato tra le colline umbre
+                        e sette giorni di silenzio. Quando le parole finiscono, ciascuno
+                        deve affrontare ciò da cui ha sempre cercato di fuggire.
                     </p>
-
-
-                    <a
-                        href="romitorio.html"
-                        class="card-link"
-                        style="display:inline-block;
-                               margin-top:18px;">
-
-                        Scopri Il Romitorio →
-
-                    </a>
-
+                    <div class="format-tags">
+                        <span class="format-tag">eBook Kindle</span>
+                        <span class="format-tag">Copertina flessibile</span>
+                    </div>
+                    <div class="book-links">
+                        <a class="book-link" href="romitorio.html">Scopri il libro →</a>
+                        <a class="book-link" href="https://www.amazon.it/dp/B0HN1KLKY4/ref=tmm_pap_swatch_0"
+                           target="_blank" rel="noopener noreferrer">Acquista il cartaceo su Amazon ↗</a>
+                        <a class="book-link" href="https://www.amazon.it/Romitorio-Simone-Rebucci-ebook/dp/B0H6LN3X8B"
+                           target="_blank" rel="noopener noreferrer">Acquista l'eBook Kindle ↗</a>
+                    </div>
                 </div>
+            </article>
 
-            </div>
+            <article class="book-card">
+                <a class="book-cover" href="ultima-orbita.html" aria-label="Scopri L'ultima orbita">
+                    <img src="ultima-orbita-cover.jpg" alt="Copertina de L'ultima orbita di Simone Rebucci"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <span class="cover-fallback" style="display:none;">
+                        <span class="cover-small">Simone Rebucci</span>
+                        <strong>L'ultima<br>orbita</strong>
+                    </span>
+                </a>
+                <div class="book-copy">
+                    <div class="book-kicker">Seconda opera · Romanzo breve</div>
+                    <h3>L'ultima orbita</h3>
+                    <p>
+                        Un romanzo breve di fantascienza e suspense. A bordo della Selena IV,
+                        di ritorno dalla Luna, le comunicazioni con la Terra si interrompono:
+                        il viaggio di rientro si trasforma in un confronto con l'ignoto.
+                    </p>
+                    <div class="format-tags">
+                        <span class="format-tag">Fantascienza</span>
+                        <span class="format-tag">Suspense</span>
+                        <span class="format-tag">Romanzo breve</span>
+                    </div>
+                    <div class="book-links">
+                        <a class="book-link" href="ultima-orbita.html">Scopri il libro →</a>
+                        <a class="book-link" href="https://www.amazon.it/Lultima-orbita-Simone-Rebucci/dp/B0HLY843RQ"
+                           target="_blank" rel="noopener noreferrer">Acquista su Amazon ↗</a>
+                    </div>
+                </div>
+            </article>
 
+            <article class="book-card upcoming-book">
+                <div class="book-cover upcoming-cover" aria-label="Copertina in preparazione, progetto 01">
+                    <span class="cover-small">Simone Rebucci<br>In scrittura</span><strong>01</strong>
+                </div>
+                <div class="book-copy">
+                    <div class="book-kicker">In lavorazione · progetto 01/03</div>
+                    <h3>Prossimo romanzo</h3>
+                    <p>
+                        Una nuova storia sta prendendo forma. Titolo, copertina e pagina
+                        dedicata saranno aggiunti quando potrò presentare il progetto.
+                    </p>
+                    <div class="format-tags"><span class="format-tag">In scrittura</span></div>
+                </div>
+            </article>
+
+            <article class="book-card upcoming-book">
+                <div class="book-cover upcoming-cover" aria-label="Copertina in preparazione, progetto 02">
+                    <span class="cover-small">Simone Rebucci<br>In scrittura</span><strong>02</strong>
+                </div>
+                <div class="book-copy">
+                    <div class="book-kicker">In lavorazione · progetto 02/03</div>
+                    <h3>Un'altra storia in arrivo</h3>
+                    <p>
+                        Un secondo progetto narrativo è già in cantiere. Questa scheda
+                        diventerà la pagina del libro non appena titolo e dettagli saranno definiti.
+                    </p>
+                    <div class="format-tags"><span class="format-tag">In scrittura</span></div>
+                </div>
+            </article>
+
+            <article class="book-card upcoming-book">
+                <div class="book-cover upcoming-cover" aria-label="Copertina in preparazione, progetto 03">
+                    <span class="cover-small">Simone Rebucci<br>In scrittura</span><strong>03</strong>
+                </div>
+                <div class="book-copy">
+                    <div class="book-kicker">In lavorazione · progetto 03/03</div>
+                    <h3>Un nuovo progetto narrativo</h3>
+                    <p>
+                        Anche una terza storia è in sviluppo. La scheda sarà aggiornata
+                        con copertina, sinossi e collegamento alla sua pagina individuale.
+                    </p>
+                    <div class="format-tags"><span class="format-tag">In scrittura</span></div>
+                </div>
+            </article>
         </div>
-
+        <p class="books-note">
+            Le tre schede finali sono segnaposto per i romanzi in lavorazione: non sono titoli ufficiali
+            né libri già in vendita. Quando saranno pronti, ciascuno avrà la propria pagina dedicata.
+        </p>
     </div>
-
 </section>
 </div>
 

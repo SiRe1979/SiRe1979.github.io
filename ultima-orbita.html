@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L'ultima orbita — Romanzo breve | Simone Rebucci</title>
+<meta name="description" content="L'ultima orbita di Simone Rebucci: un romanzo breve di fantascienza e suspense. La Selena IV rientra dalla Luna, ma le comunicazioni con la Terra si interrompono.">
+<meta property="og:title" content="L'ultima orbita — Simone Rebucci">
+<meta property="og:description" content="Un romanzo breve di fantascienza e suspense, tra la Selena IV e il silenzio della Terra.">
+<meta property="og:type" content="book">
+<style>
+:root {
+    --bg: #edf3ef; --bg2: #e4ece7; --surface: rgba(255,255,255,.72);
+    --surface-strong: rgba(255,255,255,.90); --text: #15201b; --muted: #68756f;
+    --accent: #19a052; --accent-dark: #0d7037; --line: rgba(18,120,60,.16);
+    --grid: rgba(21,120,66,.07); --shadow: 0 30px 90px rgba(26,48,37,.13);
+}
+body.dark {
+    --bg: #06100b; --bg2: #09150f; --surface: rgba(13,25,19,.72);
+    --surface-strong: rgba(14,28,21,.92); --text: #edf7f0; --muted: #98aaa0;
+    --accent: #31d878; --accent-dark: #17a651; --line: rgba(59,217,122,.18);
+    --grid: rgba(70,220,130,.065); --shadow: 0 30px 90px rgba(0,0,0,.42);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+    margin: 0; min-height: 100vh; color: var(--text); overflow-x: hidden;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    background: radial-gradient(circle at 72% 18%, rgba(38,190,103,.11), transparent 27%),
+                radial-gradient(circle at 16% 76%, rgba(38,190,103,.055), transparent 24%), var(--bg);
+    transition: background .5s ease, color .5s ease;
+}
+body::before {
+    content: ""; position: fixed; inset: 0; z-index: -2; pointer-events: none;
+    background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 44px 44px;
+    mask-image: linear-gradient(to bottom, black 0%, rgba(0,0,0,.58) 48%, transparent 100%);
+}
+body::after {
+    content: ""; position: fixed; width: 520px; height: 520px; right: -160px; top: 22%; border-radius: 50%;
+    background: radial-gradient(circle, rgba(31,194,93,.10), transparent 70%); filter: blur(10px); z-index: -1; pointer-events: none;
+}
+a { color: inherit; }
+.topbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000; height: 70px; display: flex;
+    align-items: center; justify-content: space-between; padding: 0 34px;
+    background: color-mix(in srgb, var(--bg) 78%, transparent); backdrop-filter: blur(18px); border-bottom: 1px solid var(--line);
+}
+.brand { display: flex; align-items: center; gap: 10px; font-size: .88rem; font-weight: 700; letter-spacing: .04em; }
+.brand-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 14px var(--accent); }
+.brand span { color: var(--accent); }
+.top-actions { display: flex; align-items: center; gap: 14px; }
+.back { text-decoration: none; color: var(--muted); font-size: .64rem; letter-spacing: .13em; text-transform: uppercase; transition: color .2s ease; }
+.back:hover { color: var(--accent); }
+#themeToggle { width: 38px; height: 38px; border: 1px solid var(--line); border-radius: 50%; background: var(--surface); color: var(--text); cursor: pointer; font-size: .95rem; }
+#themeToggle:hover { border-color: var(--accent); }
+.hero { min-height: 88vh; display: grid; place-items: center; padding: 120px 24px 75px; }
+.hero-grid { width: min(1160px, 92vw); display: grid; grid-template-columns: minmax(220px,.68fr) minmax(240px,.8fr) minmax(320px,1.25fr); gap: 48px; align-items: center; }
+.cover-zone { display: flex; justify-content: center; }
+.cover-frame { position: relative; width: min(300px, 72vw); aspect-ratio: 2/3; padding: 10px; border-radius: 12px; background: linear-gradient(145deg, rgba(255,255,255,.17), rgba(255,255,255,.025)); border: 1px solid var(--line); box-shadow: var(--shadow); }
+.cover { width: 100%; height: 100%; display: block; object-fit: cover; border-radius: 5px; }
+.cover-fallback {
+    width: 100%; height: 100%; padding: 20px; border-radius: 5px; display: flex; flex-direction: column; justify-content: flex-end;
+    color: #eff8f2; background: radial-gradient(circle at 65% 22%, rgba(90,166,218,.42), transparent 32%),
+    radial-gradient(circle at 35% 60%, rgba(64,129,171,.22), transparent 45%), linear-gradient(155deg, #182f42, #071018 78%);
+}
+.cover-fallback small { letter-spacing: .18em; text-transform: uppercase; font-size: .52rem; opacity: .75; margin-bottom: 12px; }
+.cover-fallback strong { font-family: Georgia, serif; font-weight: 400; font-size: clamp(1.7rem, 3.5vw, 2.8rem); line-height: .9; letter-spacing: -.05em; }
+.eyebrow { color: var(--accent); font-size: .62rem; letter-spacing: .2em; text-transform: uppercase; }
+h1 { font-size: clamp(3.1rem, 5.4vw, 5.8rem); line-height: .86; letter-spacing: -.07em; margin: 18px 0 20px; overflow-wrap: anywhere; }
+.author { color: var(--muted); font-size: .9rem; }
+.status { display: inline-flex; align-items: center; gap: 9px; margin-top: 22px; color: var(--muted); font-size: .61rem; letter-spacing: .1em; text-transform: uppercase; }
+.status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 12px var(--accent); }
+.intro-card { padding: 30px; border: 1px solid var(--line); border-radius: 24px; background: linear-gradient(145deg, var(--surface-strong), var(--surface)); box-shadow: var(--shadow); }
+.intro-card h2 { margin: 0; font-size: 1.4rem; letter-spacing: -.03em; }
+.intro-card p { margin: 16px 0 0; color: var(--muted); font-size: .85rem; line-height: 1.9; }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 25px; }
+.button { display: inline-flex; align-items: center; justify-content: center; padding: 13px 16px; border-radius: 999px; font-size: .68rem; font-weight: 750; text-decoration: none; transition: transform .2s ease, background .2s ease, border-color .2s ease; }
+.button:hover { transform: translateY(-2px); }
+.button.primary { color: #07130b; background: var(--accent); border: 1px solid var(--accent); }
+.button.secondary { color: var(--text); border: 1px solid var(--line); background: var(--surface); }
+.section { width: min(1000px, 90vw); margin: 0 auto; padding: 88px 0; border-top: 1px solid var(--line); }
+.section-index { color: var(--accent); font-size: .62rem; letter-spacing: .22em; text-transform: uppercase; margin-bottom: 17px; }
+.section h2 { margin: 0; font-size: clamp(2.2rem, 4vw, 3.6rem); line-height: .98; letter-spacing: -.055em; }
+.section-lead { max-width: 760px; color: var(--muted); font-size: .91rem; line-height: 1.95; margin: 24px 0 0; }
+.synopsis-panel { margin-top: 32px; padding: clamp(24px, 4vw, 42px); border: 1px solid var(--line); border-radius: 24px; background: var(--surface); box-shadow: var(--shadow); }
+.synopsis-panel p { margin: 0 0 19px; color: var(--muted); font-size: .88rem; line-height: 1.95; }
+.synopsis-panel p:last-child { margin-bottom: 0; }
+.synopsis-panel .lead-line { color: var(--text); font-family: Georgia, serif; font-size: clamp(1.3rem, 2.5vw, 1.8rem); line-height: 1.3; letter-spacing: -.025em; }
+.meta-grid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 12px; margin-top: 30px; }
+.meta { min-height: 96px; padding: 18px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); }
+.meta-label { color: var(--muted); font-size: .57rem; letter-spacing: .12em; text-transform: uppercase; }
+.meta-value { margin-top: 11px; font-size: .82rem; font-weight: 700; line-height: 1.5; overflow-wrap: anywhere; }
+.edition-box { margin-top: 30px; padding: 28px; border: 1px solid var(--line); border-radius: 22px; background: linear-gradient(145deg, var(--surface-strong), var(--surface)); box-shadow: var(--shadow); }
+.edition-box h3 { margin: 0; font-size: 1.35rem; letter-spacing: -.03em; }
+.edition-box p { color: var(--muted); line-height: 1.85; font-size: .83rem; max-width: 760px; }
+.more-book { margin-top: 28px; padding: 23px 26px; display: flex; gap: 20px; justify-content: space-between; align-items: center; border: 1px solid var(--line); border-radius: 20px; background: var(--surface); }
+.more-book h3 { margin: 0; font-size: 1.1rem; }
+.more-book p { margin: 7px 0 0; font-size: .76rem; line-height: 1.7; color: var(--muted); }
+footer { border-top: 1px solid var(--line); padding: 30px 24px 40px; text-align: center; color: var(--muted); font-size: .58rem; letter-spacing: .1em; text-transform: uppercase; }
+@media (max-width: 980px) {
+    .hero { min-height: auto; }
+    .hero-grid { grid-template-columns: minmax(220px,.7fr) 1fr; gap: 28px; max-width: 780px; }
+    .intro-card { grid-column: 1 / -1; }
+    .cover-frame { width: min(285px, 70vw); }
+    .meta-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+}
+@media (max-width: 580px) {
+    .topbar { padding: 0 17px; height: 62px; }
+    .back { font-size: .56rem; letter-spacing: .07em; }
+    .hero { padding: 100px 18px 60px; }
+    .hero-grid { grid-template-columns: 1fr; gap: 28px; }
+    .cover-frame { width: min(275px, 72vw); }
+    h1 { font-size: clamp(3.2rem, 16vw, 4.6rem); }
+    .intro-card { grid-column: auto; padding: 23px; }
+    .section { padding: 70px 0; }
+    .meta-grid { grid-template-columns: 1fr 1fr; }
+    .meta { padding: 14px; }
+    .more-book { align-items: flex-start; flex-direction: column; padding: 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+    <div class="brand"><span class="brand-dot"></span><div>Simone <span>Rebucci</span></div></div>
+    <div class="top-actions">
+        <a class="back" href="index.html#books">← Tutti i libri</a>
+        <button id="themeToggle" aria-label="Cambia tema" title="Cambia tema">◐</button>
+    </div>
+</header>
+<main>
+<section class="hero">
+    <div class="hero-grid">
+        <div class="cover-zone">
+            <div class="cover-frame">
+                <img class="cover" src="ultima-orbita-cover.jpg" alt="Copertina de L'ultima orbita di Simone Rebucci"
+                     onerror="this.style.display='none'; document.getElementById('coverFallback').style.display='flex';">
+                <div id="coverFallback" class="cover-fallback" style="display:none;">
+                    <small>Simone Rebucci · Romanzo breve</small><strong>L'ultima<br>orbita</strong>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="eyebrow">Romanzo breve · Fantascienza e suspense</div>
+            <h1>L'ultima<br>orbita</h1>
+            <div class="author">di Simone Rebucci</div>
+            <div class="status"><span class="status-dot"></span>Disponibile su Amazon</div>
+        </div>
+        <div class="intro-card">
+            <h2>Il libro</h2>
+            <p>
+                La Selena IV sta rientrando dalla Luna. Quando le comunicazioni con la Terra si interrompono,
+                quello che dovrebbe essere il tratto finale di una missione diventa un viaggio verso l'ignoto.
+                Un romanzo breve che intreccia fantascienza e suspense attorno al silenzio più inquietante: quello
+                del pianeta che dovrebbe essere casa.
+            </p>
+            <div class="actions">
+                <a class="button primary" href="https://www.amazon.it/Lultima-orbita-Simone-Rebucci/dp/B0HLY843RQ" target="_blank" rel="noopener noreferrer">Acquista su Amazon ↗</a>
+                <a class="button secondary" href="#synopsis">Leggi la sinossi ↓</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="synopsis">
+    <div class="section-index">01 / SINOSSI</div>
+    <h2>Il silenzio<br>oltre l'orbita.</h2>
+    <div class="synopsis-panel">
+        <p class="lead-line">La strada verso casa può diventare la parte più imprevedibile del viaggio.</p>
+        <p>
+            La Selena IV è di ritorno dalla Luna. Yara e Lorenzo dovrebbero lasciarsi alle spalle la missione
+            e prepararsi al rientro, ma il viaggio cambia improvvisamente quando ogni comunicazione con la Terra
+            si interrompe.
+        </p>
+        <p>
+            L'equipaggio si trova davanti a un silenzio che non offre spiegazioni. La navicella continua il suo
+            percorso, eppure la destinazione non appare più come una certezza: che cosa troveranno una volta tornati?
+            E quanto può cambiare il significato di casa quando il pianeta che dovrebbe accoglierci smette di rispondere?
+        </p>
+        <p>
+            <em>L'ultima orbita</em> è un romanzo breve di fantascienza e suspense che trasforma il ritorno sulla Terra
+            in un confronto con l'ignoto. Una storia concentrata, costruita attorno alla distanza tra ciò che gli
+            astronauti possono vedere e ciò che ancora non riescono a sapere.
+        </p>
+    </div>
+</section>
+
+<section class="section" id="details">
+    <div class="section-index">02 / DETTAGLI</div>
+    <h2>Una storia breve.<br>Una domanda enorme.</h2>
+    <p class="section-lead">
+        Un racconto di fantascienza che parte dal viaggio spaziale per esplorare l'incertezza, l'attesa e la fragilità
+        del legame con il mondo a cui si cerca di tornare.
+    </p>
+    <div class="meta-grid">
+        <div class="meta"><div class="meta-label">Autore</div><div class="meta-value">Simone Rebucci</div></div>
+        <div class="meta"><div class="meta-label">Tipologia</div><div class="meta-value">Romanzo breve</div></div>
+        <div class="meta"><div class="meta-label">Genere</div><div class="meta-value">Fantascienza · Suspense</div></div>
+        <div class="meta"><div class="meta-label">ASIN Amazon</div><div class="meta-value">B0HLY843RQ</div></div>
+    </div>
+    <div class="edition-box">
+        <h3>Disponibile su Amazon</h3>
+        <p>
+            Consulta la pagina del libro per verificare formato, prezzo e disponibilità aggiornati.
+        </p>
+        <div class="actions">
+            <a class="button primary" href="https://www.amazon.it/Lultima-orbita-Simone-Rebucci/dp/B0HLY843RQ" target="_blank" rel="noopener noreferrer">Vai alla pagina Amazon →</a>
+            <a class="button secondary" href="index.html#books">← Torna a tutti i libri</a>
+        </div>
+    </div>
+    <div class="more-book">
+        <div>
+            <h3>Hai già letto <em>Il Romitorio</em>?</h3>
+            <p>Scopri anche il primo romanzo di Simone Rebucci, disponibile in eBook Kindle e in edizione cartacea.</p>
+        </div>
+        <a class="button secondary" href="romitorio.html">Scopri Il Romitorio →</a>
+    </div>
+</section>
+</main>
+<footer>© 2026 Simone Rebucci · L'ultima orbita</footer>
+<script>
+const themeToggle = document.getElementById('themeToggle');
+const savedTheme = localStorage.getItem('theme');
+function applyAutomaticTheme() {
+    const hour = new Date().getHours();
+    if (hour >= 7 && hour < 19) document.body.classList.remove('dark');
+    else document.body.classList.add('dark');
+}
+if (savedTheme === 'dark') document.body.classList.add('dark');
+else if (savedTheme === 'light') document.body.classList.remove('dark');
+else applyAutomaticTheme();
+themeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('dark');
+    localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+});
+</script>
+</body>
+</html>

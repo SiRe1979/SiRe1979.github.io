@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Il Romitorio | Simone Rebucci</title>
+<title>Il Romitorio — eBook e cartaceo | Simone Rebucci</title>
 
-<meta name="description" content="Il Romitorio — romanzo di Simone Rebucci. Disponibile in formato digitale; edizione cartacea in arrivo nelle prossime settimane.">
+<meta name="description" content="Il Romitorio di Simone Rebucci: romanzo corale disponibile in eBook Kindle e in edizione cartacea con copertina flessibile.">
 
 <style>
 
@@ -313,24 +313,53 @@ a {
 }
 
 .cover-fallback {
+    position: relative;
+    overflow: hidden;
     min-height: 460px;
     display: grid;
-    place-items: center;
+    align-content: center;
+    justify-items: center;
+    gap: 18px;
     text-align: center;
-    padding: 30px;
+    padding: 34px;
     background:
-        linear-gradient(
-            145deg,
-            #122216,
-            #07100c
-        );
+        radial-gradient(circle at 68% 22%, rgba(55,182,101,.22), transparent 32%),
+        radial-gradient(circle at 20% 78%, rgba(35,102,61,.18), transparent 30%),
+        linear-gradient(145deg, #142a1d, #07100c 78%);
     color: var(--muted);
     font-size: .72rem;
     line-height: 1.7;
 }
 
+.cover-fallback::before {
+    content: "";
+    position: absolute;
+    inset: 15px;
+    border: 1px solid rgba(190,220,196,.25);
+    pointer-events: none;
+}
+
+.cover-fallback .fallback-kicker {
+    color: rgba(220,240,225,.7);
+    font-size: .53rem;
+    letter-spacing: .24em;
+    text-transform: uppercase;
+}
+
 .cover-fallback strong {
+    color: #e8f2e8;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(2rem, 5vw, 3.3rem);
+    line-height: .9;
+    letter-spacing: -.045em;
+    text-transform: uppercase;
+}
+
+.cover-fallback .fallback-author {
     color: var(--accent);
+    font-size: .58rem;
+    letter-spacing: .16em;
+    text-transform: uppercase;
 }
 
 /* =========================================================
@@ -777,8 +806,9 @@ footer {
                     class="cover-fallback"
                     style="display:none;">
 
-                    Inserisci la copertina del romanzo nella stessa cartella
-                    con il nome <strong>romitorio-cover.jpg</strong>.
+                    <span class="fallback-kicker">Un romanzo di</span>
+                    <strong>Il<br>Romitorio</strong>
+                    <span class="fallback-author">Simone Rebucci</span>
 
                 </div>
 
@@ -803,7 +833,7 @@ footer {
 
             <div class="status">
                 <span class="status-dot"></span>
-                Disponibile in digitale
+                Disponibile in digitale e cartaceo
             </div>
 
         </div>
@@ -824,12 +854,12 @@ footer {
             <div class="notice">
 
                 <strong>
-                    Prossima uscita
+                    Edizione cartacea disponibile
                 </strong>
 
                 <span>
-                    Il romanzo è disponibile in formato digitale.
-                    Fra qualche settimana sarà disponibile anche in versione cartacea.
+                    Puoi scegliere il formato che preferisci: eBook Kindle oppure edizione cartacea
+                    con copertina flessibile. Entrambe le versioni sono acquistabili su Amazon.
                 </span>
 
             </div>
@@ -838,10 +868,18 @@ footer {
 
                 <a
                     class="button primary"
+                    href="https://www.amazon.it/dp/B0HN1KLKY4/ref=tmm_pap_swatch_0"
+                    target="_blank"
+                    rel="noopener noreferrer">
+                    Compra il libro cartaceo →
+                </a>
+
+                <a
+                    class="button secondary"
                     href="https://www.amazon.it/Romitorio-Simone-Rebucci-ebook/dp/B0H6LN3X8B"
                     target="_blank"
                     rel="noopener noreferrer">
-                    Edizione digitale →
+                    Edizione Kindle
                 </a>
 
                 <a
@@ -957,8 +995,8 @@ footer {
     </h2>
 
     <p class="synopsis-intro">
-        Il Romitorio è disponibile in formato digitale.
-        L'edizione cartacea sarà aggiunta a questa pagina non appena disponibile.
+        Il Romitorio è disponibile sia in formato digitale Kindle sia in edizione cartacea
+        con copertina flessibile. Qui trovi i riferimenti per entrambe le versioni.
     </p>
 
     <div class="meta-grid">
@@ -969,17 +1007,17 @@ footer {
         </div>
 
         <div class="meta">
-            <div class="meta-label">Formato attuale</div>
-            <div class="meta-value">eBook / Kindle</div>
+            <div class="meta-label">Formati</div>
+            <div class="meta-value">eBook Kindle e copertina flessibile</div>
         </div>
 
         <div class="meta">
-            <div class="meta-label">Edizione cartacea</div>
-            <div class="meta-value">In arrivo nelle prossime settimane</div>
+            <div class="meta-label">ASIN cartaceo</div>
+            <div class="meta-value">B0HN1KLKY4</div>
         </div>
 
         <div class="meta">
-            <div class="meta-label">ASIN</div>
+            <div class="meta-label">ASIN Kindle</div>
             <div class="meta-value">B0H6LN3X8B</div>
         </div>
 
@@ -1011,34 +1049,42 @@ footer {
 <section class="section">
 
     <div class="section-index">
-        03 / EDIZIONI
+        03 / FORMATI
     </div>
 
     <h2>
-        Digitale oggi.<br>
-        Cartaceo a breve.
+        La stessa storia.<br>
+        Due formati.
     </h2>
 
     <div class="edition-box">
 
         <h3>
-            Il Romitorio
+            Scegli la tua edizione
         </h3>
 
         <p>
-            Il romanzo è attualmente disponibile in formato digitale.
-            Fra qualche settimana sarà disponibile anche in versione cartacea.
-            Questa pagina verrà aggiornata con il nuovo formato e il relativo link di acquisto.
+            Il Romitorio è ora disponibile anche in versione cartacea. Puoi acquistare il volume
+            con copertina flessibile oppure scegliere la versione digitale Kindle, da leggere sui
+            dispositivi compatibili e nell'app Kindle.
         </p>
 
         <div class="actions">
 
             <a
                 class="button primary"
+                href="https://www.amazon.it/dp/B0HN1KLKY4/ref=tmm_pap_swatch_0"
+                target="_blank"
+                rel="noopener noreferrer">
+                Acquista il cartaceo su Amazon →
+            </a>
+
+            <a
+                class="button secondary"
                 href="https://www.amazon.it/Romitorio-Simone-Rebucci-ebook/dp/B0H6LN3X8B"
                 target="_blank"
                 rel="noopener noreferrer">
-                Vai alla pagina Amazon →
+                Acquista l'eBook Kindle →
             </a>
 
             <a
