@@ -309,6 +309,90 @@ a {
         var(--accent);
 }
 
+.linkedin-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 9px 12px;
+    border: 1px solid var(--accent);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--accent);
+    text-decoration: none;
+    font-size: .64rem;
+    font-weight: 800;
+    letter-spacing: .04em;
+    white-space: nowrap;
+    transition: background .2s ease, color .2s ease, transform .2s ease;
+}
+
+.linkedin-button > :first-child,
+.linkedin-button:not(span) {
+    font-weight: 800;
+}
+
+.linkedin-button:hover {
+    background: var(--accent);
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+.cv-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 9px 12px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--text);
+    text-decoration: none;
+    font-size: .64rem;
+    font-weight: 800;
+    letter-spacing: .04em;
+    white-space: nowrap;
+    transition: background .2s ease, color .2s ease, transform .2s ease, border-color .2s ease;
+}
+.cv-button:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-1px);
+}
+
+.profile-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 24px;
+}
+
+.profile-links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 15px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    text-decoration: none;
+    font-size: .7rem;
+    font-weight: 750;
+    color: var(--text);
+    background: var(--surface);
+    transition: border-color .2s ease, transform .2s ease;
+}
+
+.profile-links a:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+}
+
+.profile-links a.primary {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
 #themeToggle {
 
     width: 38px;
@@ -1867,6 +1951,26 @@ footer {
             0 18px;
     }
 
+    .linkedin-button {
+        padding: 8px 9px;
+        font-size: .57rem;
+        gap: 5px;
+    }
+
+    .cv-button {
+        padding: 8px 9px;
+        font-size: .57rem;
+        gap: 5px;
+    }
+
+    @media (max-width: 380px) {
+        .topbar { padding: 0 12px; }
+        .top-actions { gap: 6px; }
+        .brand { font-size: .71rem; gap: 6px; }
+        .linkedin-button span { display: none; }
+        .linkedin-button, .cv-button { padding: 8px 9px; }
+    }
+
     .hero {
 
         padding:
@@ -2336,12 +2440,16 @@ footer {
         <nav class="top-nav">
 
             <a href="#about">ABOUT</a>
+            <a href="profilo-professionale.html">PROFILE</a>
             <a href="#ict">ICT</a>
             <a href="#projects">PROJECTS</a>
             <a href="#books">BOOKS</a>
 
         </nav>
 
+        <a class="linkedin-button" href="https://www.linkedin.com/in/simonerebucci/" target="_blank" rel="noopener noreferrer" aria-label="Apri il profilo LinkedIn di Simone Rebucci">in <span>LinkedIn ↗</span></a>
+
+        <a class="cv-button" href="CV_Simone_Rebucci.pdf" download aria-label="Scarica il curriculum di Simone Rebucci in PDF">↓ <span>CV PDF</span></a>
 
         <button
             id="themeToggle"
@@ -2929,6 +3037,12 @@ footer {
                     </div>
 
 
+                </div>
+
+                <div class="profile-links">
+                    <a class="primary" href="profilo-professionale.html">Profilo professionale completo →</a>
+                    <a href="https://www.linkedin.com/in/simonerebucci/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+                    <a href="CV_Simone_Rebucci.pdf" download>Scarica il CV (PDF) ↓</a>
                 </div>
 
             </div>
