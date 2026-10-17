@@ -1,0 +1,25 @@
+SITO PERSONALE DI SIMONE REBUCCI — REDESIGN CINEMATICO
+
+Questa versione ricostruisce il layout da zero ispirandosi al mockup approvato.
+
+PUBBLICAZIONE SU GITHUB PAGES
+1. Conserva un backup della versione online.
+2. Estrai lo ZIP.
+3. Carica nella root della repository tutti i file e la cartella images, mantenendo la struttura.
+4. Verifica che GitHub Pages pubblichi la root corretta.
+
+PAGINE
+- index.html: home
+- profilo-professionale.html: profilo professionale
+- libri.html: indice dei libri
+- romitorio.html: pagina de Il Romitorio
+- ultima-orbita.html: pagina de L'ultima orbita
+- scacchi-darme.html: Scacchi D'Arme e diario
+- cv.html: pagina CV
+
+NOTE
+- CV_Simone_Rebucci.pdf è il curriculum pubblico con data di nascita rimossa.
+- Le copertine JPG sono grafiche illustrative per il sito, non file di copertina KDP per la stampa.
+- Le 19 immagini datate del diario Scacchi D'Arme sono segnaposto illustrativi e possono essere sostituite con screenshot reali mantenendo i nomi dei file.
+- Il tema scuro è predefinito; il pulsante in alto consente di passare al tema chiaro. La scelta viene salvata nel browser.
+- Il sito usa Google Fonts quando disponibile; in assenza di rete usa font di sistema.
