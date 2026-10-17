@@ -1,2 +1,0 @@
-# Simone Rebucci
-Sito Principale
