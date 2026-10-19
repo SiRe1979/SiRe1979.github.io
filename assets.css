@@ -147,7 +147,7 @@ body.light {
   bottom: -19%;
   left: -12%;
   width: calc(100% + clamp(130px, 14vw, 250px));
-  border-radius: 40%;
+  border-radius: 32%;
   background: radial-gradient(ellipse 88% 79% at 27% 49%,
     var(--hero-scrim-solid) 0%,
     var(--hero-scrim-mid) 48%,
@@ -194,7 +194,7 @@ body.light .cv-side-note strong { color: #007f80; }
     bottom: -8%;
     left: -7%;
     width: calc(100% + 14%);
-    border-radius: 32%;
+    border-radius: 26%;
     background: radial-gradient(ellipse 100% 82% at 31% 23%,
       var(--hero-scrim-solid) 0%,
       var(--hero-scrim-mid) 51%,
