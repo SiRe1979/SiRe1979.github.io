@@ -72,3 +72,154 @@ body.light .chess-content .roadmap-card,body.light .chess-content .artifact,body
 @media(max-width:1050px){.hero-copy{max-width:70vw}.hero p{max-width:55vw}.chess-content .section-header{grid-template-columns:1fr;gap:18px}.chess-content .section-lead{max-width:760px}.chess-content .entry-image{position:relative;top:auto}}
 @media(max-width:720px){.page-shell{padding:0 10px 12px}.frame,.hero{min-height:0}.hero{min-height:650px}.hero-copy{max-width:100%;padding:34px 24px 250px}.hero p{max-width:100%}.book-list-cards{grid-template-columns:1fr}.chess-subnav{top:var(--nav-h);gap:9px 16px;justify-content:flex-start;padding:10px 14px}.chess-subnav a{font-size:10px}.chess-content{width:100%;padding:0 16px 45px}.chess-content .section{padding:42px 0}.chess-content .entry{grid-template-columns:1fr;gap:16px}.chess-content .entry-image{order:2}.chess-content .roadmap{grid-template-columns:1fr}.chess-content .artifact{align-items:flex-start;flex-direction:column}.chess-content .section h2{font-size:clamp(26px,8vw,36px)}body.light .nav{background:rgba(247,250,253,.99)}}
 @media(min-width:721px) and (max-width:1100px){.chess-content .entry{grid-template-columns:minmax(0,1fr) minmax(260px,.8fr)}}
+
+/* HERO TEXT SCRIM — localizzato, morbido e adattivo ai temi */
+:root {
+  --hero-copy-ink: #f4f8fc;
+  --hero-copy-muted: #d6e3ed;
+  --hero-scrim-solid: rgba(2, 10, 20, .84);
+  --hero-scrim-mid: rgba(2, 10, 20, .62);
+  --hero-scrim-soft: rgba(2, 10, 20, .22);
+  --hero-global-start: rgba(1, 9, 18, .24);
+  --hero-global-mid: rgba(1, 12, 23, .12);
+  --hero-global-end: rgba(1, 12, 23, 0);
+  --hero-edge-vignette: rgba(1, 8, 16, .20);
+  --hero-secondary-bg: rgba(0, 10, 20, .50);
+  --hero-secondary-ink: #ffffff;
+  --hero-secondary-border: rgba(233, 248, 255, .82);
+  --hero-panel-bg: rgba(1, 12, 22, .82);
+  --hero-panel-ink: #edf7ff;
+  --hero-panel-muted: #c4d6e3;
+}
+
+body.light {
+  --hero-copy-ink: #082033;
+  --hero-copy-muted: #294459;
+  --hero-scrim-solid: rgba(244, 249, 252, .95);
+  --hero-scrim-mid: rgba(241, 248, 252, .78);
+  --hero-scrim-soft: rgba(239, 247, 251, .25);
+  --hero-global-start: rgba(235, 245, 250, .16);
+  --hero-global-mid: rgba(235, 245, 250, .07);
+  --hero-global-end: rgba(235, 245, 250, 0);
+  --hero-edge-vignette: rgba(239, 247, 251, .18);
+  --hero-secondary-bg: rgba(246, 251, 254, .80);
+  --hero-secondary-ink: #082033;
+  --hero-secondary-border: rgba(8, 52, 74, .48);
+  --hero-panel-bg: rgba(246, 250, 253, .92);
+  --hero-panel-ink: #082033;
+  --hero-panel-muted: #294459;
+}
+
+/* Lascia visibile la fotografia su tutta la hero; il contrasto forte resta vicino al testo. */
+.hero:before,
+.home-hero:before,
+.profile-hero:before,
+.romitorio-hero:before,
+.orbita-hero:before,
+.scacchi-hero:before,
+.cv-hero:before {
+  background: linear-gradient(90deg,
+    var(--hero-global-start) 0%,
+    var(--hero-global-mid) 43%,
+    var(--hero-global-end) 82%,
+    transparent 100%);
+}
+
+.hero:after {
+  background: linear-gradient(0deg,
+    var(--hero-edge-vignette) 0%,
+    transparent 22%,
+    transparent 80%,
+    var(--hero-edge-vignette) 100%);
+}
+
+/* Alone traslucido senza bordi netti: si dissolve gradualmente nell'immagine. */
+.hero-copy {
+  isolation: isolate;
+}
+
+.hero-copy:before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+  top: -19%;
+  bottom: -19%;
+  left: -12%;
+  width: calc(100% + clamp(130px, 14vw, 250px));
+  border-radius: 40%;
+  background: radial-gradient(ellipse 88% 79% at 27% 49%,
+    var(--hero-scrim-solid) 0%,
+    var(--hero-scrim-mid) 48%,
+    var(--hero-scrim-soft) 72%,
+    transparent 100%);
+  filter: blur(14px);
+  opacity: .98;
+}
+
+.hero p { color: var(--hero-copy-muted); }
+.hero .lead { color: var(--hero-copy-ink); }
+.hero-meta { color: var(--hero-copy-muted); }
+.social-row a { color: var(--hero-copy-ink); }
+.hero .btn.secondary {
+  background: var(--hero-secondary-bg);
+  color: var(--hero-secondary-ink);
+  border-color: var(--hero-secondary-border);
+}
+
+/* I riquadri di competenza mantengono una superficie autonoma e sempre leggibile. */
+.feature,
+.skill-card,
+.cv-side-note {
+  background: var(--hero-panel-bg);
+}
+.feature strong,
+.skill-card strong,
+.cv-side-note p { color: var(--hero-panel-ink); }
+.feature span,
+.skill-card span { color: var(--hero-panel-muted); }
+.cv-side-note p { color: var(--hero-panel-muted); }
+
+/* In light mode il verde resta un accento, mentre i testi diventano blu profondo. */
+body.light .hero .lead,
+body.light .hero p,
+body.light .hero-meta,
+body.light .social-row a { color: var(--hero-copy-ink); }
+body.light .hero .eyebrow { color: #007f80; }
+body.light .cv-side-note strong { color: #007f80; }
+
+@media (max-width: 720px) {
+  .hero-copy:before {
+    top: -9%;
+    bottom: -8%;
+    left: -7%;
+    width: calc(100% + 14%);
+    border-radius: 32%;
+    background: radial-gradient(ellipse 100% 82% at 31% 23%,
+      var(--hero-scrim-solid) 0%,
+      var(--hero-scrim-mid) 51%,
+      var(--hero-scrim-soft) 78%,
+      transparent 100%);
+    filter: blur(9px);
+  }
+  .home-hero:before,
+  .profile-hero:before,
+  .romitorio-hero:before,
+  .orbita-hero:before,
+  .scacchi-hero:before,
+  .cv-hero:before {
+    background: linear-gradient(180deg,
+      var(--hero-global-start) 0%,
+      var(--hero-global-mid) 48%,
+      var(--hero-global-end) 100%);
+  }
+}
+
+/* La pagina di raccolta libri usa un'immagine come background layer: applica gli stessi livelli tema-aware. */
+.book-list-hero {
+  background-image: linear-gradient(110deg,
+    var(--hero-global-start) 0%,
+    var(--hero-global-mid) 56%,
+    var(--hero-global-end) 100%),
+    url('images/ultima-orbita-spazio.jpg');
+}
