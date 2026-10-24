@@ -14,50 +14,6 @@
 </div>
 </section>
 <nav aria-label="Indice del diario" class="chess-subnav"><a href="#diario">Diario di sviluppo</a><a href="#pezzi">I pezzi</a><a href="#roadmap">Prossimi sviluppi</a><a href="#nota">Nota sul processo</a></nav><div class="chess-content" id="diario">
-<!-- 29 SEP -->
-<section class="section">
-<div class="section-header">
-<div><div class="section-index">29 settembre 2026</div><h2>Il problema invisibile del mondo intorno alla scacchiera.</h2><p class="section-lead">Quando la partita funziona, anche il mondo che la circonda diventa parte del progetto.</p></div>
-<div class="section-body"><div class="entry"><div class="entry-text">
-<div class="date">29.09.2026 · Aggiornamento</div><h3>Il campo di battaglia non finisce sulle 64 caselle</h3>
-<p>Negli ultimi giorni mi sono accorto che una delle parti più difficili del progetto non era più la partita. La partita funzionava. I pezzi funzionavano. Le battaglie funzionavano. L'IA funzionava. Anche la possibilità di cambiare la scacchiera era ormai presente. Il problema era tutto ciò che stava intorno.</p>
-<p>Quando si lavora su una scena 3D è facile concentrarsi sugli elementi più evidenti: scacchiera, pezzi, movimenti. Appena però si costruisce un'ambientazione vera, anche il cielo, il terreno, la luce, gli elementi sullo sfondo e le transizioni diventano parte integrante dell'esperienza.</p>
-<p>Ho iniziato quindi a lavorare sulla possibilità di cambiare l'ambiente circostante con diversi scenari: <strong>mare, erba, deserto e ghiaccio</strong>. L'idea era che la personalizzazione del terreno dovesse essere indipendente dal materiale della scacchiera.</p>
-<p>Il problema è diventato evidente proprio nelle transizioni. La dissolvenza sembrava funzionare, ma alcuni elementi continuavano a rimanere attivi. Uno sfondo poteva spegnersi correttamente mentre un altro elemento continuava la propria animazione per diversi secondi. In particolare, cielo e componenti luminose potevano restare visibili quando la scena precedente avrebbe dovuto essere già scomparsa.</p>
-<p>La cosa interessante è che il problema visibile non si trovava necessariamente nel punto in cui lo guardavo. Non bastava modificare l'effetto grafico: bisognava intervenire sulla gestione dello stato della scena e sul modo in cui i diversi livelli venivano attivati e disattivati.</p>
-<p>È un esempio perfetto del motivo per cui sto costruendo il progetto per iterazioni. Una richiesta porta a un risultato, il risultato fa emergere un problema, il problema richiede una soluzione più strutturale e quella soluzione apre una nuova possibilità.</p>
-<p>Ci lavoro soprattutto la sera, dopo la giornata di lavoro. A volte penso di sistemare una piccola cosa e mi ritrovo a passare molto più tempo del previsto a capire perché un determinato elemento non voglia comportarsi come dovrebbe. Ma proprio queste serate stanno facendo diventare il progetto più solido.</p>
-</div><div class="entry-image"><div class="image-frame"><img alt="Scacchi D'Arme — ambiente e scena 3D" decoding="async" loading="lazy" src="images/scacchi-2026-09-29.jpg"/><div class="image-placeholder">Inserisci qui una schermata dell'ambientazione o della scena 3D</div></div><div class="image-caption">Immagine consigliata: una delle nuove ambientazioni 3D</div></div></div></div>
-</div>
-</section>
-<!-- 27 SEP -->
-<section class="section">
-<div class="section-header">
-<div><div class="section-index">27 settembre 2026</div><h2>La luna non vuole collaborare.</h2><p class="section-lead">Il cielo diventa improvvisamente un vero componente tecnico della scena.</p></div>
-<div class="section-body"><div class="entry"><div class="entry-text">
-<div class="date">27.09.2026 · Serata di sviluppo</div><h3>Cielo, luce e luna</h3>
-<p>Il cielo è uno degli elementi che all'inizio avevo considerato quasi soltanto decorativo. Con la crescita della scena 3D mi sono invece reso conto che è uno dei componenti che determinano maggiormente la sensazione di trovarsi in un mondo coerente.</p>
-<p>La difficoltà è arrivata quando ho iniziato a introdurre ambientazioni diverse e a ragionare anche sulla dimensione temporale della scena. Se cambia l'atmosfera, non deve cambiare soltanto il colore del terreno. Anche il cielo deve seguire il nuovo stato e gli elementi luminosi devono essere coerenti.</p>
-<p>E poi c'è la <strong>luna</strong>. Volevo che la luna fosse un elemento reale della scena notturna, non semplicemente un'immagine appoggiata dietro alla scacchiera. Allo stesso tempo non doveva interferire con gli altri elementi e soprattutto doveva scomparire quando l'ambiente precedente veniva sostituito.</p>
-<p>Una prima versione funzionava isolatamente ma mostrava problemi quando veniva combinata con altre parti della scena. In un'altra, la luna rimaneva visibile durante alcune transizioni, mentre il cielo sottostante era già cambiato. In un altro caso il problema sembrava essere la luna ma dipendeva in realtà dal modo in cui veniva gestito lo stato dello sfondo.</p>
-<p>È stata una di quelle serate in cui ho imparato che in un ambiente 3D un elemento apparentemente semplice può avere molte dipendenze. La soluzione è arrivata trattando cielo, luna e terreno non più come decorazioni indipendenti ma come parti di un unico stato ambientale.</p>
-<p>Ancora una volta il lavoro con Claude è diventato soprattutto un dialogo tecnico: descrivere ciò che vedo, spiegare quando avviene, indicare cosa dovrebbe succedere e chiedere di modificare la logica senza rompere ciò che già funziona.</p>
-<p>Il risultato magari non è il tipo di modifica che un visitatore nota immediatamente. Ma è una di quelle che rendono il progetto più credibile quando lo si guarda per diversi minuti.</p>
-</div><div class="entry-image"><div class="image-frame"><img alt="Scacchi D'Arme — cielo e luna" decoding="async" loading="lazy" src="images/scacchi-2026-09-27.jpg"/><div class="image-placeholder">Inserisci qui una schermata del cielo, della luna o dell'ambientazione notturna</div></div><div class="image-caption">Immagine consigliata: cielo notturno e luna</div></div></div></div>
-</div>
-</section>
-<!-- 25 SEP -->
-<section class="section">
-<div class="section-header"><div><div class="section-index">25 settembre 2026</div><h2>Il taglio netto della dissolvenza.</h2><p class="section-lead">Una piccola correzione tecnica che cambia la qualità percepita di una transizione.</p></div><div class="section-body"><div class="entry"><div class="entry-text"><div class="date">25.09.2026 · Correzione</div><h3>Tutto si ferma insieme</h3>
-<p>Il problema delle transizioni viene affrontato in maniera definitiva. Ogni voce e ogni strato dell'ambiente precedente deve ricevere l'ordine di fermarsi esattamente nello stesso istante in cui parte la dissolvenza. La durata scelta è di <strong>0,35 secondi</strong>.</p>
-<p>Prima alcuni elementi continuavano il proprio ciclo naturale dopo che la scena aveva già iniziato a scomparire. Un elemento poteva restare attivo per diversi secondi perché la sua animazione non aveva ancora raggiunto il termine naturale. Visivamente questo produceva un risultato incoerente: il giocatore percepiva che qualcosa della scena precedente non era stato davvero sostituito.</p>
-<p>La soluzione non è stata semplicemente accelerare le singole animazioni. È stato necessario cambiare la logica delle transizioni. Quando parte la dissolvenza, tutto ciò che appartiene all'ambiente precedente riceve lo stesso ordine di arresto.</p>
-<p>Nessun layer decide più autonomamente di continuare. Nessun effetto rimane attivo perché il suo timer interno non è ancora terminato.</p>
-<p>È una correzione quasi invisibile per chi gioca, ma estremamente importante per la qualità della scena. Un sistema ben funzionante non deve soltanto avere molte funzioni: deve avere un comportamento coerente quando queste funzioni vengono usate insieme.</p>
-<p>Dopo la modifica rifaccio i collaudi generali. Cambio ambiente, torno indietro, provo più combinazioni e verifico che la correzione non introduca regressioni. Il risultato è quello cercato: il cambio diventa netto e prevedibile.</p>
-<p>È anche un ottimo esempio di come le serate di sviluppo non siano sempre dedicate a “creare qualcosa di nuovo”. Alcune sono dedicate semplicemente a fare in modo che ciò che esiste già si comporti bene.</p>
-</div><div class="entry-image"><div class="image-frame"><img alt="Scacchi D'Arme — transizione ambientale" decoding="async" loading="lazy" src="images/scacchi-2026-09-25.jpg"/><div class="image-placeholder">Inserisci qui una schermata prima/dopo o della transizione</div></div><div class="image-caption">Immagine consigliata: cambio di ambiente o effetto di dissolvenza</div></div></div></div></div>
-</section>
 <!-- 22 SEP -->
 <section class="section">
 <div class="section-header"><div><div class="section-index">22 settembre 2026</div><h2>Il mondo intorno alla scacchiera.</h2><p class="section-lead">La scena diventa personalizzabile anche oltre le 64 caselle.</p></div><div class="section-body"><div class="entry"><div class="entry-text"><div class="date">22.09.2026 · Nuova direzione</div><h3>Mare, erba, deserto e ghiaccio</h3>
