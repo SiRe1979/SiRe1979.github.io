@@ -123,6 +123,7 @@ details p{margin:0 0 12px;color:var(--ink2)}
   <details>
     <summary>Opzioni</summary>
     <div class="row"><span>Modalità</span><div class="seg" id="segMode"></div></div>
+    <div class="row" id="sideRow"><span>Colore</span><div class="seg" id="segSide"></div></div>
     <div class="row" id="levelRow"><span>Avversario</span><div class="seg" id="segLevel"></div></div>
     <div class="row"><span>Scacchiera</span><div class="seg" id="segBoard"></div></div>
     <div class="row"><span>Terreno</span><div class="seg" id="segEnv"></div></div>
@@ -500,7 +501,7 @@ const PNAME = { p:'Soldato', r:'Torre', n:'Cavaliere', b:'Mago', q:'Regina', k:'
   stage.appendChild(renderer.domElement);
   const dom = renderer.domElement; dom.style.cssText = 'display:block;width:100%;height:100%;touch-action:none';
 
-  const opts = { vsAI: true, level: 2, battles: !(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches), sound: false, music: false, view: '3d', board: 'pietra', env: 'castello' };
+  const opts = { vsAI: true, level: 2, battles: !(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches), sound: false, music: false, view: '3d', board: 'pietra', env: 'castello', side: 'w' };
   try { const o = JSON.parse(localStorage.getItem('scacchi-darme-3d') || '{}'); for (const k in o) if (k in opts) opts[k] = o[k]; } catch (e) {}
   const saveOpts = () => { try { localStorage.setItem('scacchi-darme-3d', JSON.stringify(opts)); } catch (e) {} };
 
@@ -1567,7 +1568,7 @@ const PNAME = { p:'Soldato', r:'Torre', n:'Cavaliere', b:'Mago', q:'Regina', k:'
   function refreshStatus() {
     $('#again').hidden = !over; if (over) return;
     if (checkSq >= 0) return setStatus(`Scacco al re ${S.turn === 'w' ? "dell'Alba" : 'della Cenere'}!`, 'warn');
-    if (opts.vsAI) setStatus(S.turn === 'w' ? "Tocca a te: muove l'Alba." : 'La Cenere medita…'); else setStatus(`Muove ${NAMES[S.turn]}.`);
+    if (opts.vsAI) setStatus(S.turn === opts.side ? `Tocca a te: muove ${NAMES[S.turn]}.` : `${NAMES[S.turn]} medita…`); else setStatus(`Muove ${NAMES[S.turn]}.`);
   }
   function endText(st) {
     if (st.type === 'mate') return `Scacco matto! ${st.winner === 'w' ? "L'Alba" : 'La Cenere'} vince la battaglia.`;
@@ -1592,7 +1593,7 @@ const PNAME = { p:'Soldato', r:'Torre', n:'Cavaliere', b:'Mago', q:'Regina', k:'
       busy = false; return;
     }
     busy = false;
-    if (opts.vsAI && S.turn === 'b') aiMove();
+    if (opts.vsAI && S.turn !== opts.side) aiMove();
   }
   async function aiMove() {
     const my = gen; busy = true; refreshStatus();
@@ -1613,7 +1614,7 @@ const PNAME = { p:'Soldato', r:'Torre', n:'Cavaliere', b:'Mago', q:'Regina', k:'
   }
   $('#promo').addEventListener('click', e => { if (e.target.id === 'promo') $('#promo').hidden = true; });
   function tapSq(sq) {
-    if (opts.vsAI && S.turn !== 'w') return;
+    if (opts.vsAI && S.turn !== opts.side) return;
     if (selected >= 0) { const ms = targets.filter(t => t.to === sq); if (ms.length) { if (ms[0].promo) return askPromo(ms); return playMove(ms[0]); } }
     const p = S.b[sq];
     if (p && (p < 'a') === (S.turn === 'w')) { selected = sq; targets = legalMoves.filter(x => x.from === sq); } else { selected = -1; targets = []; }
@@ -1631,14 +1632,15 @@ const PNAME = { p:'Soldato', r:'Torre', n:'Cavaliere', b:'Mago', q:'Regina', k:'
     S = initP(); hist = []; keys = [keyOf(S)]; last = null; selected = -1; targets = []; over = false; checkSq = -1; legalMoves = genMoves(S);
     $('#hint').hidden = true; $('#promo').hidden = true;
     syncAll(); paintAll(); updateHud(); refreshStatus();
+    if (opts.vsAI && S.turn !== opts.side) aiMove();
   }
   function undo() {
     if (busy || !hist.length) return;
-    const n = Math.min(opts.vsAI && S.turn === 'w' ? 2 : 1, hist.length), it = hist[hist.length - n]; hist.length -= n; gen++;
+    const n = Math.min(opts.vsAI && S.turn === opts.side ? 2 : 1, hist.length), it = hist[hist.length - n]; hist.length -= n; gen++;
     S = it.S; last = it.last; keys.length = it.keysLen; over = false; selected = -1; targets = []; legalMoves = genMoves(S);
     const st = gameStatus(S, legalMoves, keys); checkSq = st.check ? kingSq(S) : -1;
     syncAll(); paintAll(); updateHud(); refreshStatus();
-    if (opts.vsAI && S.turn === 'b') aiMove();
+    if (opts.vsAI && S.turn !== opts.side) aiMove();
   }
 
 
@@ -1896,8 +1898,9 @@ const PNAME = { p:'Soldato', r:'Torre', n:'Cavaliere', b:'Mago', q:'Regina', k:'
     render();
   }
   function initControls() {
-    seg('#segMode', [["Contro l'IA", true], ['Due giocatori', false]], () => opts.vsAI, v => { if (v !== opts.vsAI) { opts.vsAI = v; newGame(); } $('#levelRow').hidden = !opts.vsAI; });
-    $('#levelRow').hidden = !opts.vsAI;
+    seg('#segMode', [["Contro l'IA", true], ['Due giocatori', false]], () => opts.vsAI, v => { if (v !== opts.vsAI) { opts.vsAI = v; newGame(); } $('#levelRow').hidden = !opts.vsAI; $('#sideRow').hidden = !opts.vsAI; });
+    $('#levelRow').hidden = !opts.vsAI; $('#sideRow').hidden = !opts.vsAI;
+    seg('#segSide', [["L'Alba (bianco)", 'w'], ['La Cenere (nero)', 'b']], () => opts.side, v => { if (v !== opts.side) { opts.side = v; newGame(); viewIdx = v === 'b' ? 1 : 0; goView(presets[viewIdx]); nextLabel(); } });
     seg('#segLevel', [['Recluta', 1], ['Cavaliere', 2], ['Maestro', 3]], () => opts.level, v => { opts.level = v; });
     seg('#segBattle', [['Sì', true], ['No', false]], () => opts.battles, v => { opts.battles = v; });
     seg('#segSound', [['Sì', true], ['No', false]], () => opts.sound, v => { opts.sound = v; if (v) { ac(); sfx('clash'); setTimeout(() => sfx('magic'), 180); setTimeout(() => { if (opts.sound && AC && AC.state !== 'running') setStatus('Audio in attesa: tocca la scacchiera per attivarlo.'); }, 500); } });
@@ -1906,7 +1909,7 @@ const PNAME = { p:'Soldato', r:'Torre', n:'Cavaliere', b:'Mago', q:'Regina', k:'
     seg('#segEnv', Object.keys(ENV_THEMES).map(k => [ENV_THEMES[k].name, k]), () => opts.env, v => { opts.env = v; applyEnvTheme(v); if (opts.music) startMusicFor(v); });
     $('#newGame').onclick = () => { if (busy && animating) skip(); newGame(); };
     $('#again').onclick = newGame; $('#undo').onclick = undo; $('#toggleView').onclick = () => setMode(mode === '2d' ? '3d' : '2d');
-    const nextLabel = () => $('#view').textContent = 'Vista: ' + presets[(viewIdx + 1) % presets.length].name;
+    function nextLabel() { $('#view').textContent = 'Vista: ' + presets[(viewIdx + 1) % presets.length].name; }
     $('#view').onclick = () => { viewIdx = (viewIdx + 1) % presets.length; goView(presets[viewIdx]); nextLabel(); };
     nextLabel();
   }
@@ -1940,7 +1943,7 @@ const PNAME = { p:'Soldato', r:'Torre', n:'Cavaliere', b:'Mago', q:'Regina', k:'
   const svgNoise = "<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .55 0'/></filter><rect width='100%' height='100%' filter='url(#n)'/></svg>";
   document.documentElement.style.setProperty('--noise', `url("data:image/svg+xml,${encodeURIComponent(svgNoise)}")`);
   $('#defs2').innerHTML = DEFS;
-  resize(); cam.r = homeR(); initControls(); applyBoardTheme(opts.board); applyEnvTheme(opts.env); if (opts.music) startMusicFor(opts.env); applyMode(); newGame(); requestAnimationFrame(loop);
+  resize(); cam.r = homeR(); initControls(); applyBoardTheme(opts.board); applyEnvTheme(opts.env); if (opts.music) startMusicFor(opts.env); if (opts.side === 'b') { viewIdx = 1; cam.theta = presets[1].theta; cam.phi = presets[1].phi; } applyMode(); newGame(); requestAnimationFrame(loop);
   window.__dbg = { sfx, unlockAudio, startMusicFor, stopMusic, musicTick, MUSIC, get musicState() { return musicState; }, get AC() { return AC; }, get MASTER() { return MASTER; }, get S() { return S; }, get mode() { return mode; }, setMode, V2, applyBoardTheme, applyEnvTheme, matLt, matDk, matFrame, matGold, matGround, scene, hemi, envExtras, cam, camera, updateSky, get skyDome() { return skyDome; }, get starsPts() { return starsPts; }, get envParticles() { return envParticles; }, playMove, tap, tapAt, askPromo, newGame, undo, pieces, get busy() { return busy; }, get over() { return over; }, get targets() { return targets; }, get checkSq() { return checkSq; }, opts, syncPieces, setS(st) { S = st; legalMoves = genMoves(S); over = false; hist = []; keys = [keyOf(S)]; selected = -1; targets = []; const c = gameStatus(S, legalMoves, keys); checkSq = c.check ? kingSq(S) : -1; syncAll(); paintAll(); updateHud(); refreshStatus(); } };
 })();
 </script>
