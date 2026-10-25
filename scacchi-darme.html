@@ -7,7 +7,7 @@
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <meta content="#020913" name="theme-color" />
     <meta
-        content="Diario completo di sviluppo di Scacchi D'Arme: evoluzione del progetto dal 10 luglio al 29 settembre 2026, regole, personaggi, animazioni, IA, scena 3D e prossimi sviluppi."
+        content="Diario completo di sviluppo di Scacchi D'Arme: evoluzione del progetto dal 10 luglio al 25 ottobre 2026, regole, personaggi, animazioni, IA, scena 3D e prossimi sviluppi."
         name="description" />
     <title>Scacchi D'Arme | Diario di sviluppo — Simone Rebucci</title>
     <link href="assets.css" rel="stylesheet" />
@@ -69,6 +69,37 @@
                 href="#pezzi">I pezzi</a><a href="#roadmap">Prossimi sviluppi</a><a href="#nota">Nota sul processo</a>
         </nav>
         <div class="chess-content" id="diario">
+            <!-- 25 OCT -->
+            <section class="section">
+                <div class="section-header">
+                    <div>
+                        <div class="section-index">25 ottobre 2026</div>
+                        <h2>La scacchiera sceglie il tuo punto di vista.</h2>
+                        <p class="section-lead">Ora puoi decidere con quale colore affrontare la partita.</p>
+                    </div>
+                    <div class="section-body">
+                        <div class="entry">
+                            <div class="entry-text">
+                                <div class="date">25.10.2026 · Nuova funzione</div>
+                                <h3>L'Alba o la Cenere: scegli da che parte giocare</h3>
+                                <p>Finora <em>Scacchi D'Arme</em> dava per scontato che il giocatore fosse sempre il Bianco. Ma una partita può cominciare anche dall'altra prospettiva: volevo poter scegliere con quale colore giocare.</p>
+                                <p>Nelle opzioni, quando si gioca contro l'intelligenza artificiale, è ora possibile scegliere <strong>L'Alba (Bianco)</strong> oppure <strong>La Cenere (Nero)</strong>. Se si sceglie il Nero, l'IA apre automaticamente la partita e la visuale si orienta dalla parte del giocatore, così la scacchiera mantiene un punto di vista naturale.</p>
+                                <p>La modifica non riguarda soltanto il colore dei pezzi. Ho rivisto la gestione dei turni e dei messaggi, il controllo che impedisce di selezionare i pezzi avversari e la funzione <strong>annulla mossa</strong>, che deve ripristinare correttamente l'ultima coppia di mosse indipendentemente dal colore scelto. La preferenza viene inoltre salvata, per ritrovare la propria scelta alla partita successiva.</p>
+                                <p>Ho verificato l'apertura dell'IA giocando con il Nero, il comportamento al tocco durante i turni, l'annullamento e il cambio di colore anche a partita avviata. Ho poi ricontrollato che la nuova logica convivessse con gli altri elementi già presenti: ambientazioni, musica e visuale 2D. Un primo test aveva segnalato un problema che, ripetuta la prova, si è rivelato un falso allarme: l'IA aveva semplicemente scelto la mossa che stavo usando come riferimento.</p>
+                                <p>Per questa modifica ho recuperato il sorgente dal pacchetto di lavoro disponibile dopo un riavvio dell'ambiente, verificandone la corrispondenza con la versione pubblicata prima di intervenire. È un passaggio meno visibile del gioco, ma importante: mantenere allineati sorgenti e versione online fa parte dello sviluppo quanto aggiungere una funzione.</p>
+                                <p><strong>Il prossimo passo, che conto di rilasciare nei prossimi giorni,</strong> sarà introdurre l'elenco delle mosse e il tempo di gioco: due elementi che avvicineranno ancora di più l'esperienza a una vera partita di scacchi.</p>
+                            </div>
+                            <div class="entry-image">
+                                <div class="image-frame"><img alt="Scacchi D'Arme — scelta del colore" decoding="async"
+                                        loading="lazy" src="images/scacchi-2026-10-25.jpg" />
+                                    <div class="image-placeholder">Inserisci qui una schermata delle opzioni con la scelta tra L'Alba e La Cenere</div>
+                                </div>
+                                <div class="image-caption">Scegliere il proprio colore contro l'IA</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
             <!-- 22 SEP -->
             <section class="section">
                 <div class="section-header">
