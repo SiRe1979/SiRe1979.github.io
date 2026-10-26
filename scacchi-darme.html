@@ -7,7 +7,7 @@
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <meta content="#020913" name="theme-color" />
     <meta
-        content="Diario completo di sviluppo di Scacchi D'Arme: evoluzione del progetto dal 10 luglio al 25 ottobre 2026, regole, personaggi, animazioni, IA, scena 3D e prossimi sviluppi."
+        content="Diario completo di sviluppo di Scacchi D'Arme: evoluzione del progetto dal 10 luglio al 26 ottobre 2026, regole, personaggi, animazioni, IA, scena 3D e prossimi sviluppi."
         name="description" />
     <title>Scacchi D'Arme | Diario di sviluppo — Simone Rebucci</title>
     <link href="assets.css" rel="stylesheet" />
@@ -74,60 +74,82 @@
                 <div class="section-header">
                     <div>
                         <div class="section-index">26 ottobre 2026</div>
-                        <h2>Un orologio per la partita.</h2>
-                        <p class="section-lead">Il tempo entra in gioco: ogni fazione ha il proprio conto alla rovescia, come in una partita reale.</p>
+                        <h2>Il tempo entra nella partita.</h2>
+                        <p class="section-lead">Un orologio per ciascuna fazione, con il conto alla rovescia che segue il turno di gioco.</p>
                     </div>
                     <div class="section-body">
                         <div class="entry">
                             <div class="entry-text">
                                 <div class="date">26.10.2026 · Orologio di gioco</div>
-                                <h3>Il tempo entra nella partita</h3>
-                                <p>Dopo aver aggiunto la cronologia delle mosse, oggi ho introdotto un vero <strong>orologio di gioco</strong>, per rendere le partite ancora più simili a quelle disputate davanti a una scacchiera.</p>
-                                <p>Nel pannello Opzioni si può scegliere il tempo a disposizione di ciascun giocatore: <strong>3, 5, 10 o 15 minuti</strong>, oppure nessun limite per chi preferisce giocare senza fretta. La scelta predefinita è di 10 minuti.</p>
-                                <p>L'orologio compare accanto al nome di ciascuna fazione e scorre soltanto per chi deve muovere. Quando il turno passa all'avversario, il primo orologio si ferma e parte il secondo. Se il tempo scade, la partita termina e la vittoria viene assegnata all'avversario.</p>
-                                <p>Anche <strong>annulla mossa</strong> è stato aggiornato: oltre a ripristinare la posizione sulla scacchiera, riporta l'orologio al tempo corretto e mantiene coerente la cronologia della partita.</p>
-                                <p>Ho collaudato la gestione del tempo durante i cambi di turno, la scadenza, l'annullamento e l'integrazione con le funzioni già presenti, compresi scelta del colore, ambientazioni, musica e visuale 2D. Ho verificato inoltre i casi limite durante le animazioni, per assicurarmi che il conto alla rovescia e lo stato della partita restino sincronizzati.</p>
-                                <p>Con l'orologio, <em>Scacchi D'Arme</em> aggiunge una nuova dimensione alla partita: non conta soltanto la mossa giusta, ma anche il tempo in cui si riesce a trovarla.</p>
+                                <h3>Una partita anche contro il tempo</h3>
+                                <p>Oggi ho aggiunto a <em>Scacchi D'Arme</em> un vero <strong>orologio di gioco</strong>, per avvicinare ancora di più l'esperienza a quella di una partita disputata davanti a una scacchiera.</p>
+                                <p>Nel pannello Opzioni si può scegliere il tempo a disposizione per ciascun giocatore: <strong>3, 5, 10 o 15 minuti</strong>, oppure nessun limite. La scelta predefinita è di 10 minuti.</p>
+                                <p>L'orologio è visibile accanto al nome di ciascuna fazione e scorre soltanto per chi deve muovere. Al cambio di turno, il conto alla rovescia passa automaticamente all'avversario; se il tempo termina, la partita si conclude e la vittoria viene assegnata all'altra fazione.</p>
+                                <p>Ho aggiornato anche <strong>annulla mossa</strong>, che ripristina non soltanto la posizione sulla scacchiera, ma anche il tempo e la cronologia nello stato precedente. Ho collaudato cambi di turno, scadenza del tempo e annullamento, verificando che tutto resti coerente anche durante le animazioni e insieme alle funzioni già presenti.</p>
                             </div>
                             <div class="entry-image">
                                 <div class="image-frame"><img alt="Scacchi D'Arme — orologio della partita" decoding="async"
                                         loading="lazy" src="images/scacchi-2026-10-26.jpg" />
                                     <div class="image-placeholder">Inserisci qui una schermata della partita con gli orologi visibili accanto ai nomi delle fazioni</div>
                                 </div>
-                                <div class="image-caption">Il tempo di gioco per entrambe le fazioni</div>
+                                <div class="image-caption">Il tempo a disposizione di ciascun giocatore</div>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
-            <!-- 25 OCT -->
+            <!-- 24 OCT -->
             <section class="section">
                 <div class="section-header">
                     <div>
-                        <div class="section-index">25 ottobre 2026</div>
-                        <h2>La scacchiera sceglie il tuo punto di vista.</h2>
-                        <p class="section-lead">Ora puoi decidere con quale colore affrontare la partita.</p>
+                        <div class="section-index">24 ottobre 2026</div>
+                        <h2>Ogni mossa lascia una traccia.</h2>
+                        <p class="section-lead">La partita prende forma anche in una cronologia leggibile, come sulla scheda di una partita reale.</p>
                     </div>
                     <div class="section-body">
                         <div class="entry">
                             <div class="entry-text">
-                                <div class="date">25.10.2026 · Nuova funzione</div>
-                                <h3>L'Alba o la Cenere: scegli da che parte giocare</h3>
-                                <p>Finora <em>Scacchi D'Arme</em> dava per scontato che il giocatore fosse sempre il Bianco. Ma una partita può cominciare anche dall'altra prospettiva: volevo poter scegliere con quale colore giocare.</p>
-                                <p>Nelle opzioni, quando si gioca contro l'intelligenza artificiale, è ora possibile scegliere <strong>L'Alba (Bianco)</strong> oppure <strong>La Cenere (Nero)</strong>. Se si sceglie il Nero, l'IA apre automaticamente la partita e la visuale si orienta dalla parte del giocatore, così la scacchiera mantiene un punto di vista naturale.</p>
-                                <p>La modifica non riguarda soltanto il colore dei pezzi. Ho rivisto la gestione dei turni e dei messaggi, il controllo che impedisce di selezionare i pezzi avversari e la funzione <strong>annulla mossa</strong>, che deve ripristinare correttamente l'ultima coppia di mosse indipendentemente dal colore scelto. La preferenza viene inoltre salvata, per ritrovare la propria scelta alla partita successiva.</p>
-                                <p>Ho verificato l'apertura dell'IA giocando con il Nero, il comportamento al tocco durante i turni, l'annullamento e il cambio di colore anche a partita avviata. Ho poi ricontrollato che la nuova logica convivessse con gli altri elementi già presenti: ambientazioni, musica e visuale 2D. Un primo test aveva segnalato un problema che, ripetuta la prova, si è rivelato un falso allarme: l'IA aveva semplicemente scelto la mossa che stavo usando come riferimento.</p>
-                                <p>Per questa modifica ho recuperato il sorgente dal pacchetto di lavoro disponibile dopo un riavvio dell'ambiente, verificandone la corrispondenza con la versione pubblicata prima di intervenire. È un passaggio meno visibile del gioco, ma importante: mantenere allineati sorgenti e versione online fa parte dello sviluppo quanto aggiungere una funzione.</p>
-                                <p>Sotto la scacchiera ho aggiunto il pannello <strong>Mosse</strong>, aperto di default, che registra la partita in notazione scacchistica standard: catture, arrocco, promozione, scacco e scacco matto. Gestisce anche le <strong>disambiguazioni</strong>, quando due pezzi dello stesso tipo potrebbero raggiungere la medesima casa, così la cronologia resta leggibile e corretta.</p>
-                                <p>Ho collaudato la notazione, le disambiguazioni e i simboli di scacco e matto, oltre a verificare che l'elenco si mantenga coerente con le mosse annullate. La cronologia delle mosse è quindi la novità di questa giornata; ho verificato anche che conviva con la scelta del colore e con le altre funzioni già presenti.</p>
-                                <p><strong>Il prossimo passo, previsto per i prossimi giorni,</strong> sarà aggiungere un orologio di gioco, così da poter scegliere il tempo a disposizione e seguire la partita con una dinamica ancora più vicina a quella degli scacchi tradizionali.</p>
+                                <div class="date">24.10.2026 · Cronologia delle mosse</div>
+                                <h3>La notazione scacchistica arriva in Scacchi D'Arme</h3>
+                                <p>Ho aggiunto sotto la scacchiera il pannello <strong>Mosse</strong>, aperto di default, per registrare la partita in notazione scacchistica standard. In questo modo è possibile seguire la sequenza delle mosse senza affidarsi soltanto alla posizione dei pezzi sulla scacchiera.</p>
+                                <p>La cronologia gestisce le catture, l'arrocco, le promozioni e i simboli di scacco e scacco matto. Ho curato anche le <strong>disambiguazioni</strong>: quando due pezzi dello stesso tipo possono raggiungere la stessa casa, la notazione indica quale dei due si è mosso, mantenendo l'elenco preciso e comprensibile.</p>
+                                <p>Durante i test ho verificato la notazione in posizioni diverse, compresi i casi ambigui, e il comportamento della cronologia quando si annulla una mossa. L'obiettivo era avere un registro affidabile della partita, integrato con le funzioni già presenti e pronto ad accompagnare gli sviluppi successivi.</p>
                             </div>
                             <div class="entry-image">
-                                <div class="image-frame"><img alt="Scacchi D'Arme — scelta del colore e cronologia delle mosse" decoding="async"
-                                        loading="lazy" src="images/scacchi-2026-10-25.jpg" />
-                                    <div class="image-placeholder">Inserisci qui una schermata delle opzioni con la scelta tra L'Alba e La Cenere oppure il pannello Mosse sotto la scacchiera</div>
+                                <div class="image-frame"><img alt="Scacchi D'Arme — cronologia delle mosse" decoding="async"
+                                        loading="lazy" src="images/scacchi-2026-10-24.jpg" />
+                                    <div class="image-placeholder">Inserisci qui una schermata del pannello Mosse con una partita registrata in notazione scacchistica</div>
                                 </div>
-                                <div class="image-caption">Scegliere il proprio colore e consultare la cronologia</div>
+                                <div class="image-caption">La cronologia della partita in notazione standard</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- 20 OCT -->
+            <section class="section">
+                <div class="section-header">
+                    <div>
+                        <div class="section-index">20 ottobre 2026</div>
+                        <h2>L'Alba o la Cenere: scegli da che parte giocare.</h2>
+                        <p class="section-lead">La scelta del colore cambia il punto di vista sulla scacchiera e il modo in cui comincia la partita.</p>
+                    </div>
+                    <div class="section-body">
+                        <div class="entry">
+                            <div class="entry-text">
+                                <div class="date">20.10.2026 · Scelta del colore</div>
+                                <h3>Giocare con il Bianco o con il Nero</h3>
+                                <p>Finora <em>Scacchi D'Arme</em> dava per scontato che il giocatore fosse sempre il Bianco. Volevo poter scegliere anche il Nero, per affrontare la partita da entrambe le prospettive.</p>
+                                <p>Nelle opzioni, quando si gioca contro l'intelligenza artificiale, è ora possibile scegliere <strong>L'Alba (Bianco)</strong> oppure <strong>La Cenere (Nero)</strong>. Se scelgo il Nero, l'IA apre automaticamente la partita e la visuale si orienta dalla mia parte della scacchiera.</p>
+                                <p>Per introdurre questa possibilità ho rivisto la gestione dei turni e dei messaggi, il controllo che impedisce di selezionare i pezzi avversari e la funzione <strong>annulla mossa</strong>, che deve funzionare correttamente qualunque sia il colore scelto. La preferenza resta salvata anche per le partite successive.</p>
+                                <p>Ho verificato l'apertura dell'IA con il Nero, il comportamento dei pezzi al tocco, l'annullamento e il cambio di colore durante una partita. Ho poi controllato che la modifica continuasse a convivere con le ambientazioni, la musica e la visuale 2D.</p>
+                            </div>
+                            <div class="entry-image">
+                                <div class="image-frame"><img alt="Scacchi D'Arme — scelta del colore" decoding="async"
+                                        loading="lazy" src="images/scacchi-2026-10-20.jpg" />
+                                    <div class="image-placeholder">Inserisci qui una schermata delle opzioni con la scelta tra L'Alba (Bianco) e La Cenere (Nero)</div>
+                                </div>
+                                <div class="image-caption">Scegliere il colore con cui affrontare la partita</div>
                             </div>
                         </div>
                     </div>
