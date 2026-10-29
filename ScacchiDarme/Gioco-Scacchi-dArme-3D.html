@@ -2,6 +2,7 @@
 <html lang="it">
 <head>
 <meta charset="utf-8">
+<!-- Scacchi d'Arme 3D · versione 20261029.101 · MIT · Simone Rebucci -->
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Scacchi d'Arme 3D</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -33,6 +34,7 @@ body{background:radial-gradient(120% 55% at 50% 0%,var(--glow),transparent 62%),
 .app{max-width:720px;margin:0 auto;padding:14px 12px 28px}
 h1{font:700 1.9rem/1.1 var(--display);margin:4px 0 2px;letter-spacing:.01em}
 .tag{margin:0 0 10px;color:var(--ink2);font-size:1rem}
+.ver{margin:10px 0 0;text-align:center;color:var(--ink2);font-size:.78rem;opacity:.75}
 .hud{display:flex;flex-wrap:wrap;align-items:center;gap:0 10px;min-height:38px;padding:4px 8px;border-radius:8px;transition:background .25s}
 .hud.on{background:color-mix(in srgb,var(--gold) 14%,transparent)}
 .hud .emb{display:flex;filter:grayscale(.55) opacity(.7);transition:filter .25s}
@@ -141,6 +143,7 @@ details p{margin:0 0 12px;color:var(--ink2)}
     <div class="row"><span>Suoni</span><div class="seg" id="segSound"></div></div>
     <div class="row"><span>Musica</span><div class="seg" id="segMusic"></div></div>
   </details>
+  <p class="ver" id="ver">Versione 20261029.101</p>
 </main>
 <div class="modal" id="promo" hidden><div class="card"><p>Scegli la promozione</p><div class="opts"></div></div></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -1100,23 +1103,11 @@ const PNAME = { p:'Soldato', r:'Torre', n:'Cavaliere', b:'Mago', q:'Regina', k:'
     return c;
   }
   const semiFreq = (def, deg, oct, mul = 1) => { const n = def.scale.length, semi = def.scale[((deg % n) + n) % n] + 12 * Math.floor(deg / n); return def.root * mul * Math.pow(2, semi / 12 + oct); };
-  function noiseLoop(c, bus, type, freq, q, base, lfoRate, lfoDepth) {
-    const len = c.sampleRate * 3, buf = c.createBuffer(1, len, c.sampleRate), d = buf.getChannelData(0);
-    for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
-    const src = c.createBufferSource(); src.buffer = buf; src.loop = true;
-    const f = c.createBiquadFilter(); f.type = type; f.frequency.value = freq; f.Q.value = q;
-    const g = c.createGain(); g.gain.value = base;
-    src.connect(f); f.connect(g); g.connect(bus); src.start();
-    const nodes = [src];
-    if (lfoRate) { const lfo = c.createOscillator(), lg = c.createGain(); lfo.frequency.value = lfoRate; lg.gain.value = lfoDepth; lfo.connect(lg); lg.connect(g.gain); lfo.start(); nodes.push(lfo); }
-    return nodes;
-  }
   function buildAmbience(c, def, bus) {
     switch (def.amb) {
-      case 'waves': return noiseLoop(c, bus, 'lowpass', 420, .7, .55, .11, .35).concat(noiseLoop(c, bus, 'bandpass', 1400, .5, .12, .17, .08));
-      case 'wind': return noiseLoop(c, bus, 'bandpass', 520, .8, .45, .07, .3);
-      case 'breeze': return noiseLoop(c, bus, 'bandpass', 900, .5, .25, .09, .15);
-      case 'icewind': return noiseLoop(c, bus, 'highpass', 2400, .5, .1, .06, .05);
+      // Onde, vento e brezza erano rumore filtrato (fruscii): tolti su richiesta.
+      // Restano accordo di base e note melodiche; i cinguettii dell'Erba sono note, non rumore.
+      case 'waves': case 'wind': case 'breeze': case 'icewind': return [];
       case 'drone': {
         const f = c.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = 200; f.Q.value = .6;
         const g = c.createGain(); g.gain.value = .16; f.connect(g); g.connect(bus);
@@ -1653,6 +1644,7 @@ const PNAME = { p:'Soldato', r:'Torre', n:'Cavaliere', b:'Mago', q:'Regina', k:'
   }
 
 
+  const APP_VERSION = '20261029.101';
   function pgnResultFromStatus(st) {
     if (st.type === 'mate') return st.winner === 'w' ? '1-0' : '0-1';
     return '1/2-1/2';
@@ -1661,7 +1653,7 @@ const PNAME = { p:'Soldato', r:'Torre', n:'Cavaliere', b:'Mago', q:'Regina', k:'
     const d = new Date(), pad = n => String(n).padStart(2, '0');
     const dateTag = `${d.getFullYear()}.${pad(d.getMonth() + 1)}.${pad(d.getDate())}`;
     const modeTag = opts.vsAI ? `Umano (${opts.side === 'w' ? "l'Alba" : 'la Cenere'}) contro IA, livello ${opts.level}` : 'Due giocatori';
-    let pgn = `[Event "Scacchi d'Arme"]\n[Site "?"]\n[Date "${dateTag}"]\n[Round "?"]\n[White "L'Alba"]\n[Black "La Cenere"]\n[Result "${resultTag}"]\n[Mode "${modeTag}"]\n\n`;
+    let pgn = `[Event "Scacchi d'Arme"]\n[Site "?"]\n[Date "${dateTag}"]\n[Round "?"]\n[White "L'Alba"]\n[Black "La Cenere"]\n[Result "${resultTag}"]\n[Mode "${modeTag}"]\n[Application "Scacchi d'Arme 3D ${APP_VERSION}"]\n\n`;
     let body = '';
     for (let i = 0; i < moveLog.length; i += 2) body += `${i / 2 + 1}. ${moveLog[i]}${moveLog[i + 1] ? ' ' + moveLog[i + 1] + ' ' : ' '}`;
     pgn += (body + resultTag).trim() + '\n';
@@ -2056,7 +2048,7 @@ const PNAME = { p:'Soldato', r:'Torre', n:'Cavaliere', b:'Mago', q:'Regina', k:'
   document.documentElement.style.setProperty('--noise', `url("data:image/svg+xml,${encodeURIComponent(svgNoise)}")`);
   $('#defs2').innerHTML = DEFS;
   resize(); cam.r = homeR(); initControls(); applyBoardTheme(opts.board); applyEnvTheme(opts.env); if (opts.music) startMusicFor(opts.env); if (opts.side === 'b') { viewIdx = 1; cam.theta = presets[1].theta; cam.phi = presets[1].phi; } applyMode(); newGame(); requestAnimationFrame(loop);
-  window.__dbg = { sfx, unlockAudio, startMusicFor, stopMusic, musicTick, MUSIC, get musicState() { return musicState; }, get AC() { return AC; }, get MASTER() { return MASTER; }, get S() { return S; }, get mode() { return mode; }, setMode, V2, toSAN, exportPGN, orientFor, presets, get viewIdx() { return viewIdx; }, cam, get resultTag() { return resultTag; }, get moveLog() { return moveLog; }, get clockW() { return clockW; }, get clockB() { return clockB; }, flagFall, startClock, stopClock, applyBoardTheme, applyEnvTheme, matLt, matDk, matFrame, matGold, matGround, scene, hemi, envExtras, cam, camera, updateSky, get skyDome() { return skyDome; }, get starsPts() { return starsPts; }, get envParticles() { return envParticles; }, playMove, tap, tapAt, askPromo, newGame, undo, pieces, get busy() { return busy; }, get over() { return over; }, get targets() { return targets; }, get checkSq() { return checkSq; }, opts, syncPieces, setS(st) { S = st; legalMoves = genMoves(S); over = false; hist = []; keys = [keyOf(S)]; selected = -1; targets = []; const c = gameStatus(S, legalMoves, keys); checkSq = c.check ? kingSq(S) : -1; syncAll(); paintAll(); updateHud(); refreshStatus(); } };
+  window.__dbg = { APP_VERSION, sfx, unlockAudio, startMusicFor, stopMusic, musicTick, MUSIC, get musicState() { return musicState; }, get AC() { return AC; }, get MASTER() { return MASTER; }, get S() { return S; }, get mode() { return mode; }, setMode, V2, toSAN, exportPGN, orientFor, presets, get viewIdx() { return viewIdx; }, cam, get resultTag() { return resultTag; }, get moveLog() { return moveLog; }, get clockW() { return clockW; }, get clockB() { return clockB; }, flagFall, startClock, stopClock, applyBoardTheme, applyEnvTheme, matLt, matDk, matFrame, matGold, matGround, scene, hemi, envExtras, cam, camera, updateSky, get skyDome() { return skyDome; }, get starsPts() { return starsPts; }, get envParticles() { return envParticles; }, playMove, tap, tapAt, askPromo, newGame, undo, pieces, get busy() { return busy; }, get over() { return over; }, get targets() { return targets; }, get checkSq() { return checkSq; }, opts, syncPieces, setS(st) { S = st; legalMoves = genMoves(S); over = false; hist = []; keys = [keyOf(S)]; selected = -1; targets = []; const c = gameStatus(S, legalMoves, keys); checkSq = c.check ? kingSq(S) : -1; syncAll(); paintAll(); updateHud(); refreshStatus(); } };
 })();
 </script>
 </body>
