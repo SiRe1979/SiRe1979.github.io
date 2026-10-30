@@ -11,6 +11,22 @@
         name="description" />
     <title>Scacchi D'Arme | Diario di sviluppo — Simone Rebucci</title>
     <link href="assets.css" rel="stylesheet" />
+    <style>
+        /* La descrizione del progetto mantiene il contrasto corretto in entrambi i temi. */
+        body.light .process-description {
+            background: linear-gradient(135deg, #ffffff, #edf4f8) !important;
+            border-color: rgba(0, 126, 167, .24) !important;
+            color: #102235;
+            box-shadow: 0 16px 44px rgba(8, 35, 53, .09) !important;
+        }
+        body.light .process-description p,
+        body.light .process-description h3 {
+            color: #102235;
+        }
+        body.light .process-description .section-index {
+            color: #007f80;
+        }
+    </style>
     <script defer="" src="assets.js"></script>
 </head>
 
