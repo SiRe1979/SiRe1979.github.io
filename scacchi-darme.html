@@ -44,7 +44,14 @@
             </div>
         </section>
         <section class="section" id="gioco">
-               <div style="overflow:hidden;border:1px solid rgba(148,163,184,.35);border-radius:16px;background:#020913;">
+            <div class="section-header">
+                <div>
+                    <div class="section-index">Gioca</div>
+                    <h2>Scacchi D'Arme, direttamente qui.</h2>
+                    <p class="section-lead">La versione preliminare si apre all'interno della pagina, senza portarti altrove.</p>
+                </div>
+            </div>
+            <div style="overflow:hidden;border:1px solid rgba(148,163,184,.35);border-radius:16px;background:#020913;">
                 <iframe
                     title="Gioca a Scacchi D'Arme — versione preliminare"
                     src="ScacchiDarme/Gioco-Scacchi-dArme-3D.html"
@@ -54,32 +61,62 @@
                     style="display:block;width:100%;height:clamp(620px,82vh,1000px);border:0;background:#020913;"
                 ></iframe>
             </div>
+            <p class="section-lead" style="margin-top:12px;">Suggerimento: se vuoi più spazio per la scacchiera, usa la modalità a schermo intero, se supportata dal gioco.</p>
         </section><!-- NOTE -->
         <section class="section" id="nota">
             <div class="note">
                 <div class="section-index">Nota sul processo</div>
-                <blockquote>
-                    <p><strong>Scacchi D'Arme è un progetto personale sviluppato attraverso un processo di VibeCoding
-                            con Claude.</strong></p>
-                    <p>L'intelligenza artificiale è stata utilizzata come strumento di progettazione, prototipazione e
-                        implementazione. La direzione del progetto, le specifiche funzionali e visive, le scelte
-                        progettuali, i test, le verifiche e le iterazioni fanno parte del processo creativo e di
-                        sviluppo.</p>
-                    <p>Il progetto prende ispirazione dal concetto di combattimento tra i pezzi reso celebre da
-                        <strong>Battle Chess</strong>, ma utilizza una propria identità visiva, propri personaggi,
-                        proprie animazioni e proprie scelte progettuali.</p>
-                    <p>Una delle caratteristiche fondamentali dello sviluppo è stata la costruzione progressiva:
-                        <strong>una funzione alla volta, un pezzo alla volta, una prova alla volta</strong>.</p>
-                    <p>Il progetto è nato e si è sviluppato principalmente nelle ore serali, come esperimento personale
-                        nato dalla curiosità di capire fino a dove fosse possibile arrivare utilizzando gli strumenti di
-                        VibeCoding per trasformare un'idea in un prodotto giocabile.</p>
-                </blockquote>
+                <div class="section-lead">
+                    <p><strong>Scacchi D'Arme</strong> è un progetto personale che nasce dall'incontro tra la mia
+                        passione per gli scacchi e il desiderio di costruire un'esperienza fantasy medievale giocabile.</p>
+                    <p>Ho curato la direzione del progetto: dall'idea iniziale alle specifiche, dalle scelte estetiche e
+                        funzionali alle prove e alle successive revisioni. Per realizzarlo mi sono avvalso del
+                        <strong>VibeCoding con Claude</strong>, utilizzando l'intelligenza artificiale come supporto
+                        alla progettazione e allo sviluppo, in un processo fatto di confronto, sperimentazione e
+                        verifiche continue.</p>
+                    <p>Il riferimento ideale è anche <strong>Battle Chess</strong>, che ha reso celebre l'idea di
+                        vedere i pezzi degli scacchi affrontarsi sul campo. Scacchi D'Arme ne raccoglie lo spunto,
+                        sviluppando però un mondo originale, con personaggi, ambientazioni, animazioni e soluzioni
+                        visive proprie.</p>
+                    <p>Il gioco è cresciuto in modo incrementale, una funzione dopo l'altra, soprattutto nelle ore
+                        libere e serali. Più che un esercizio teorico, è un progetto concreto: un'idea che prende forma
+                        attraverso prototipi, partite di prova, correzioni e nuovi obiettivi.</p>
+                </div>
             </div>
         </section>
         <nav aria-label="Indice del diario" class="chess-subnav"><a href="#diario">Diario di sviluppo</a><a
                 href="#pezzi">I pezzi</a><a href="#roadmap">Prossimi sviluppi</a><a href="#nota">Nota sul processo</a>
         </nav>
         <div class="chess-content" id="diario">
+            <!-- 29 OCT -->
+            <section class="section">
+                <div class="section-header">
+                    <div>
+                        <div class="section-index">29 ottobre 2026</div>
+                        <h2>Il tempo restituisce il tempo.</h2>
+                        <p class="section-lead">Arriva l'incremento Fischer: dopo ogni mossa, il giocatore recupera alcuni secondi da aggiungere al proprio orologio.</p>
+                    </div>
+                    <div class="section-body">
+                        <div class="entry">
+                            <div class="entry-text">
+                                <div class="date">29.10.2026 · Incremento Fischer</div>
+                                <h3>Una piccola riserva dopo ogni mossa</h3>
+                                <p>Ho introdotto il <strong>tempo Fischer</strong>, una modalità di gestione dell'orologio che prende il nome dal grande campione Bobby Fischer, che contribuì a promuovere questo sistema per rendere il tempo di riflessione più equilibrato e ridurre il rischio che una partita venga decisa soltanto dagli ultimi secondi, soprattutto in presenza di mosse rapide e obbligate.</p>
+                                <p>Il principio è semplice: ogni giocatore dispone di un tempo iniziale e, ogni volta che completa una mossa, riceve un piccolo incremento. Per esempio, con il controllo <strong>5+3</strong> si parte da cinque minuti e si aggiungono tre secondi al proprio orologio dopo ogni mossa. L'incremento viene assegnato a chi ha appena giocato, sia al Bianco sia al Nero, e vale anche quando a muovere è l'intelligenza artificiale.</p>
+                                <p>Nelle Opzioni ho aggiunto tre preset Fischer, <strong>3+2, 5+3 e 10+5</strong>, accanto ai tempi fissi da 3, 5, 10 e 15 minuti e alla modalità senza limite. Una breve spiegazione accompagna la scelta, mentre i pulsanti riportano ulteriori indicazioni. Ho preferito preset già pronti, più immediati da selezionare anche su dispositivi mobili.</p>
+                                <p>Ho aggiornato anche le funzioni collegate: <strong>Annulla mossa</strong> ripristina l'orologio e l'incremento insieme alla posizione e alla cronologia; l'esportazione PGN registra il controllo del tempo nel tag standard <strong>TimeControl</strong>, distinguendo i tempi fissi, quelli con incremento e le partite senza limite. Anche le preferenze salvate con le versioni precedenti continuano a essere caricate correttamente.</p>
+                                <p>Nei collaudi ho verificato l'alternanza degli orologi, l'accredito dei secondi a entrambi i colori, il ripristino dopo un annullamento, l'arresto al termine della partita e il comportamento dei controlli senza incremento. Ho ripetuto inoltre le verifiche di regressione su esportazione PGN e audio. I test automatici sono stati eseguiti in un ambiente browser simulato; resta da controllare direttamente su telefono la disposizione dei pulsanti quando vanno a capo.</p>
+                            </div>
+                            <div class="entry-image">
+                                <div class="image-frame"><img alt="Scacchi D'Arme — opzioni con incremento Fischer" decoding="async" loading="lazy" src="images/scacchi-2026-10-29.jpg" />
+                                    <div class="image-placeholder">Inserisci qui una schermata delle Opzioni con i preset 3+2, 5+3 e 10+5</div>
+                                </div>
+                                <div class="image-caption">I controlli del tempo Fischer accanto alle modalità tradizionali</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
             <!-- 28 OCT -->
             <section class="section">
                 <div class="section-header">
@@ -1041,15 +1078,6 @@
                             <div class="roadmap-card">
                                 <h4>Il mondo prende forma</h4>
                                 <p>Completare la scenografia dei terreni con elementi ambientali dedicati: alberi per Erba e Ghiaccio, navi per il Mare e montagne per il Castello, proseguendo il lavoro avviato con il Deserto.</p>
-                            </div>
-                            <div class="roadmap-card">
-                                <h4>Una colonna sonora per ogni territorio</h4>
-                                <p>Arricchire le musiche dei terreni che dispongono ancora soltanto di un abbozzo sonoro, rendendo più riconoscibile l’atmosfera di ogni ambientazione.</p>
-                            </div>
-
-                            <div class="roadmap-card">
-                                <h4>Ogni secondo conta</h4>
-                                <p>Aggiungere l’incremento di tempo dopo ogni mossa, con controlli come 5+3 accanto alle modalità con tempo fisso.</p>
                             </div>
 
                             <div class="roadmap-card">
