@@ -98,34 +98,36 @@
             <section class="section">
                 <div class="section-header">
                     <div>
-                        <div class="section-index">31 ottobre 2026</div>
-                        <h2>La partita può aspettare.</h2>
-                        <p class="section-lead">Ora posso chiudere la pagina e tornare in seguito alla stessa partita, ritrovando posizione, cronologia e tempo rimasto.</p>
+                        <div class="section-index">4 novembre 2026</div>
+                        <h2>La scacchiera conquista tutto lo schermo.</h2>
+                        <p class="section-lead">La modalità immersiva porta la scena in primo piano e adatta comandi e informazioni a computer e dispositivi mobili.</p>
                     </div>
                     <div class="section-body">
                         <div class="entry">
                             <div class="entry-text">
-                                <div class="date">31.10.2026 · Salvataggio e ripresa della partita · Versione 20261031.103</div>
-                                <h3>Una partita che resta in attesa</h3>
-                                <p>Ho completato una funzione che considero importante per rendere Scacchi D'Arme più pratico: <strong>salvare automaticamente una partita in corso e riprenderla quando torno</strong>. Il gioco conserva i dati nel browser del dispositivo. Quando riapro la pagina, compare una finestra «Partita in corso» con due possibilità: <strong>Riprendi</strong> oppure <strong>Nuova partita</strong>. In questo modo non mi ritrovo una vecchia partita caricata senza averlo deciso.</p>
-                                <p>La scacchiera mostra già la posizione salvata, ma l'orologio resta fermo finché non scelgo come procedere. Il salvataggio viene aggiornato dopo ogni mossa, dopo ogni annullamento e all'avvio di una nuova partita; quando l'orologio è attivo, viene aggiornato anche circa una volta al secondo, così un ricaricamento non azzera il tempo di riflessione.</p>
-                                <p>Quando riprendo, ritrovo <strong>posizione, cronologia, orologi e possibilità di annullare anche le mosse precedenti alla chiusura</strong>, insieme alle impostazioni della partita: modalità, livello dell'IA, colore e controllo del tempo con eventuale incremento. Se è il turno dell'intelligenza artificiale, dopo la ripresa sarà lei a effettuare la propria mossa. Le partite già concluse — per scacco matto, patta o tempo scaduto — non vengono salvate.</p>
-                                <p>Ho previsto anche la gestione dei casi anomali: un salvataggio danneggiato o non coerente viene scartato senza bloccare il gioco, che può così avviare una nuova partita. Il dato resta però locale: è conservato nel browser e sul dispositivo utilizzato, quindi non viene trasferito automaticamente su un altro telefono o su un browser differente.</p>
-                                <p>La parte più delicata è stata verificare che il ripristino non alterasse lo stato della partita. I collaudi coprono il salvataggio, la finestra iniziale, la ripresa, l'annullamento di mosse precedenti alla chiusura, la modalità contro l'IA, le partite terminate e sette diverse condizioni di salvataggio non valido. Ho verificato anche la chiusura durante l'animazione di una mossa: in quel caso viene conservata la posizione precedente, evitando di introdurre voci di annullamento in più. Per il test dell'IA ho corretto una prima prova impostata con il turno umano; con l'umano che gioca Nero, ora l'IA muove effettivamente dopo la ripresa.</p>
-                                <p>Ho ripetuto infine i test di regressione relativi a versione, esportazione PGN e audio, oltre a quelli dell'incremento Fischer: continuano a passare. La pagina pubblicata coincide byte per byte con il file ricostruito dallo ZIP dei sorgenti. La versione è <strong>20261031.103</strong>: la data è stata postdatata al 31 ottobre e la sottoversione è passata da 102 a 103, dopo l'estrazione casuale di un incremento da 1 a 9. Ho inserito nel README anche la regola che seguirò per le prossime modifiche.</p>
-                                <p>Un limite da tenere presente: i collaudi sono stati eseguiti in un browser simulato. La disposizione della finestra sui telefoni va quindi ancora controllata direttamente sul dispositivo.</p>
+                                <div class="date">04.11.2026 · Modalità immersiva e schermo intero · Versione 20261104.215</div>
+                                <h3>Dentro il campo di battaglia</h3>
+                                <p>Ho trasformato il progetto di schermo intero in una modalità immersiva vera e propria. Quando viene attivata, <strong>la scena occupa tutto lo spazio disponibile</strong>, fino ai bordi. Non volevo semplicemente ingrandire la scacchiera: l'obiettivo era togliere dalla vista tutto ciò che non serve in quel momento, lasciando comunque sempre raggiungibili le informazioni e i comandi importanti.</p>
+                                <p>Nomi e orologi dei giocatori si sovrappongono alla scena in fasce semitrasparenti, con un effetto di vetro scuro e sfocato. In verticale si dispongono sopra e sotto la scacchiera; in orizzontale, sul telefono, si spostano ai lati. Il giocatore di turno viene evidenziato, mentre un orologio vicino allo zero assume una tonalità arancione. Le fasce non intercettano i tocchi, così posso continuare a muovere i pezzi e ruotare la visuale anche nelle aree sottostanti.</p>
+                                <p>I messaggi di stato compaiono nella parte alta e scompaiono dopo alcuni secondi; gli avvisi restano visibili più a lungo e la fine della partita non viene nascosta. Ho aggiunto una <strong>maniglia ☰</strong> in alto a destra, che diventa quasi invisibile dopo un po' e riappare al tocco o al movimento del mouse. Il tasto M svolge la stessa funzione.</p>
+                                <p>La maniglia apre una barra rapida con Ricomincia, Annulla, PGN, Vista e gli altri comandi essenziali. La barra si richiude automaticamente dopo sette secondi, quando tocco la scena oppure con Esc. Da <strong>Pannello</strong> posso aprire il cassetto completo con Mosse, Regole e Opzioni. Il tasto Esc segue una sequenza precisa: chiude prima il cassetto, poi la barra rapida e infine esce dallo schermo intero. Anche a partita conclusa, il comando per iniziare una nuova partita rimane raggiungibile nella parte inferiore.</p>
+                                <p>Su iPhone Safari non offre lo schermo intero nativo come altri browser. Ho quindi previsto una modalità che occupa tutta la pagina; per eliminare anche le barre del browser, la soluzione è aggiungere il gioco alla schermata Home, per la quale ho inserito le impostazioni necessarie. Nell'anteprima incorporata, invece, il contenitore può impedire l'accesso allo schermo intero nativo: la verifica va fatta sulla pagina pubblicata direttamente su GitHub.</p>
+                                <p>Il collaudo automatico copre l'apertura e la chiusura della modalità, la maniglia, la barra rapida, il cassetto, i tasti, la scomparsa degli avvisi e i diversi casi in cui lo schermo intero nativo è disponibile, assente o viene rifiutato dal browser. Ho verificato anche che la partita continui a funzionare durante l'utilizzo dei comandi. Un controllo era rimasto legato alla vecchia regola per il telefono in orizzontale: ho aggiornato il test, senza modificare il comportamento del gioco per quel motivo. Tutti i collaudi delle funzioni precedenti continuano a passare.</p>
+                                <p>La versione è <strong>20261104.215</strong>, con data 4 novembre e incremento casuale della sottoversione. La pagina pubblicata, il file consegnato e la ricostruzione dallo ZIP dei sorgenti coincidono byte per byte.</p>
+                                <p>Rimane un limite importante: i test verificano la logica, ma non mi permettono di giudicare il rendering reale su tutti gli schermi. Dimensioni delle etichette, posizione rispetto al notch e leggibilità delle superfici sfocate vanno osservate su dispositivi reali. Per rifinire questi dettagli serviranno schermate del telefono in verticale e in orizzontale, oltre a una del computer.</p>
                             </div>
                             <div class="entry-image">
-                                <div class="image-frame"><img alt="Scacchi D'Arme — finestra per riprendere una partita salvata" decoding="async" loading="lazy" src="images/scacchi-2026-10-31.jpg" />
-                                    <div class="image-placeholder">Inserisci qui una schermata della finestra «Partita in corso», con le opzioni Riprendi e Nuova partita</div>
+                                <div class="image-frame"><img alt="Scacchi D'Arme — modalità immersiva a schermo intero" decoding="async" loading="lazy" src="images/scacchi-2026-11-04.jpg" />
+                                    <div class="image-placeholder">Inserisci qui una schermata della modalità immersiva, preferibilmente con la barra rapida aperta</div>
                                 </div>
-                                <div class="image-caption">La scelta tra riprendere la partita salvata e iniziarne una nuova</div>
+                                <div class="image-caption">La scena a tutto schermo con i comandi richiamabili</div>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
-            <!-- 2 NOV -->
+            <!-- 29 OCT -->
+
             <section class="section">
                 <div class="section-header">
                     <div>
@@ -163,38 +165,39 @@
                 </div>
             </section>
             <!-- 4 NOV -->
+
             <section class="section">
                 <div class="section-header">
                     <div>
-                        <div class="section-index">4 novembre 2026</div>
-                        <h2>La scacchiera conquista tutto lo schermo.</h2>
-                        <p class="section-lead">La modalità immersiva porta la scena in primo piano e adatta comandi e informazioni a computer e dispositivi mobili.</p>
+                        <div class="section-index">31 ottobre 2026</div>
+                        <h2>La partita può aspettare.</h2>
+                        <p class="section-lead">Ora posso chiudere la pagina e tornare in seguito alla stessa partita, ritrovando posizione, cronologia e tempo rimasto.</p>
                     </div>
                     <div class="section-body">
                         <div class="entry">
                             <div class="entry-text">
-                                <div class="date">04.11.2026 · Modalità immersiva e schermo intero · Versione 20261104.215</div>
-                                <h3>Dentro il campo di battaglia</h3>
-                                <p>Ho trasformato il progetto di schermo intero in una modalità immersiva vera e propria. Quando viene attivata, <strong>la scena occupa tutto lo spazio disponibile</strong>, fino ai bordi. Non volevo semplicemente ingrandire la scacchiera: l'obiettivo era togliere dalla vista tutto ciò che non serve in quel momento, lasciando comunque sempre raggiungibili le informazioni e i comandi importanti.</p>
-                                <p>Nomi e orologi dei giocatori si sovrappongono alla scena in fasce semitrasparenti, con un effetto di vetro scuro e sfocato. In verticale si dispongono sopra e sotto la scacchiera; in orizzontale, sul telefono, si spostano ai lati. Il giocatore di turno viene evidenziato, mentre un orologio vicino allo zero assume una tonalità arancione. Le fasce non intercettano i tocchi, così posso continuare a muovere i pezzi e ruotare la visuale anche nelle aree sottostanti.</p>
-                                <p>I messaggi di stato compaiono nella parte alta e scompaiono dopo alcuni secondi; gli avvisi restano visibili più a lungo e la fine della partita non viene nascosta. Ho aggiunto una <strong>maniglia ☰</strong> in alto a destra, che diventa quasi invisibile dopo un po' e riappare al tocco o al movimento del mouse. Il tasto M svolge la stessa funzione.</p>
-                                <p>La maniglia apre una barra rapida con Ricomincia, Annulla, PGN, Vista e gli altri comandi essenziali. La barra si richiude automaticamente dopo sette secondi, quando tocco la scena oppure con Esc. Da <strong>Pannello</strong> posso aprire il cassetto completo con Mosse, Regole e Opzioni. Il tasto Esc segue una sequenza precisa: chiude prima il cassetto, poi la barra rapida e infine esce dallo schermo intero. Anche a partita conclusa, il comando per iniziare una nuova partita rimane raggiungibile nella parte inferiore.</p>
-                                <p>Su iPhone Safari non offre lo schermo intero nativo come altri browser. Ho quindi previsto una modalità che occupa tutta la pagina; per eliminare anche le barre del browser, la soluzione è aggiungere il gioco alla schermata Home, per la quale ho inserito le impostazioni necessarie. Nell'anteprima incorporata, invece, il contenitore può impedire l'accesso allo schermo intero nativo: la verifica va fatta sulla pagina pubblicata direttamente su GitHub.</p>
-                                <p>Il collaudo automatico copre l'apertura e la chiusura della modalità, la maniglia, la barra rapida, il cassetto, i tasti, la scomparsa degli avvisi e i diversi casi in cui lo schermo intero nativo è disponibile, assente o viene rifiutato dal browser. Ho verificato anche che la partita continui a funzionare durante l'utilizzo dei comandi. Un controllo era rimasto legato alla vecchia regola per il telefono in orizzontale: ho aggiornato il test, senza modificare il comportamento del gioco per quel motivo. Tutti i collaudi delle funzioni precedenti continuano a passare.</p>
-                                <p>La versione è <strong>20261104.215</strong>, con data 4 novembre e incremento casuale della sottoversione. La pagina pubblicata, il file consegnato e la ricostruzione dallo ZIP dei sorgenti coincidono byte per byte.</p>
-                                <p>Rimane un limite importante: i test verificano la logica, ma non mi permettono di giudicare il rendering reale su tutti gli schermi. Dimensioni delle etichette, posizione rispetto al notch e leggibilità delle superfici sfocate vanno osservate su dispositivi reali. Per rifinire questi dettagli serviranno schermate del telefono in verticale e in orizzontale, oltre a una del computer.</p>
+                                <div class="date">31.10.2026 · Salvataggio e ripresa della partita · Versione 20261031.103</div>
+                                <h3>Una partita che resta in attesa</h3>
+                                <p>Ho completato una funzione che considero importante per rendere Scacchi D'Arme più pratico: <strong>salvare automaticamente una partita in corso e riprenderla quando torno</strong>. Il gioco conserva i dati nel browser del dispositivo. Quando riapro la pagina, compare una finestra «Partita in corso» con due possibilità: <strong>Riprendi</strong> oppure <strong>Nuova partita</strong>. In questo modo non mi ritrovo una vecchia partita caricata senza averlo deciso.</p>
+                                <p>La scacchiera mostra già la posizione salvata, ma l'orologio resta fermo finché non scelgo come procedere. Il salvataggio viene aggiornato dopo ogni mossa, dopo ogni annullamento e all'avvio di una nuova partita; quando l'orologio è attivo, viene aggiornato anche circa una volta al secondo, così un ricaricamento non azzera il tempo di riflessione.</p>
+                                <p>Quando riprendo, ritrovo <strong>posizione, cronologia, orologi e possibilità di annullare anche le mosse precedenti alla chiusura</strong>, insieme alle impostazioni della partita: modalità, livello dell'IA, colore e controllo del tempo con eventuale incremento. Se è il turno dell'intelligenza artificiale, dopo la ripresa sarà lei a effettuare la propria mossa. Le partite già concluse — per scacco matto, patta o tempo scaduto — non vengono salvate.</p>
+                                <p>Ho previsto anche la gestione dei casi anomali: un salvataggio danneggiato o non coerente viene scartato senza bloccare il gioco, che può così avviare una nuova partita. Il dato resta però locale: è conservato nel browser e sul dispositivo utilizzato, quindi non viene trasferito automaticamente su un altro telefono o su un browser differente.</p>
+                                <p>La parte più delicata è stata verificare che il ripristino non alterasse lo stato della partita. I collaudi coprono il salvataggio, la finestra iniziale, la ripresa, l'annullamento di mosse precedenti alla chiusura, la modalità contro l'IA, le partite terminate e sette diverse condizioni di salvataggio non valido. Ho verificato anche la chiusura durante l'animazione di una mossa: in quel caso viene conservata la posizione precedente, evitando di introdurre voci di annullamento in più. Per il test dell'IA ho corretto una prima prova impostata con il turno umano; con l'umano che gioca Nero, ora l'IA muove effettivamente dopo la ripresa.</p>
+                                <p>Ho ripetuto infine i test di regressione relativi a versione, esportazione PGN e audio, oltre a quelli dell'incremento Fischer: continuano a passare. La pagina pubblicata coincide byte per byte con il file ricostruito dallo ZIP dei sorgenti. La versione è <strong>20261031.103</strong>: la data è stata postdatata al 31 ottobre e la sottoversione è passata da 102 a 103, dopo l'estrazione casuale di un incremento da 1 a 9. Ho inserito nel README anche la regola che seguirò per le prossime modifiche.</p>
+                                <p>Un limite da tenere presente: i collaudi sono stati eseguiti in un browser simulato. La disposizione della finestra sui telefoni va quindi ancora controllata direttamente sul dispositivo.</p>
                             </div>
                             <div class="entry-image">
-                                <div class="image-frame"><img alt="Scacchi D'Arme — modalità immersiva a schermo intero" decoding="async" loading="lazy" src="images/scacchi-2026-11-04.jpg" />
-                                    <div class="image-placeholder">Inserisci qui una schermata della modalità immersiva, preferibilmente con la barra rapida aperta</div>
+                                <div class="image-frame"><img alt="Scacchi D'Arme — finestra per riprendere una partita salvata" decoding="async" loading="lazy" src="images/scacchi-2026-10-31.jpg" />
+                                    <div class="image-placeholder">Inserisci qui una schermata della finestra «Partita in corso», con le opzioni Riprendi e Nuova partita</div>
                                 </div>
-                                <div class="image-caption">La scena a tutto schermo con i comandi richiamabili</div>
+                                <div class="image-caption">La scelta tra riprendere la partita salvata e iniziarne una nuova</div>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
-            <!-- 29 OCT -->
+            <!-- 2 NOV -->
+
             <section class="section">
                 <div class="section-header">
                     <div>
@@ -224,6 +227,7 @@
                 </div>
             </section>
             <!-- 28 OCT -->
+
             <section class="section">
                 <div class="section-header">
                     <div>
@@ -251,6 +255,7 @@
                 </div>
             </section>
             <!-- 26 OCT -->
+
             <section class="section">
                 <div class="section-header">
                     <div>
@@ -280,6 +285,7 @@
                 </div>
             </section>
             <!-- 24 OCT -->
+
             <section class="section">
                 <div class="section-header">
                     <div>
@@ -308,33 +314,7 @@
                 </div>
             </section>
             <!-- 17 OCT -->
-            <section class="section">
-                <div class="section-header">
-                    <div>
-                        <div class="section-index">17 ottobre 2026</div>
-                        <h2>La scacchiera si gira verso chi gioca.</h2>
-                        <p class="section-lead">Nelle partite a due, la visuale segue automaticamente il cambio di turno.</p>
-                    </div>
-                    <div class="section-body">
-                        <div class="entry">
-                            <div class="entry-text">
-                                <div class="date">17.10.2026 · Rotazione automatica della camera</div>
-                                <h3>Una visuale comoda per entrambi</h3>
-                                <p>Ho introdotto la rotazione automatica della camera nella modalità a due giocatori. A ogni cambio di turno, la visuale si orienta verso chi deve muovere, così ciascuno può ritrovare i propri pezzi dalla parte più vicina della scacchiera.</p>
-                                <p>Per farlo ho riutilizzato il meccanismo di movimento della visuale già presente nel gioco, quello impiegato quando cambiano il terreno o il colore. In questo modo la rotazione si integra con le transizioni esistenti senza introdurre un sistema di movimento completamente separato.</p>
-                                <p>L'obiettivo è rendere più naturale una partita condivisa sullo stesso schermo, riducendo la necessità di interpretare la scacchiera da una prospettiva scomoda.</p>
-                            </div>
-                            <div class="entry-image">
-                                <div class="image-frame"><img alt="Scacchi D'Arme — visuale ruotata per il giocatore di turno" decoding="async" loading="lazy" src="images/scacchi-2026-10-17.jpg" />
-                                    <div class="image-placeholder">Inserisci qui due schermate della stessa partita viste dalle prospettive dei due giocatori</div>
-                                </div>
-                                <div class="image-caption">La visuale segue il giocatore di turno</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <!-- 20 OCT -->
+
             <section class="section">
                 <div class="section-header">
                     <div>
@@ -364,6 +344,35 @@
                 </div>
             </section>
             <!-- 22 SEP -->
+
+            <section class="section">
+                <div class="section-header">
+                    <div>
+                        <div class="section-index">17 ottobre 2026</div>
+                        <h2>La scacchiera si gira verso chi gioca.</h2>
+                        <p class="section-lead">Nelle partite a due, la visuale segue automaticamente il cambio di turno.</p>
+                    </div>
+                    <div class="section-body">
+                        <div class="entry">
+                            <div class="entry-text">
+                                <div class="date">17.10.2026 · Rotazione automatica della camera</div>
+                                <h3>Una visuale comoda per entrambi</h3>
+                                <p>Ho introdotto la rotazione automatica della camera nella modalità a due giocatori. A ogni cambio di turno, la visuale si orienta verso chi deve muovere, così ciascuno può ritrovare i propri pezzi dalla parte più vicina della scacchiera.</p>
+                                <p>Per farlo ho riutilizzato il meccanismo di movimento della visuale già presente nel gioco, quello impiegato quando cambiano il terreno o il colore. In questo modo la rotazione si integra con le transizioni esistenti senza introdurre un sistema di movimento completamente separato.</p>
+                                <p>L'obiettivo è rendere più naturale una partita condivisa sullo stesso schermo, riducendo la necessità di interpretare la scacchiera da una prospettiva scomoda.</p>
+                            </div>
+                            <div class="entry-image">
+                                <div class="image-frame"><img alt="Scacchi D'Arme — visuale ruotata per il giocatore di turno" decoding="async" loading="lazy" src="images/scacchi-2026-10-17.jpg" />
+                                    <div class="image-placeholder">Inserisci qui due schermate della stessa partita viste dalle prospettive dei due giocatori</div>
+                                </div>
+                                <div class="image-caption">La visuale segue il giocatore di turno</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- 20 OCT -->
+
             <section class="section">
                 <div class="section-header">
                     <div>
@@ -412,6 +421,7 @@
                 </div>
             </section>
             <!-- 19 SEP -->
+
             <section class="section">
                 <div class="section-header">
                     <div>
@@ -747,6 +757,7 @@
                 </div>
             </section>
             <!-- 3 SEP AUDIO -->
+
             <section class="section">
                 <div class="section-header">
                     <div>
@@ -800,6 +811,7 @@
                 </div>
             </section>
             <!-- 30 AUG AI -->
+
             <section class="section">
                 <div class="section-header">
                     <div>
@@ -851,6 +863,7 @@
                 </div>
             </section>
             <!-- 27 AUG RULES -->
+
             <section class="section">
                 <div class="section-header">
                     <div>
@@ -903,6 +916,7 @@
                 </div>
             </section>
             <!-- 20 AUG 3D -->
+
             <section class="section">
                 <div class="section-header">
                     <div>
@@ -952,6 +966,7 @@
                 </div>
             </section>
             <!-- 10 AUG FIRST PLAYABLE -->
+
             <section class="section">
                 <div class="section-header">
                     <div>
@@ -1003,6 +1018,7 @@
                 </div>
             </section>
             <!-- 1 AUG BATTLES -->
+
             <section class="section">
                 <div class="section-header">
                     <div>
@@ -1052,6 +1068,7 @@
                 </div>
             </section>
             <!-- 20 JUL PAWN -->
+
             <section class="section">
                 <div class="section-header">
                     <div>
