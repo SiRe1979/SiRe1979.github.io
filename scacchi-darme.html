@@ -7,7 +7,7 @@
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <meta content="#020913" name="theme-color" />
     <meta
-        content="Diario completo di sviluppo di Scacchi D'Arme: evoluzione del progetto dal 10 luglio al 26 ottobre 2026, regole, personaggi, animazioni, IA, scena 3D e prossimi sviluppi."
+        content="Diario completo di sviluppo di Scacchi D'Arme: evoluzione del progetto dal 10 luglio al 4 novembre 2026, regole, personaggi, animazioni, IA, scena 3D e prossimi sviluppi."
         name="description" />
     <title>Scacchi D'Arme | Diario di sviluppo — Simone Rebucci</title>
     <link href="assets.css" rel="stylesheet" />
@@ -94,6 +94,106 @@
                 href="#pezzi">I pezzi</a><a href="#roadmap">Prossimi sviluppi</a>
         </nav>
         <div class="chess-content" id="diario">
+            <!-- 31 OCT -->
+            <section class="section">
+                <div class="section-header">
+                    <div>
+                        <div class="section-index">31 ottobre 2026</div>
+                        <h2>La partita può aspettare.</h2>
+                        <p class="section-lead">Ora posso chiudere la pagina e tornare in seguito alla stessa partita, ritrovando posizione, cronologia e tempo rimasto.</p>
+                    </div>
+                    <div class="section-body">
+                        <div class="entry">
+                            <div class="entry-text">
+                                <div class="date">31.10.2026 · Salvataggio e ripresa della partita · Versione 20261031.103</div>
+                                <h3>Una partita che resta in attesa</h3>
+                                <p>Ho completato una funzione che considero importante per rendere Scacchi D'Arme più pratico: <strong>salvare automaticamente una partita in corso e riprenderla quando torno</strong>. Il gioco conserva i dati nel browser del dispositivo. Quando riapro la pagina, compare una finestra «Partita in corso» con due possibilità: <strong>Riprendi</strong> oppure <strong>Nuova partita</strong>. In questo modo non mi ritrovo una vecchia partita caricata senza averlo deciso.</p>
+                                <p>La scacchiera mostra già la posizione salvata, ma l'orologio resta fermo finché non scelgo come procedere. Il salvataggio viene aggiornato dopo ogni mossa, dopo ogni annullamento e all'avvio di una nuova partita; quando l'orologio è attivo, viene aggiornato anche circa una volta al secondo, così un ricaricamento non azzera il tempo di riflessione.</p>
+                                <p>Quando riprendo, ritrovo <strong>posizione, cronologia, orologi e possibilità di annullare anche le mosse precedenti alla chiusura</strong>, insieme alle impostazioni della partita: modalità, livello dell'IA, colore e controllo del tempo con eventuale incremento. Se è il turno dell'intelligenza artificiale, dopo la ripresa sarà lei a effettuare la propria mossa. Le partite già concluse — per scacco matto, patta o tempo scaduto — non vengono salvate.</p>
+                                <p>Ho previsto anche la gestione dei casi anomali: un salvataggio danneggiato o non coerente viene scartato senza bloccare il gioco, che può così avviare una nuova partita. Il dato resta però locale: è conservato nel browser e sul dispositivo utilizzato, quindi non viene trasferito automaticamente su un altro telefono o su un browser differente.</p>
+                                <p>La parte più delicata è stata verificare che il ripristino non alterasse lo stato della partita. I collaudi coprono il salvataggio, la finestra iniziale, la ripresa, l'annullamento di mosse precedenti alla chiusura, la modalità contro l'IA, le partite terminate e sette diverse condizioni di salvataggio non valido. Ho verificato anche la chiusura durante l'animazione di una mossa: in quel caso viene conservata la posizione precedente, evitando di introdurre voci di annullamento in più. Per il test dell'IA ho corretto una prima prova impostata con il turno umano; con l'umano che gioca Nero, ora l'IA muove effettivamente dopo la ripresa.</p>
+                                <p>Ho ripetuto infine i test di regressione relativi a versione, esportazione PGN e audio, oltre a quelli dell'incremento Fischer: continuano a passare. La pagina pubblicata coincide byte per byte con il file ricostruito dallo ZIP dei sorgenti. La versione è <strong>20261031.103</strong>: la data è stata postdatata al 31 ottobre e la sottoversione è passata da 102 a 103, dopo l'estrazione casuale di un incremento da 1 a 9. Ho inserito nel README anche la regola che seguirò per le prossime modifiche.</p>
+                                <p>Un limite da tenere presente: i collaudi sono stati eseguiti in un browser simulato. La disposizione della finestra sui telefoni va quindi ancora controllata direttamente sul dispositivo.</p>
+                            </div>
+                            <div class="entry-image">
+                                <div class="image-frame"><img alt="Scacchi D'Arme — finestra per riprendere una partita salvata" decoding="async" loading="lazy" src="images/scacchi-2026-10-31.jpg" />
+                                    <div class="image-placeholder">Inserisci qui una schermata della finestra «Partita in corso», con le opzioni Riprendi e Nuova partita</div>
+                                </div>
+                                <div class="image-caption">La scelta tra riprendere la partita salvata e iniziarne una nuova</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- 2 NOV -->
+            <section class="section">
+                <div class="section-header">
+                    <div>
+                        <div class="section-index">2 novembre 2026</div>
+                        <h2>Il colore non appartiene alla fazione.</h2>
+                        <p class="section-lead">Alba e Cenere mantengono la propria identità, mentre l'aspetto cromatico dei pezzi diventa una scelta indipendente.</p>
+                    </div>
+                    <div class="section-body">
+                        <div class="entry">
+                            <div class="entry-text">
+                                <div class="date">02.11.2026 · Colori personalizzabili · Versione 20261102.156</div>
+                                <h3>La stessa battaglia, nuovi colori</h3>
+                                <p>Ho separato finalmente il colore dei pezzi dall'identità delle due fazioni. Alba e Cenere continuano a chiamarsi così e conservano il proprio ruolo nella narrazione del gioco, ma non sono più obbligate a utilizzare una specifica palette cromatica.</p>
+                                <p>Nelle Opzioni ho aggiunto la voce <strong>Colore dei pezzi</strong>, con tre possibilità. <strong>Fantasy</strong> mantiene l'aspetto originale, con l'azzurro dell'Alba e il cremisi della Cenere. <strong>Classico</strong> propone invece il bianco avorio e il nero antracite, più vicini alla tradizione degli scacchi. Con <strong>Personalizzati</strong> posso scegliere liberamente i due colori attraverso altrettanti selettori.</p>
+                                <p>La modalità personalizzata parte dai colori che sto già utilizzando: posso quindi modificarli gradualmente senza dover ricominciare da una palette vuota. Se le due tonalità risultano troppo simili, il gioco mostra un avviso. La scelta può essere cambiata anche durante una partita e viene ricordata quando riapro il gioco.</p>
+                                <p>La personalizzazione non si limita ai pezzi tridimensionali. I colori vengono applicati anche alla vista 2D e agli scudi nell'intestazione. Cambiano drappi, piume e pietra dei personaggi, mentre armature e dettagli restano legati allo stile grafico scelto. Ho voluto mantenere questa distinzione perché il colore deve poter cambiare senza cancellare il carattere dei personaggi.</p>
+                                <p>Nei collaudi ho verificato l'applicazione dei colori nella scena 3D, nella vista 2D e negli scudi, il funzionamento dei selettori, il ritorno alla modalità Fantasy e il cambio durante l'animazione di una mossa. Un primo controllo della vista 2D intercettava per errore anche il codice dello script; l'ho corretto in modo che verifichi soltanto i pezzi effettivamente disegnati. Ho controllato inoltre che la modalità Fantasy conservi i gradienti originali, identici carattere per carattere.</p>
+                                <p>Le regressioni relative a versione, PGN, audio, incremento Fischer e salvataggio della partita continuano a passare. La versione è <strong>20261102.156</strong>. Per la sottoversione ho adottato una fonte casuale reale, con un incremento compreso tra 1 e 60: in questo aggiornamento è uscito +53. Da ora il numero resta crescente e l'incremento viene estratto con questo intervallo.</p>
+                                <p>Per questa consegna ho scelto di mantenere anche lo ZIP dei sorgenti, ma il file principale al suo interno ha il nome <strong>Gioco-Scacchi-dArme-3D.html</strong>. Per il momento preferisco ricevere e conservare il file completo; i sorgenti separati li renderò disponibili quando deciderò di aprire il progetto.</p>
+                                <p>La pagina pubblicata, il file consegnato e la ricostruzione dallo ZIP coincidono byte per byte. Resta una verifica che il collaudo automatico non può sostituire: osservare direttamente su telefono la leggibilità e la disposizione dei selettori di colore.</p>
+                                <p>Con questa modifica si chiude anche un punto del backlog: il colore dei pezzi non è più legato alla fazione. Il prossimo tema che voglio affrontare è la scenografia degli altri terreni. Prima, però, ho iniziato a ragionare su un'esperienza a schermo intero che funzioni bene sia sul computer sia sul telefono, anche quando viene ruotato in orizzontale.</p>
+                                <h3>Progettare uno spazio davvero immersivo</h3>
+                                <p>Il layout attuale nasce come una colonna relativamente stretta, mentre su un monitor grande lascia inutilizzato molto spazio. Per questo lo schermo intero non può essere soltanto un pulsante: deve diventare un modo diverso di organizzare l'intera esperienza. L'idea è lasciare alla scena tutto lo spazio disponibile e portare orologi, nomi e stato della partita sopra la scacchiera, con elementi semitrasparenti.</p>
+                                <p>Su telefono il layout deve adattarsi all'orientamento, senza imporre una rotazione. In verticale immagino gli orologi sopra e sotto la scacchiera; in orizzontale, ai lati, lasciando alla scena tutta l'altezza utile. Sul computer, invece, la scacchiera può crescere e il pannello delle mosse può rimanere aperto a destra. I comandi meno frequenti possono raccogliersi in una barra compatta e in un pannello laterale.</p>
+                                <p>Ho considerato anche le differenze tra browser: dove è disponibile userò lo schermo intero nativo, mentre su iPhone servirà una modalità immersiva che occupi la pagina e, per eliminare anche le barre del browser, l'apertura dalla schermata Home. È importante che finestre di ripresa e promozione restino accessibili e che l'altezza disponibile venga ricalcolata quando cambiano le barre del browser mobile. Per ora questa è una direzione progettuale, non ancora una modifica al gioco.</p>
+                            </div>
+                            <div class="entry-image">
+                                <div class="image-frame"><img alt="Scacchi D'Arme — selezione dei colori dei pezzi" decoding="async" loading="lazy" src="images/scacchi-2026-11-02.jpg" />
+                                    <div class="image-placeholder">Inserisci qui una schermata delle Opzioni con le modalità Fantasy, Classico e Personalizzati</div>
+                                </div>
+                                <div class="image-caption">Le tre modalità per scegliere il colore dei pezzi</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- 4 NOV -->
+            <section class="section">
+                <div class="section-header">
+                    <div>
+                        <div class="section-index">4 novembre 2026</div>
+                        <h2>La scacchiera conquista tutto lo schermo.</h2>
+                        <p class="section-lead">La modalità immersiva porta la scena in primo piano e adatta comandi e informazioni a computer e dispositivi mobili.</p>
+                    </div>
+                    <div class="section-body">
+                        <div class="entry">
+                            <div class="entry-text">
+                                <div class="date">04.11.2026 · Modalità immersiva e schermo intero · Versione 20261104.215</div>
+                                <h3>Dentro il campo di battaglia</h3>
+                                <p>Ho trasformato il progetto di schermo intero in una modalità immersiva vera e propria. Quando viene attivata, <strong>la scena occupa tutto lo spazio disponibile</strong>, fino ai bordi. Non volevo semplicemente ingrandire la scacchiera: l'obiettivo era togliere dalla vista tutto ciò che non serve in quel momento, lasciando comunque sempre raggiungibili le informazioni e i comandi importanti.</p>
+                                <p>Nomi e orologi dei giocatori si sovrappongono alla scena in fasce semitrasparenti, con un effetto di vetro scuro e sfocato. In verticale si dispongono sopra e sotto la scacchiera; in orizzontale, sul telefono, si spostano ai lati. Il giocatore di turno viene evidenziato, mentre un orologio vicino allo zero assume una tonalità arancione. Le fasce non intercettano i tocchi, così posso continuare a muovere i pezzi e ruotare la visuale anche nelle aree sottostanti.</p>
+                                <p>I messaggi di stato compaiono nella parte alta e scompaiono dopo alcuni secondi; gli avvisi restano visibili più a lungo e la fine della partita non viene nascosta. Ho aggiunto una <strong>maniglia ☰</strong> in alto a destra, che diventa quasi invisibile dopo un po' e riappare al tocco o al movimento del mouse. Il tasto M svolge la stessa funzione.</p>
+                                <p>La maniglia apre una barra rapida con Ricomincia, Annulla, PGN, Vista e gli altri comandi essenziali. La barra si richiude automaticamente dopo sette secondi, quando tocco la scena oppure con Esc. Da <strong>Pannello</strong> posso aprire il cassetto completo con Mosse, Regole e Opzioni. Il tasto Esc segue una sequenza precisa: chiude prima il cassetto, poi la barra rapida e infine esce dallo schermo intero. Anche a partita conclusa, il comando per iniziare una nuova partita rimane raggiungibile nella parte inferiore.</p>
+                                <p>Su iPhone Safari non offre lo schermo intero nativo come altri browser. Ho quindi previsto una modalità che occupa tutta la pagina; per eliminare anche le barre del browser, la soluzione è aggiungere il gioco alla schermata Home, per la quale ho inserito le impostazioni necessarie. Nell'anteprima incorporata, invece, il contenitore può impedire l'accesso allo schermo intero nativo: la verifica va fatta sulla pagina pubblicata direttamente su GitHub.</p>
+                                <p>Il collaudo automatico copre l'apertura e la chiusura della modalità, la maniglia, la barra rapida, il cassetto, i tasti, la scomparsa degli avvisi e i diversi casi in cui lo schermo intero nativo è disponibile, assente o viene rifiutato dal browser. Ho verificato anche che la partita continui a funzionare durante l'utilizzo dei comandi. Un controllo era rimasto legato alla vecchia regola per il telefono in orizzontale: ho aggiornato il test, senza modificare il comportamento del gioco per quel motivo. Tutti i collaudi delle funzioni precedenti continuano a passare.</p>
+                                <p>La versione è <strong>20261104.215</strong>, con data 4 novembre e incremento casuale della sottoversione. La pagina pubblicata, il file consegnato e la ricostruzione dallo ZIP dei sorgenti coincidono byte per byte.</p>
+                                <p>Rimane un limite importante: i test verificano la logica, ma non mi permettono di giudicare il rendering reale su tutti gli schermi. Dimensioni delle etichette, posizione rispetto al notch e leggibilità delle superfici sfocate vanno osservate su dispositivi reali. Per rifinire questi dettagli serviranno schermate del telefono in verticale e in orizzontale, oltre a una del computer.</p>
+                            </div>
+                            <div class="entry-image">
+                                <div class="image-frame"><img alt="Scacchi D'Arme — modalità immersiva a schermo intero" decoding="async" loading="lazy" src="images/scacchi-2026-11-04.jpg" />
+                                    <div class="image-placeholder">Inserisci qui una schermata della modalità immersiva, preferibilmente con la barra rapida aperta</div>
+                                </div>
+                                <div class="image-caption">La scena a tutto schermo con i comandi richiamabili</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
             <!-- 29 OCT -->
             <section class="section">
                 <div class="section-header">
@@ -1069,27 +1169,17 @@
                         <p class="section-lead">Ogni versione apre nuove possibilità.</p>
                     </div>
                     <div class="section-body">
-                        <p>La costruzione è ancora in corso. Alcune idee esistono già come richieste concrete, altre
-                            sono ancora nella fase in cui sto cercando di capire quale sia il modo migliore per
-                            integrarle senza appesantire il gioco.</p>
+                        <p>La costruzione è ancora in corso. Dopo aver completato la personalizzazione dei colori e la modalità immersiva, il prossimo obiettivo è arricchire gli ambienti senza appesantire il gioco.</p>
                         <div class="roadmap">
                             <div class="roadmap-card">
                                 <h4>Un nuovo volto per ogni battaglia</h4>
                                 <p>Introdurre un selettore indipendente per lo stile dei pezzi: fantasy medievale, D&amp;D e avventuroso, minimalista/geometrico e classico da torneo, con sagome ispirate allo stile Staunton.</p>
                             </div>
                             <div class="roadmap-card">
-                                <h4>La fazione non decide più il colore</h4>
-                                <p>Separare l’identità narrativa di Alba e Cenere dalla colorazione dei pezzi, permettendo di scegliere a parte combinazioni tradizionali, come bianco e nero, o palette alternative.</p>
-                            </div>
-                            <div class="roadmap-card">
                                 <h4>Il mondo prende forma</h4>
                                 <p>Completare la scenografia dei terreni con elementi ambientali dedicati: alberi per Erba e Ghiaccio, navi per il Mare e montagne per il Castello, proseguendo il lavoro avviato con il Deserto.</p>
                             </div>
 
-                            <div class="roadmap-card">
-                                <h4>La partita può aspettare</h4>
-                                <p>Consentire di salvare una partita in corso e riprenderla in seguito, mantenendo la posizione e lo stato della partita anche dopo aver ricaricato la pagina.</p>
-                            </div>
                         </div>
                     </div>
                 </div>
