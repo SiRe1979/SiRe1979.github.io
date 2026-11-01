@@ -2,7 +2,10 @@
 <html lang="it">
 <head>
 <meta charset="utf-8">
-<!-- Scacchi d'Arme 3D · versione 20261031.103 · MIT · Simone Rebucci -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<!-- Scacchi d'Arme 3D · versione 20261104.215 · MIT · Simone Rebucci -->
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Scacchi d'Arme 3D</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -64,6 +67,10 @@ details p{margin:0 0 12px;color:var(--ink2)}
 .row{display:flex;flex-direction:column;gap:6px;padding:8px 0 12px}
 .row>span{color:var(--ink2);font-size:.98rem}
 .seg{display:flex;flex-wrap:wrap;gap:6px}
+.pcs{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:4px}
+.pcs label{display:flex;align-items:center;gap:8px;font-size:.98rem}
+.pcs input[type=color]{width:48px;height:36px;padding:0;border:1px solid var(--line);border-radius:6px;background:var(--panel);cursor:pointer}
+.pcnote{color:var(--ink2);min-height:0}
 .seg button{padding:7px 12px;min-height:40px}
 .seg button[aria-pressed="true"]{background:var(--gold-bg);color:var(--gold-ink);border-color:#8f6d22;font-weight:700}
 #view2d{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:radial-gradient(120% 90% at 50% 0%,rgba(226,150,64,.16),transparent 60%),#0b0e13}
@@ -104,6 +111,53 @@ details p{margin:0 0 12px;color:var(--ink2)}
 .modal .opts button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 .modal .opts b{font-size:2.3rem;line-height:1;font-weight:400}
 .modal .opts span{font-size:.85rem}
+/* ---- layout largo e schermo intero ---- */
+#stage{container-type:size}
+.fs-only{display:none}
+@supports (width:1cqw){#view2d .frame2{width:min(96cqw,96cqh,880px)}}
+@media (min-width:1000px) and (orientation:landscape){
+.app{max-width:1280px;display:grid;grid-template-columns:minmax(0,1fr) 360px;column-gap:22px;align-items:start}
+.app>h1,.app>.tag,.app>.ver{grid-column:1/-1}
+.play #stage{height:clamp(440px,calc(100dvh - 250px),880px)}
+.side{position:sticky;top:10px;max-height:calc(100dvh - 20px);overflow:auto}
+}
+.qbar{display:contents}
+body.fs{overflow:hidden;background:#05070a}
+body.fs .app{max-width:none;margin:0;padding:0;display:block}
+body.fs .app>h1,body.fs .app>.tag,body.fs .app>.ver{display:none}
+body.fs .play{position:fixed;inset:0;margin:0;padding:0;z-index:1}
+body.fs .play #stage{position:absolute;inset:0;width:auto;height:auto;margin:0;border-radius:0;box-shadow:none}
+body.fs .fs-only{display:inline-flex}
+body.fs .hud{position:absolute;z-index:5;pointer-events:none;min-height:0;padding:4px 12px;border-radius:999px;color:#f4efe4;background:rgba(8,10,15,.42);border:1px solid rgba(214,178,90,.3);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);max-width:calc(100vw - 24px)}
+body.fs .hud.on{background:rgba(74,54,14,.58)}
+body.fs .hud .nm{color:#f4efe4;font-size:.98rem}
+body.fs .hud .cnt{color:#d3ccbb}body.fs .hud .cnt b{color:#fff}
+body.fs .hud .clk{color:#f4efe4;background:rgba(0,0,0,.35);border-color:rgba(255,255,255,.25)}
+body.fs .hud .clk.low{color:#ff9a63;border-color:#ff9a63}
+body.fs #hudb{top:calc(env(safe-area-inset-top,0px) + 8px);left:50%;transform:translateX(-50%)}
+body.fs #hudw{bottom:calc(env(safe-area-inset-bottom,0px) + 8px);left:50%;transform:translateX(-50%)}
+body.fs #status{position:absolute;z-index:6;left:50%;top:calc(env(safe-area-inset-top,0px) + 58px);transform:translateX(-50%);width:max-content;max-width:min(92vw,560px);margin:0;padding:6px 14px;min-height:0;border-radius:10px;color:#f4efe4;font-size:1rem;background:rgba(8,10,15,.55);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);pointer-events:none;transition:opacity .5s}
+body.fs #status:empty{display:none}
+body.fs #status.fade{opacity:0}
+body.fs #status[data-k="warn"]{color:#ff9a63}body.fs #status[data-k="end"]{color:#f1d27a}
+body.fs #hint{position:absolute;z-index:6;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 62px);transform:translateX(-50%);margin:0;padding:4px 12px;border-radius:10px;color:#f4efe4;background:rgba(8,10,15,.55);pointer-events:none}
+body.fs .controls{position:absolute;inset:0;margin:0;display:block;pointer-events:none;z-index:8}
+body.fs #again{position:absolute;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 70px);transform:translateX(-50%);pointer-events:auto}
+body.fs #qHandle{position:absolute;top:calc(env(safe-area-inset-top,0px) + 8px);right:calc(env(safe-area-inset-right,0px) + 8px);z-index:9;width:46px;height:46px;align-items:center;justify-content:center;border-radius:50%;font-size:1.3rem;color:#f4efe4;background:rgba(8,10,15,.5);border:1px solid rgba(214,178,90,.45);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);cursor:pointer;pointer-events:auto;opacity:.8;transition:opacity .5s}
+body.fs.idle #qHandle{opacity:.16}
+body.fs .qbar{display:none;position:absolute;z-index:8;top:calc(env(safe-area-inset-top,0px) + 8px);right:calc(env(safe-area-inset-right,0px) + 62px);flex-wrap:wrap;justify-content:flex-end;gap:6px;max-width:calc(100vw - 90px);padding:8px;border-radius:14px;background:rgba(8,10,15,.66);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);pointer-events:auto}
+body.fs.qopen .qbar{display:flex}
+body.fs .qbar .btn{padding:6px 10px;min-height:38px;font-size:.9rem}
+body.fs .side{position:fixed;top:0;right:0;bottom:0;max-height:none;width:min(380px,92vw);padding:12px;background:var(--bg);border-left:1px solid var(--gold);z-index:40;overflow:auto;transform:translateX(100%);visibility:hidden;transition:transform .2s,visibility .2s}
+body.fs.panel .side{transform:none;visibility:visible}
+@supports (width:1cqw){body.fs #view2d .frame2{width:min(94cqw,calc(100cqh - 150px),880px)}}
+@media (orientation:landscape){
+body.fs #hudb{top:50%;left:calc(env(safe-area-inset-left,0px) + 10px);transform:translateY(-50%)}
+body.fs #hudw{top:50%;bottom:auto;left:auto;right:calc(env(safe-area-inset-right,0px) + 10px);transform:translateY(-50%)}
+body.fs .hud{border-radius:14px;max-width:min(30vw,280px)}
+body.fs #status{top:calc(env(safe-area-inset-top,0px) + 10px)}
+@supports (width:1cqw){body.fs #view2d .frame2{width:min(94cqw,calc(100cqh - 24px),880px)}}
+}
 </style>
 </head>
 <body>
@@ -112,6 +166,7 @@ details p{margin:0 0 12px;color:var(--ink2)}
   <h1>Scacchi d'Arme 3D</h1>
   <p class="tag">Scacchi completi con le battaglie. In 3D trascina per ruotare e pizzica per ingrandire; con «Vista 2D» passi alla scacchiera piatta.</p>
 
+  <section class="play">
   <div class="hud" id="hudb"><span class="emb" id="shieldB"></span><span class="nm">Ordine della Cenere</span><span class="cnt" aria-label="Pezzi in campo: pedoni, alfieri, cavalieri, torri, regina">♟&#xFE0E; <b id="cntb">8</b> · ♝&#xFE0E; <b id="cbb">2</b> · ♞&#xFE0E; <b id="cnb">2</b> · ♜&#xFE0E; <b id="crb">2</b> · ♛&#xFE0E; <b id="cqb">1</b></span><span class="clk" id="clkb" aria-label="Tempo della Cenere">10:00</span></div>
   <div id="stage" aria-label="Scacchiera"><div id="view2d" hidden><div class="frame2" id="frame2"><div id="b2"><div id="sq2"></div><div id="pc2"></div><div id="fx2"></div></div></div></div></div>
   <div class="hud" id="hudw"><span class="emb" id="shieldW"></span><span class="nm">Casata dell'Alba</span><span class="cnt" aria-label="Pezzi in campo: pedoni, alfieri, cavalieri, torri, regina">♟&#xFE0E; <b id="cntw">8</b> · ♝&#xFE0E; <b id="cbw">2</b> · ♞&#xFE0E; <b id="cnw">2</b> · ♜&#xFE0E; <b id="crw">2</b> · ♛&#xFE0E; <b id="cqw">1</b></span><span class="clk" id="clkw" aria-label="Tempo dell'Alba">10:00</span></div>
@@ -120,12 +175,20 @@ details p{margin:0 0 12px;color:var(--ink2)}
   <p id="hint" hidden>Tocca la scena per saltare la battaglia.</p>
   <div class="controls">
     <button class="btn primary" id="again" type="button" hidden>Nuova partita</button>
+    <div class="qbar" id="qbar">
     <button class="btn" id="newGame" type="button">Ricomincia</button>
     <button class="btn" id="undo" type="button">Annulla mossa</button>
     <button class="btn" id="exportPgn" type="button">Esporta PGN</button>
     <button class="btn" id="view" type="button">Vista: Cenere</button>
     <button class="btn" id="toggleView" type="button">Vista 2D</button>
+    <button class="btn" id="fsBtn" type="button" aria-pressed="false">Schermo intero</button>
+    <button class="btn fs-only" id="sideBtn" type="button" aria-pressed="false">Pannello</button>
+    </div>
+    <button class="fs-only" id="qHandle" type="button" aria-label="Comandi" aria-expanded="false">☰</button>
   </div>
+  </section>
+  <aside class="side" id="side">
+  <button class="btn fs-only" id="sideClose" type="button">Chiudi pannello</button>
   <details open>
     <summary>Mosse</summary>
     <div class="movelist" id="moveList" aria-live="polite"></div>
@@ -142,11 +205,15 @@ details p{margin:0 0 12px;color:var(--ink2)}
     <div class="row" id="levelRow"><span>Avversario</span><div class="seg" id="segLevel"></div></div>
     <div class="row"><span>Scacchiera</span><div class="seg" id="segBoard"></div></div>
     <div class="row"><span>Terreno</span><div class="seg" id="segEnv"></div></div>
+    <div class="row"><span>Colore dei pezzi <small>(a parte dai nomi Alba e Cenere)</small></span><div class="seg" id="segPieces"></div>
+      <div class="pcs" id="pcCustom" hidden><label>L'Alba <input type="color" id="pcW" value="#3f7fbf" aria-label="Colore dei pezzi dell'Alba"></label><label>La Cenere <input type="color" id="pcB" value="#b3222d" aria-label="Colore dei pezzi della Cenere"></label></div>
+      <small class="pcnote" id="pcNote"></small></div>
     <div class="row"><span>Battaglie animate</span><div class="seg" id="segBattle"></div></div>
     <div class="row"><span>Suoni</span><div class="seg" id="segSound"></div></div>
     <div class="row"><span>Musica</span><div class="seg" id="segMusic"></div></div>
   </details>
-  <p class="ver" id="ver">Versione 20261031.103</p>
+  </aside>
+  <p class="ver" id="ver">Versione 20261104.215</p>
 </main>
 <div class="modal" id="resume" hidden><div class="card" role="dialog" aria-modal="true" aria-labelledby="resumeTitle"><p id="resumeTitle">Partita in corso</p><p class="sub" id="resumeInfo"></p><div class="acts"><button class="btn primary" id="resumeYes" type="button">Riprendi</button><button class="btn" id="resumeNo" type="button">Nuova partita</button></div></div></div>
 <div class="modal" id="promo" hidden><div class="card"><p>Scegli la promozione</p><div class="opts"></div></div></div>
@@ -397,18 +464,65 @@ const isKing = p => p === 'K' || p === 'k';
 const initP = initState, genMoves = legal, applyP = apply, chooseP = chooseMove;
 const count = (b, ch) => { let n = 0; for (let i = 0; i < 64; i++) if (b[i] === ch) n++; return n; };
 /* ===== PEZZI (SVG fantasy) ===== */
-const COL = {
+const COL0 = {
   w: { cloth:'url(#clW)', clothD:'#24508a', metal:'url(#mtW)', metalD:'#5f6b7e', acc:'#e2c26a', glow:'#8fe6ff', stone:'url(#stW)', horse:'#ebe8dc', mane:'#3f7fbf', plume:'#3f7fbf', skin:'#efd2b0', hair:'#8a6238', rim:'#c9d4e6' },
   b: { cloth:'url(#clB)', clothD:'#5a0f18', metal:'url(#mtB)', metalD:'#0f1216', acc:'#e0913f', glow:'#c46bff', stone:'url(#stB)', horse:'#2d2c33', mane:'#b3222d', plume:'#c22e38', skin:'#d9b28f', hair:'#1d1a20', rim:'#7d8593' }
+};const COL = { w: { ...COL0.w }, b: { ...COL0.b } };
+
+/* ---------- colori dei pezzi: set predefiniti e colori personalizzati ---------- */
+// I colori dei pezzi sono indipendenti dal nome delle fazioni (l'Alba, la Cenere) e dallo stile
+// grafico: "Fantasy" è l'aspetto originale, "Classico" è bianco/nero tradizionale, "Personalizzati"
+// parte da due colori scelti dall'utente. Un set modifica solo drappi, piume e pietra; metalli e
+// dettagli restano quelli dello stile. Il 3D legge questi valori da PAL (vedi 04-scene-3d.js).
+const GRAD0 = {
+  w: { mt: ['#f8fafd', '#b6c1d2', '#7c899e'], clothL: '#6fadf0', clothG: '#2b61ab', stL: '#e8e4d6', stG: '#9f9a89' },
+  b: { mt: ['#7a828f', '#343a44', '#14171c'], clothL: '#dc4a55', clothG: '#761019', stL: '#7d7783', stG: '#3a3641' }
 };
-const DEFS = `<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
-<linearGradient id="mtW" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#f8fafd"/><stop offset=".55" stop-color="#b6c1d2"/><stop offset="1" stop-color="#7c899e"/></linearGradient>
-<linearGradient id="mtB" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7a828f"/><stop offset=".55" stop-color="#343a44"/><stop offset="1" stop-color="#14171c"/></linearGradient>
-<linearGradient id="clW" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6fadf0"/><stop offset="1" stop-color="#2b61ab"/></linearGradient>
-<linearGradient id="clB" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#dc4a55"/><stop offset="1" stop-color="#761019"/></linearGradient>
-<linearGradient id="stW" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#e8e4d6"/><stop offset="1" stop-color="#9f9a89"/></linearGradient>
-<linearGradient id="stB" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7d7783"/><stop offset="1" stop-color="#3a3641"/></linearGradient>
+const GRAD = JSON.parse(JSON.stringify(GRAD0));
+const makeDefs = g => `<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<linearGradient id="mtW" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="${g.w.mt[0]}"/><stop offset=".55" stop-color="${g.w.mt[1]}"/><stop offset="1" stop-color="${g.w.mt[2]}"/></linearGradient>
+<linearGradient id="mtB" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="${g.b.mt[0]}"/><stop offset=".55" stop-color="${g.b.mt[1]}"/><stop offset="1" stop-color="${g.b.mt[2]}"/></linearGradient>
+<linearGradient id="clW" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${g.w.clothL}"/><stop offset="1" stop-color="${g.w.clothG}"/></linearGradient>
+<linearGradient id="clB" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${g.b.clothL}"/><stop offset="1" stop-color="${g.b.clothG}"/></linearGradient>
+<linearGradient id="stW" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="${g.w.stL}"/><stop offset="1" stop-color="${g.w.stG}"/></linearGradient>
+<linearGradient id="stB" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="${g.b.stL}"/><stop offset="1" stop-color="${g.b.stG}"/></linearGradient>
 </defs></svg>`;
+const DEFS = makeDefs(GRAD0);
+
+const PIECE_SETS = [['fantasy', 'Fantasy'], ['classico', 'Classico'], ['custom', 'Personalizzati']];
+const SET_BASE = { fantasy: { w: '#3f7fbf', b: '#b3222d' }, classico: { w: '#f3f0e6', b: '#2b2b31' } };
+const isHex = s => typeof s === 'string' && /^#[0-9a-f]{6}$/i.test(s);
+const hexN = h => parseInt(h.slice(1), 16);
+const lumOf = h => { const n = hexN(h); return (0.299 * (n >> 16 & 255) + 0.587 * (n >> 8 & 255) + 0.114 * (n & 255)) / 255; };
+const shade = (h, t) => { // t > 0 schiarisce verso il bianco, t < 0 scurisce verso il nero
+  const n = hexN(h), f = t >= 0 ? 255 : 0, k = Math.abs(t), ch = v => Math.round(v + (f - v) * k);
+  return '#' + ((1 << 24) | (ch(n >> 16 & 255) << 16) | (ch(n >> 8 & 255) << 8) | ch(n & 255)).toString(16).slice(1);
+};
+const colorDist = (a, b) => { const x = hexN(a), y = hexN(b); return Math.hypot((x >> 16 & 255) - (y >> 16 & 255), (x >> 8 & 255) - (y >> 8 & 255), (x & 255) - (y & 255)); };
+// Per ogni fazione: ciò che cambia rispetto al Fantasy (vuoto = nessuna modifica)
+function pieceColors(kind, cw, cb) {
+  if (kind === 'classico') return {
+    w: { cloth: '#f3f0e6', clothL: '#ffffff', clothG: '#cbc5b3', clothD: '#a8a291', plume: '#f6f3ea', mane: '#ece8dc', base: '#f2efe6', stL: '#f7f4ea', stG: '#b9b4a2', cross: '#2a1a1c' },
+    b: { cloth: '#2b2b31', clothL: '#4c4c57', clothG: '#14141a', clothD: '#0a0a0d', plume: '#3b3b44', mane: '#3b3b44', base: '#2e2c34', stL: '#5a5663', stG: '#25222b', cross: '#e9e6dc' }
+  };
+  if (kind === 'custom') {
+    const d = c => { c = isHex(c) ? c.toLowerCase() : '#808080'; return { cloth: c, clothL: shade(c, .28), clothG: shade(c, -.3), clothD: shade(c, -.55), plume: shade(c, .1), mane: c, cross: lumOf(c) > .6 ? '#2a1a1c' : '#f2f5fa' }; };
+    return { w: d(cw), b: d(cb) };
+  }
+  return { w: {}, b: {} };
+}
+// Aggiorna COL e GRAD (vista 2D) e restituisce le modifiche per il 3D
+function applyPieceColors(kind, cw, cb) {
+  const ov = pieceColors(kind, cw, cb);
+  for (const s of ['w', 'b']) {
+    const o = ov[s];
+    Object.assign(COL[s], COL0[s]); Object.assign(GRAD[s], JSON.parse(JSON.stringify(GRAD0[s])));
+    for (const f of ['clothD', 'mane', 'plume']) if (o[f]) COL[s][f] = o[f];
+    for (const f of ['clothL', 'clothG', 'stL', 'stG']) if (o[f]) GRAD[s][f] = o[f];
+  }
+  return ov;
+}
+
 
 const plinth = k => `<ellipse cx="50" cy="91" rx="28" ry="6" fill="rgba(0,0,0,.42)"/>
 <path d="M23 84 Q23 93 50 93 Q77 93 77 84 L75 80 Q50 85 25 80Z" fill="${k.metalD}"/>
@@ -518,8 +632,11 @@ const PNAME = { p:'Soldato', r:'Torre', n:'Cavaliere', b:'Mago', q:'Regina', k:'
   stage.appendChild(renderer.domElement);
   const dom = renderer.domElement; dom.style.cssText = 'display:block;width:100%;height:100%;touch-action:none';
 
-  const opts = { vsAI: true, level: 2, battles: !(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches), sound: false, music: false, view: '3d', board: 'pietra', env: 'castello', side: 'w', clock: 10, inc: 0 };
+  const opts = { vsAI: true, level: 2, battles: !(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches), sound: false, music: false, view: '3d', board: 'pietra', env: 'castello', side: 'w', clock: 10, inc: 0, pieces: 'fantasy', colW: '#3f7fbf', colB: '#b3222d' };
   try { const o = JSON.parse(localStorage.getItem('scacchi-darme-3d') || '{}'); for (const k in o) if (k in opts) opts[k] = o[k]; } catch (e) {}
+  if (!PIECE_SETS.some(s => s[0] === opts.pieces)) opts.pieces = 'fantasy';
+  if (!isHex(opts.colW)) opts.colW = '#3f7fbf';
+  if (!isHex(opts.colB)) opts.colB = '#b3222d';
   const saveOpts = () => { try { localStorage.setItem('scacchi-darme-3d', JSON.stringify(opts)); } catch (e) {} };
 
   const scene = new THREE.Scene();
@@ -784,6 +901,7 @@ const PNAME = { p:'Soldato', r:'Torre', n:'Cavaliere', b:'Mago', q:'Regina', k:'
     w: { cloth: 0x3f7fbf, clothD: 0x24508a, metal: 0xcbd4e2, acc: 0xd9b656, plume: 0x3f7fbf, rough: .32, base: 0xe8e4d6 },
     b: { cloth: 0xb3222d, clothD: 0x5a0f18, metal: 0x3e444f, acc: 0xe0913f, plume: 0xc22e38, rough: .42, base: 0x4a4552 }
   };
+  const PAL0 = JSON.parse(JSON.stringify(PAL));
   const V = (x, y) => new THREE.Vector2(x, y);
   const G = {
     base: new THREE.CylinderGeometry(.36, .4, .09, 28), ring: new THREE.TorusGeometry(.335, .02, 8, 32), top: new THREE.CylinderGeometry(.32, .34, .03, 28),
@@ -1570,7 +1688,20 @@ const PNAME = { p:'Soldato', r:'Torre', n:'Cavaliere', b:'Mago', q:'Regina', k:'
   const syncCurrent = () => { if (mode === '2d') V2.sync(); else syncPieces(); dirty[mode] = false; };
   const syncAll = () => { syncCurrent(); dirty[mode === '2d' ? '3d' : '2d'] = true; };
   const NAMES = { w: "l'Alba", b: 'la Cenere' };
-  const shield = c => `<svg viewBox="0 0 24 28" width="20" height="24" aria-hidden="true"><path d="M2 3 L12 1 L22 3 V14 Q22 23 12 27 Q2 23 2 14Z" fill="${c === 'w' ? '#3f7fbf' : '#b3222d'}" stroke="${c === 'w' ? '#e2c26a' : '#e0913f'}" stroke-width="1.6"/><path d="M12 5 V23 M6 12 H18" stroke="${c === 'w' ? '#dfe8f5' : '#2a1a1c'}" stroke-width="1.6"/></svg>`;
+  const SHIELD0 = { w: '#dfe8f5', b: '#2a1a1c' }, SHIELD_X = { ...SHIELD0 };
+  // Applica il set di colori scelto (palette 3D, 2D, scudi dell'HUD); senza ricostruire i pezzi
+  function applyColorsNoSync() {
+    const ov = applyPieceColors(opts.pieces, opts.colW, opts.colB);
+    for (const s of ['w', 'b']) {
+      const o = ov[s]; Object.assign(PAL[s], PAL0[s]);
+      for (const f of ['cloth', 'clothD', 'plume', 'base']) if (o[f]) PAL[s][f] = hexN(o[f]);
+      SHIELD_X[s] = o.cross || SHIELD0[s];
+    }
+    $('#defs2').innerHTML = makeDefs(GRAD);
+    $('#shieldW').innerHTML = shield('w'); $('#shieldB').innerHTML = shield('b');
+  }
+  function repaintPieces() { if (busy && animating) skip(); applyColorsNoSync(); syncAll(); }
+  const shield = c => `<svg viewBox="0 0 24 28" width="20" height="24" aria-hidden="true"><path d="M2 3 L12 1 L22 3 V14 Q22 23 12 27 Q2 23 2 14Z" fill="${'#' + PAL[c].cloth.toString(16).padStart(6, '0')}" stroke="${COL[c].acc}" stroke-width="1.6"/><path d="M12 5 V23 M6 12 H18" stroke="${SHIELD_X[c]}" stroke-width="1.6"/></svg>`;
   const statusEl = $('#status');
   function setStatus(t, k) { statusEl.textContent = t; statusEl.dataset.k = k || ''; }
   function updateHud() {
@@ -1649,7 +1780,7 @@ const PNAME = { p:'Soldato', r:'Torre', n:'Cavaliere', b:'Mago', q:'Regina', k:'
   }
 
 
-  const APP_VERSION = '20261031.103';
+  const APP_VERSION = '20261104.215';
   function pgnResultFromStatus(st) {
     if (st.type === 'mate') return st.winner === 'w' ? '1-0' : '0-1';
     return '1/2-1/2';
@@ -2062,12 +2193,63 @@ const PNAME = { p:'Soldato', r:'Torre', n:'Cavaliere', b:'Mago', q:'Regina', k:'
   window.addEventListener('pagehide', saveGame);
   document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') saveGame(); });
 
+  /* ---------- schermo intero e layout largo ---------- */
+  // La classe "fs" sulla <body> porta la scena a tutta pagina: orologi, stato e comandi galleggiano sopra in
+  // semitrasparenza. I comandi stanno dietro una maniglia: "qopen" = barra rapida, "panel" = cassetto completo.
+  // Dove il browser lo consente si usa anche lo schermo intero vero; altrove (iPhone in una scheda) resta la sola
+  // modalità a tutta pagina.
+  const fsRoot = document.documentElement, bc = document.body.classList, stEl = $('#status');
+  const fsReq = fsRoot.requestFullscreen || fsRoot.webkitRequestFullscreen, fsExit = document.exitFullscreen || document.webkitExitFullscreen;
+  const realFs = () => document.fullscreenElement || document.webkitFullscreenElement || null;
+  let idleT = 0, qT = 0, stT = 0;
+  function wake() { bc.remove('idle'); clearTimeout(idleT); idleT = setTimeout(() => { if (bc.contains('fs') && !bc.contains('qopen')) bc.add('idle'); }, 3500); }
+  function setQ(on) { bc.toggle('qopen', on); clearTimeout(qT); if (on) { bc.remove('idle'); qT = setTimeout(() => setQ(false), 7000); } else wake(); $('#qHandle').setAttribute('aria-expanded', String(on)); }
+  function setPanel(on) { bc.toggle('panel', on); if (on) setQ(false); $('#sideBtn').setAttribute('aria-pressed', String(on)); }
+  function showStatus() { stEl.classList.remove('fade'); clearTimeout(stT); const k = stEl.dataset.k; if (k === 'end' || !stEl.textContent.trim()) return; stT = setTimeout(() => stEl.classList.add('fade'), k === 'warn' ? 9000 : 4500); }
+  function setFs(on) {
+    bc.toggle('fs', on);
+    if (on) { wake(); showStatus(); } else { setPanel(false); setQ(false); bc.remove('idle'); stEl.classList.remove('fade'); }
+    $('#fsBtn').textContent = on ? 'Esci da schermo intero' : 'Schermo intero'; $('#fsBtn').setAttribute('aria-pressed', String(on));
+    resize(); setTimeout(resize, 200);
+  }
+  async function toggleFs() {
+    if (!bc.contains('fs')) { setFs(true); if (fsReq) { try { await fsReq.call(fsRoot); } catch (e) {} } }
+    else { if (realFs() && fsExit) { try { await fsExit.call(document); } catch (e) {} } setFs(false); }
+  }
+  new MutationObserver(showStatus).observe(stEl, { childList: true, characterData: true, subtree: true, attributes: true, attributeFilter: ['data-k'] });
+  $('#fsBtn').addEventListener('click', toggleFs);
+  $('#qHandle').addEventListener('click', () => setQ(!bc.contains('qopen')));
+  $('#qbar').addEventListener('pointerdown', () => { if (bc.contains('qopen')) { clearTimeout(qT); qT = setTimeout(() => setQ(false), 7000); } });
+  $('#stage').addEventListener('pointerdown', () => { if (bc.contains('qopen')) setQ(false); });
+  $('#sideBtn').addEventListener('click', () => setPanel(!bc.contains('panel')));
+  $('#sideClose').addEventListener('click', () => setPanel(false));
+  ['pointermove', 'pointerdown', 'keydown'].forEach(ev => document.addEventListener(ev, () => { if (bc.contains('fs')) wake(); }, { passive: true }));
+  ['fullscreenchange', 'webkitfullscreenchange'].forEach(ev => document.addEventListener(ev, () => { const on = !!realFs(); if (on !== bc.contains('fs')) setFs(on); }));
+  document.addEventListener('keydown', e => {
+    if (e.ctrlKey || e.metaKey || e.altKey || /^(INPUT|SELECT|TEXTAREA)$/.test((e.target && e.target.tagName) || '')) return;
+    if (e.key === 'f' || e.key === 'F') toggleFs();
+    else if ((e.key === 'm' || e.key === 'M') && bc.contains('fs')) setQ(!bc.contains('qopen'));
+    else if (e.key === 'Escape') { if (bc.contains('panel')) setPanel(false); else if (bc.contains('qopen')) setQ(false); else if (bc.contains('fs') && !realFs()) setFs(false); }
+  });
+
   /* ---------- controlli pagina ---------- */
   function seg(id, items, get, set) {
     const box = $(id); box.innerHTML = '';
     items.forEach(([label, val]) => { const b = document.createElement('button'); b.type = 'button'; b.textContent = label; b.dataset.v = String(val); b.onclick = () => { set(val); saveOpts(); render(); }; box.appendChild(b); });
     const render = () => [...box.children].forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === String(get()))));
     render();
+  }
+  // Colore dei pezzi: scelta del set e interfaccia dei colori personalizzati
+  function pieceUI() {
+    $('#pcCustom').hidden = opts.pieces !== 'custom';
+    $('#pcW').value = opts.colW; $('#pcB').value = opts.colB;
+    [...$('#segPieces').children].forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === opts.pieces)));
+    $('#pcNote').textContent = opts.pieces === 'custom' && colorDist(opts.colW, opts.colB) < 70 ? 'I due colori sono molto simili: i pezzi si distinguono meno.' : '';
+  }
+  function setPieceSet(v) {
+    if (v === opts.pieces) return;
+    if (v === 'custom' && SET_BASE[opts.pieces]) { opts.colW = SET_BASE[opts.pieces].w; opts.colB = SET_BASE[opts.pieces].b; } // si parte dai colori che si vedono ora
+    opts.pieces = v; repaintPieces(); pieceUI();
   }
   function initControls() {
     seg('#segMode', [["Contro l'IA", true], ['Due giocatori', false]], () => opts.vsAI, v => { if (v !== opts.vsAI) { opts.vsAI = v; newGame(); } $('#levelRow').hidden = !opts.vsAI; $('#sideRow').hidden = !opts.vsAI; });
@@ -2077,6 +2259,13 @@ const PNAME = { p:'Soldato', r:'Torre', n:'Cavaliere', b:'Mago', q:'Regina', k:'
     $('#levelRow').hidden = !opts.vsAI; $('#sideRow').hidden = !opts.vsAI;
     seg('#segSide', [["L'Alba (bianco)", 'w'], ['La Cenere (nero)', 'b']], () => opts.side, v => { if (v !== opts.side) { opts.side = v; newGame(); viewIdx = v === 'b' ? 1 : 0; goView(presets[viewIdx]); nextLabel(); } });
     seg('#segLevel', [['Recluta', 1], ['Cavaliere', 2], ['Maestro', 3]], () => opts.level, v => { opts.level = v; });
+    seg('#segPieces', PIECE_SETS.map(([k, n]) => [n, k]), () => opts.pieces, v => setPieceSet(v));
+    const pcW = $('#pcW'), pcB = $('#pcB');
+    let pcTimer = 0;
+    const pcInput = () => { opts.colW = pcW.value; opts.colB = pcB.value; opts.pieces = 'custom'; clearTimeout(pcTimer); pcTimer = setTimeout(() => { repaintPieces(); saveOpts(); pieceUI(); }, 120); };
+    const pcChange = () => { clearTimeout(pcTimer); opts.colW = pcW.value; opts.colB = pcB.value; opts.pieces = 'custom'; repaintPieces(); saveOpts(); pieceUI(); };
+    [pcW, pcB].forEach(el => { el.addEventListener('input', pcInput); el.addEventListener('change', pcChange); });
+    pieceUI();
     seg('#segBattle', [['Sì', true], ['No', false]], () => opts.battles, v => { opts.battles = v; });
     seg('#segSound', [['Sì', true], ['No', false]], () => opts.sound, v => { opts.sound = v; if (v) { ac(); sfx('clash'); setTimeout(() => sfx('magic'), 180); setTimeout(() => { if (opts.sound && AC && AC.state !== 'running') setStatus('Audio in attesa: tocca la scacchiera per attivarlo.'); }, 500); } });
     seg('#segBoard', Object.keys(BOARD_THEMES).map(k => [BOARD_THEMES[k]().name, k]), () => opts.board, v => { opts.board = v; applyBoardTheme(v); });
@@ -2117,9 +2306,9 @@ const PNAME = { p:'Soldato', r:'Torre', n:'Cavaliere', b:'Mago', q:'Regina', k:'
   if (window.ResizeObserver) new ResizeObserver(resize).observe(stage); window.addEventListener('resize', resize);
   const svgNoise = "<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .55 0'/></filter><rect width='100%' height='100%' filter='url(#n)'/></svg>";
   document.documentElement.style.setProperty('--noise', `url("data:image/svg+xml,${encodeURIComponent(svgNoise)}")`);
-  $('#defs2').innerHTML = DEFS;
+  applyColorsNoSync();
   resize(); cam.r = homeR(); const savedGame = loadSavedGame(); if (savedGame) Object.assign(opts, savedGame.game); initControls(); applyBoardTheme(opts.board); applyEnvTheme(opts.env); if (opts.music) startMusicFor(opts.env); if (opts.side === 'b') { viewIdx = 1; cam.theta = presets[1].theta; cam.phi = presets[1].phi; } applyMode(); if (savedGame) offerResume(savedGame); else newGame(); requestAnimationFrame(loop);
-  window.__dbg = { APP_VERSION, sfx, unlockAudio, startMusicFor, stopMusic, musicTick, MUSIC, get musicState() { return musicState; }, get AC() { return AC; }, get MASTER() { return MASTER; }, get S() { return S; }, get mode() { return mode; }, setMode, V2, toSAN, exportPGN, orientFor, presets, get viewIdx() { return viewIdx; }, cam, get resultTag() { return resultTag; }, get moveLog() { return moveLog; }, get clockW() { return clockW; }, get clockB() { return clockB; }, flagFall, startClock, stopClock, applyBoardTheme, applyEnvTheme, matLt, matDk, matFrame, matGold, matGround, scene, hemi, envExtras, cam, camera, updateSky, get skyDome() { return skyDome; }, get starsPts() { return starsPts; }, get envParticles() { return envParticles; }, playMove, tap, tapAt, askPromo, newGame, undo, pieces, get busy() { return busy; }, get over() { return over; }, get targets() { return targets; }, get checkSq() { return checkSq; }, opts, syncPieces, setS(st) { S = st; legalMoves = genMoves(S); over = false; hist = []; keys = [keyOf(S)]; selected = -1; targets = []; const c = gameStatus(S, legalMoves, keys); checkSq = c.check ? kingSq(S) : -1; syncAll(); paintAll(); updateHud(); refreshStatus(); } };
+  window.__dbg = { APP_VERSION, get PAL() { return PAL; }, get pieces() { return pieces; }, sfx, unlockAudio, startMusicFor, stopMusic, musicTick, MUSIC, get musicState() { return musicState; }, get AC() { return AC; }, get MASTER() { return MASTER; }, get S() { return S; }, get mode() { return mode; }, setMode, V2, toSAN, exportPGN, orientFor, presets, get viewIdx() { return viewIdx; }, cam, get resultTag() { return resultTag; }, get moveLog() { return moveLog; }, get clockW() { return clockW; }, get clockB() { return clockB; }, flagFall, startClock, stopClock, applyBoardTheme, applyEnvTheme, matLt, matDk, matFrame, matGold, matGround, scene, hemi, envExtras, cam, camera, updateSky, get skyDome() { return skyDome; }, get starsPts() { return starsPts; }, get envParticles() { return envParticles; }, playMove, tap, tapAt, askPromo, newGame, undo, pieces, get busy() { return busy; }, get over() { return over; }, get targets() { return targets; }, get checkSq() { return checkSq; }, opts, syncPieces, setS(st) { S = st; legalMoves = genMoves(S); over = false; hist = []; keys = [keyOf(S)]; selected = -1; targets = []; const c = gameStatus(S, legalMoves, keys); checkSq = c.check ? kingSq(S) : -1; syncAll(); paintAll(); updateHud(); refreshStatus(); } };
 })();
 </script>
 </body>
