@@ -2,6 +2,7 @@
 <html lang="it">
 <head>
 <meta charset="utf-8">
+<!-- Scacchi d'Arme 3D · versione 20261031.103 · MIT · Simone Rebucci -->
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Scacchi d'Arme 3D</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -33,12 +34,17 @@ body{background:radial-gradient(120% 55% at 50% 0%,var(--glow),transparent 62%),
 .app{max-width:720px;margin:0 auto;padding:14px 12px 28px}
 h1{font:700 1.9rem/1.1 var(--display);margin:4px 0 2px;letter-spacing:.01em}
 .tag{margin:0 0 10px;color:var(--ink2);font-size:1rem}
+.ver{margin:10px 0 0;text-align:center;color:var(--ink2);font-size:.78rem;opacity:.75}
 .hud{display:flex;flex-wrap:wrap;align-items:center;gap:0 10px;min-height:38px;padding:4px 8px;border-radius:8px;transition:background .25s}
 .hud.on{background:color-mix(in srgb,var(--gold) 14%,transparent)}
 .hud .emb{display:flex;filter:grayscale(.55) opacity(.7);transition:filter .25s}
 .hud.on .emb{filter:none}
 .hud .nm{font:700 1.08rem/1 var(--display);white-space:nowrap}
 .hud .cnt{margin-left:auto;color:var(--ink2);font-size:.9rem;white-space:nowrap}
+.hud .clk{margin-left:8px;font:700 .98rem/1 var(--display);font-variant-numeric:tabular-nums;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:2px 7px;min-width:52px;text-align:center}
+.hud .clk.low{color:var(--ember);border-color:var(--ember)}
+.movelist{max-height:150px;overflow-y:auto;font:400 .92rem/1.6 ui-monospace,Menlo,Consolas,monospace;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:8px 10px;margin:0 0 12px}
+.movelist .mv{color:var(--ink2);margin-right:2px}
 .hud .cnt b{color:var(--ink);font-size:1.15rem}
 #stage{position:relative;width:100%;height:min(66vh,calc(100vw*1.02),660px);height:min(66dvh,calc(100vw*1.02),660px);margin:6px 0;border-radius:10px;overflow:hidden;background:#0b0e13;box-shadow:inset 0 0 0 1px rgba(214,178,90,.5),0 18px 36px rgba(0,0,0,.35);touch-action:none;cursor:pointer}
 .nogl{color:#e8e5d9;padding:24px;text-align:center}
@@ -90,6 +96,9 @@ details p{margin:0 0 12px;color:var(--ink2)}
 .modal{position:fixed;inset:0;background:rgba(6,8,12,.72);display:flex;align-items:center;justify-content:center;z-index:50;padding:16px}
 .modal .card{background:var(--panel);border:1px solid var(--gold);border-radius:10px;padding:16px;max-width:420px;width:100%}
 .modal p{margin:0 0 10px;font:700 1.2rem var(--display);text-align:center;color:var(--ink)}
+.modal p.sub{font:400 1.02rem/1.35 var(--body);color:var(--ink2);margin:0 0 14px}
+.modal .acts{display:flex;gap:10px;flex-wrap:wrap}
+.modal .acts .btn{flex:1;min-width:120px}
 .modal .opts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
 .modal .opts button{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:8px 2px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;min-height:78px}
 .modal .opts button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
@@ -103,9 +112,9 @@ details p{margin:0 0 12px;color:var(--ink2)}
   <h1>Scacchi d'Arme 3D</h1>
   <p class="tag">Scacchi completi con le battaglie. In 3D trascina per ruotare e pizzica per ingrandire; con «Vista 2D» passi alla scacchiera piatta.</p>
 
-  <div class="hud" id="hudb"><span class="emb" id="shieldB"></span><span class="nm">Ordine della Cenere</span><span class="cnt" aria-label="Pezzi in campo: pedoni, alfieri, cavalieri, torri, regina">♟&#xFE0E; <b id="cntb">8</b> · ♝&#xFE0E; <b id="cbb">2</b> · ♞&#xFE0E; <b id="cnb">2</b> · ♜&#xFE0E; <b id="crb">2</b> · ♛&#xFE0E; <b id="cqb">1</b></span></div>
+  <div class="hud" id="hudb"><span class="emb" id="shieldB"></span><span class="nm">Ordine della Cenere</span><span class="cnt" aria-label="Pezzi in campo: pedoni, alfieri, cavalieri, torri, regina">♟&#xFE0E; <b id="cntb">8</b> · ♝&#xFE0E; <b id="cbb">2</b> · ♞&#xFE0E; <b id="cnb">2</b> · ♜&#xFE0E; <b id="crb">2</b> · ♛&#xFE0E; <b id="cqb">1</b></span><span class="clk" id="clkb" aria-label="Tempo della Cenere">10:00</span></div>
   <div id="stage" aria-label="Scacchiera"><div id="view2d" hidden><div class="frame2" id="frame2"><div id="b2"><div id="sq2"></div><div id="pc2"></div><div id="fx2"></div></div></div></div></div>
-  <div class="hud" id="hudw"><span class="emb" id="shieldW"></span><span class="nm">Casata dell'Alba</span><span class="cnt" aria-label="Pezzi in campo: pedoni, alfieri, cavalieri, torri, regina">♟&#xFE0E; <b id="cntw">8</b> · ♝&#xFE0E; <b id="cbw">2</b> · ♞&#xFE0E; <b id="cnw">2</b> · ♜&#xFE0E; <b id="crw">2</b> · ♛&#xFE0E; <b id="cqw">1</b></span></div>
+  <div class="hud" id="hudw"><span class="emb" id="shieldW"></span><span class="nm">Casata dell'Alba</span><span class="cnt" aria-label="Pezzi in campo: pedoni, alfieri, cavalieri, torri, regina">♟&#xFE0E; <b id="cntw">8</b> · ♝&#xFE0E; <b id="cbw">2</b> · ♞&#xFE0E; <b id="cnw">2</b> · ♜&#xFE0E; <b id="crw">2</b> · ♛&#xFE0E; <b id="cqw">1</b></span><span class="clk" id="clkw" aria-label="Tempo dell'Alba">10:00</span></div>
 
   <div id="status" role="status" aria-live="polite"></div>
   <p id="hint" hidden>Tocca la scena per saltare la battaglia.</p>
@@ -113,15 +122,21 @@ details p{margin:0 0 12px;color:var(--ink2)}
     <button class="btn primary" id="again" type="button" hidden>Nuova partita</button>
     <button class="btn" id="newGame" type="button">Ricomincia</button>
     <button class="btn" id="undo" type="button">Annulla mossa</button>
+    <button class="btn" id="exportPgn" type="button">Esporta PGN</button>
     <button class="btn" id="view" type="button">Vista: Cenere</button>
     <button class="btn" id="toggleView" type="button">Vista 2D</button>
   </div>
+  <details open>
+    <summary>Mosse</summary>
+    <div class="movelist" id="moveList" aria-live="polite"></div>
+  </details>
   <details>
     <summary>Regole</summary>
     <p>Sono gli scacchi classici, con tutte le regole: arrocco, presa en passant, promozione (scegli il pezzo quando un pedone arriva in fondo), scacco, scacco matto e stallo. È patta anche per ripetizione di posizione, per la regola delle 50 mosse e per materiale insufficiente. I pezzi in campo sono contati in alto: pedoni, alfieri (maghi), cavalieri, torri e regine. Una casa rossa lampeggiante indica il re sotto scacco.</p>
   </details>
   <details>
     <summary>Opzioni</summary>
+    <div class="row"><span>Tempo <small>(es. 5+3: 5 minuti, più 3 secondi a ogni mossa)</small></span><div class="seg" id="segTime"></div></div>
     <div class="row"><span>Modalità</span><div class="seg" id="segMode"></div></div>
     <div class="row" id="sideRow"><span>Colore</span><div class="seg" id="segSide"></div></div>
     <div class="row" id="levelRow"><span>Avversario</span><div class="seg" id="segLevel"></div></div>
@@ -131,7 +146,9 @@ details p{margin:0 0 12px;color:var(--ink2)}
     <div class="row"><span>Suoni</span><div class="seg" id="segSound"></div></div>
     <div class="row"><span>Musica</span><div class="seg" id="segMusic"></div></div>
   </details>
+  <p class="ver" id="ver">Versione 20261031.103</p>
 </main>
+<div class="modal" id="resume" hidden><div class="card" role="dialog" aria-modal="true" aria-labelledby="resumeTitle"><p id="resumeTitle">Partita in corso</p><p class="sub" id="resumeInfo"></p><div class="acts"><button class="btn primary" id="resumeYes" type="button">Riprendi</button><button class="btn" id="resumeNo" type="button">Nuova partita</button></div></div></div>
 <div class="modal" id="promo" hidden><div class="card"><p>Scegli la promozione</p><div class="opts"></div></div></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
@@ -501,7 +518,7 @@ const PNAME = { p:'Soldato', r:'Torre', n:'Cavaliere', b:'Mago', q:'Regina', k:'
   stage.appendChild(renderer.domElement);
   const dom = renderer.domElement; dom.style.cssText = 'display:block;width:100%;height:100%;touch-action:none';
 
-  const opts = { vsAI: true, level: 2, battles: !(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches), sound: false, music: false, view: '3d', board: 'pietra', env: 'castello', side: 'w' };
+  const opts = { vsAI: true, level: 2, battles: !(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches), sound: false, music: false, view: '3d', board: 'pietra', env: 'castello', side: 'w', clock: 10, inc: 0 };
   try { const o = JSON.parse(localStorage.getItem('scacchi-darme-3d') || '{}'); for (const k in o) if (k in opts) opts[k] = o[k]; } catch (e) {}
   const saveOpts = () => { try { localStorage.setItem('scacchi-darme-3d', JSON.stringify(opts)); } catch (e) {} };
 
@@ -1090,23 +1107,11 @@ const PNAME = { p:'Soldato', r:'Torre', n:'Cavaliere', b:'Mago', q:'Regina', k:'
     return c;
   }
   const semiFreq = (def, deg, oct, mul = 1) => { const n = def.scale.length, semi = def.scale[((deg % n) + n) % n] + 12 * Math.floor(deg / n); return def.root * mul * Math.pow(2, semi / 12 + oct); };
-  function noiseLoop(c, bus, type, freq, q, base, lfoRate, lfoDepth) {
-    const len = c.sampleRate * 3, buf = c.createBuffer(1, len, c.sampleRate), d = buf.getChannelData(0);
-    for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
-    const src = c.createBufferSource(); src.buffer = buf; src.loop = true;
-    const f = c.createBiquadFilter(); f.type = type; f.frequency.value = freq; f.Q.value = q;
-    const g = c.createGain(); g.gain.value = base;
-    src.connect(f); f.connect(g); g.connect(bus); src.start();
-    const nodes = [src];
-    if (lfoRate) { const lfo = c.createOscillator(), lg = c.createGain(); lfo.frequency.value = lfoRate; lg.gain.value = lfoDepth; lfo.connect(lg); lg.connect(g.gain); lfo.start(); nodes.push(lfo); }
-    return nodes;
-  }
   function buildAmbience(c, def, bus) {
     switch (def.amb) {
-      case 'waves': return noiseLoop(c, bus, 'lowpass', 420, .7, .55, .11, .35).concat(noiseLoop(c, bus, 'bandpass', 1400, .5, .12, .17, .08));
-      case 'wind': return noiseLoop(c, bus, 'bandpass', 520, .8, .45, .07, .3);
-      case 'breeze': return noiseLoop(c, bus, 'bandpass', 900, .5, .25, .09, .15);
-      case 'icewind': return noiseLoop(c, bus, 'highpass', 2400, .5, .1, .06, .05);
+      // Onde, vento e brezza erano rumore filtrato (fruscii): tolti su richiesta.
+      // Restano accordo di base e note melodiche; i cinguettii dell'Erba sono note, non rumore.
+      case 'waves': case 'wind': case 'breeze': case 'icewind': return [];
       case 'drone': {
         const f = c.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = 200; f.Q.value = .6;
         const g = c.createGain(); g.gain.value = .16; f.connect(g); g.connect(bus);
@@ -1507,6 +1512,12 @@ const PNAME = { p:'Soldato', r:'Torre', n:'Cavaliere', b:'Mago', q:'Regina', k:'
   const cam = { theta: 0, phi: 1.0, r: 16 };
   const presets = [{ name: 'Alba', theta: 0, phi: 1.0 }, { name: 'Cenere', theta: Math.PI, phi: 1.0 }, { name: 'Alto', theta: 0, phi: .3 }];
   let viewIdx = 0;
+  function nextLabel() { $('#view').textContent = 'Vista: ' + presets[(viewIdx + 1) % presets.length].name; }
+  function orientFor(turn) {
+    if (opts.vsAI) return;
+    const idx = turn === 'w' ? 0 : 1; if (idx === viewIdx) return;
+    viewIdx = idx; goView(presets[viewIdx]); nextLabel();
+  }
   const homeR = () => Math.max(13.5, 14.5 / Math.max(.5, camera.aspect));
   function applyCam() {
     const sp = Math.sin(cam.phi), sx = shakeAmt ? (Math.random() - .5) * shakeAmt : 0, sy = shakeAmt ? (Math.random() - .5) * shakeAmt : 0;
@@ -1553,6 +1564,7 @@ const PNAME = { p:'Soldato', r:'Torre', n:'Cavaliere', b:'Mago', q:'Regina', k:'
 
   /* ---------- partita ---------- */
   let S, hist = [], keys = [], last = null, selected = -1, targets = [], legalMoves = [], checkSq = -1;
+  let clockW = 0, clockB = 0, clockRunning = false, clockTimer = null, lastTick = 0, moveLog = [], resultTag = '*';
   let mode = opts.view === '2d' ? '2d' : '3d'; const dirty = { '3d': false, '2d': false };
   const paintAll = () => { paintMarks(); V2.paint(); };
   const syncCurrent = () => { if (mode === '2d') V2.sync(); else syncPieces(); dirty[mode] = false; };
@@ -1574,17 +1586,106 @@ const PNAME = { p:'Soldato', r:'Torre', n:'Cavaliere', b:'Mago', q:'Regina', k:'
     if (st.type === 'mate') return `Scacco matto! ${st.winner === 'w' ? "L'Alba" : 'La Cenere'} vince la battaglia.`;
     return { stalemate: 'Stallo: la battaglia finisce in parità.', fifty: 'Patta per la regola delle 50 mosse.', material: 'Patta: materiale insufficiente per il matto.', repetition: 'Patta per ripetizione di posizione.' }[st.type];
   }
+
+  /* ---------- orologio e cronologia mosse ---------- */
+  const fmtClock = ms => { const s = Math.max(0, Math.ceil(ms / 1000)); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
+  function renderClocks() {
+    const cw = $('#clkw'), cb = $('#clkb');
+    if (!opts.clock) { cw.hidden = true; cb.hidden = true; return; }
+    cw.hidden = false; cb.hidden = false;
+    cw.textContent = fmtClock(clockW); cb.textContent = fmtClock(clockB);
+    cw.classList.toggle('low', clockW <= 20000); cb.classList.toggle('low', clockB <= 20000);
+  }
+  function stopClock() { if (clockTimer) { clearInterval(clockTimer); clockTimer = null; } clockRunning = false; }
+  function flagFall(color) {
+    // Un tocco in piu' di cura: se il tempo scade mentre un'animazione e' in
+    // corso, gen++ invalida quella mossa gia' avviata, cosi' non puo' piu'
+    // sovrascrivere lo stato di partita finita quando termina.
+    stopClock(); over = true; gen++; clearSave();
+    const winner = color === 'w' ? 'b' : 'w';
+    resultTag = winner === 'w' ? '1-0' : '0-1';
+    setStatus(`Tempo scaduto! ${winner === 'w' ? "L'Alba" : 'La Cenere'} vince la battaglia.`, 'end');
+    $('#again').hidden = false; updateHud();
+  }
+  function tickClock() {
+    const now = performance.now(), dt = now - lastTick; lastTick = now;
+    if (!clockRunning || over) return;
+    if (S.turn === 'w') clockW = Math.max(0, clockW - dt); else clockB = Math.max(0, clockB - dt);
+    renderClocks();
+    if (performance.now() - lastSaveMs > 1000) saveGame();
+    if ((S.turn === 'w' ? clockW : clockB) <= 0) flagFall(S.turn);
+  }
+  function startClock() {
+    if (!opts.clock || over) return;
+    stopClock(); lastTick = performance.now(); clockRunning = true; clockTimer = setInterval(tickClock, 250);
+  }
+  function toSAN(m, legalBefore, statusAfter) {
+    const files = 'abcdefgh', destSq = sq => files[sq & 7] + (8 - (sq >> 3));
+    let s;
+    if (m.castle) { s = m.castle === 'K' ? 'O-O' : 'O-O-O'; }
+    else {
+      const t = m.p.toLowerCase();
+      if (t === 'p') {
+        s = (m.cap ? files[m.from & 7] + 'x' : '') + destSq(m.to) + (m.promo ? '=' + m.promo.toUpperCase() : '');
+      } else {
+        let dis = '';
+        const rivals = legalBefore.filter(x => x.to === m.to && x.p === m.p && x.from !== m.from);
+        if (rivals.length) {
+          const sameFile = rivals.some(x => (x.from & 7) === (m.from & 7)), sameRank = rivals.some(x => (x.from >> 3) === (m.from >> 3));
+          dis = !sameFile ? files[m.from & 7] : !sameRank ? String(8 - (m.from >> 3)) : files[m.from & 7] + (8 - (m.from >> 3));
+        }
+        s = t.toUpperCase() + dis + (m.cap ? 'x' : '') + destSq(m.to);
+      }
+    }
+    if (statusAfter.over && statusAfter.type === 'mate') s += '#'; else if (statusAfter.check) s += '+';
+    return s;
+  }
+  function renderMoveList() {
+    const el = $('#moveList');
+    if (!moveLog.length) { el.innerHTML = '<span class="mv" style="opacity:.6">Nessuna mossa ancora.</span>'; return; }
+    let html = '';
+    for (let i = 0; i < moveLog.length; i += 2) html += `<span class="mv">${i / 2 + 1}.</span> ${moveLog[i]}${moveLog[i + 1] ? ' ' + moveLog[i + 1] : ''}  `;
+    el.innerHTML = html; el.scrollTop = el.scrollHeight;
+  }
+
+
+  const APP_VERSION = '20261031.103';
+  function pgnResultFromStatus(st) {
+    if (st.type === 'mate') return st.winner === 'w' ? '1-0' : '0-1';
+    return '1/2-1/2';
+  }
+  function exportPGN() {
+    const d = new Date(), pad = n => String(n).padStart(2, '0');
+    const dateTag = `${d.getFullYear()}.${pad(d.getMonth() + 1)}.${pad(d.getDate())}`;
+    const modeTag = opts.vsAI ? `Umano (${opts.side === 'w' ? "l'Alba" : 'la Cenere'}) contro IA, livello ${opts.level}` : 'Due giocatori';
+    const tcTag = opts.clock ? `${Math.round(opts.clock * 60)}${opts.inc ? '+' + opts.inc : ''}` : '-';
+    let pgn = `[Event "Scacchi d'Arme"]\n[Site "?"]\n[Date "${dateTag}"]\n[Round "?"]\n[White "L'Alba"]\n[Black "La Cenere"]\n[Result "${resultTag}"]\n[Mode "${modeTag}"]\n[TimeControl "${tcTag}"]\n[Application "Scacchi d'Arme 3D ${APP_VERSION}"]\n\n`;
+    let body = '';
+    for (let i = 0; i < moveLog.length; i += 2) body += `${i / 2 + 1}. ${moveLog[i]}${moveLog[i + 1] ? ' ' + moveLog[i + 1] + ' ' : ' '}`;
+    pgn += (body + resultTag).trim() + '\n';
+    const blob = new Blob([pgn], { type: 'application/x-chess-pgn' });
+    const url = URL.createObjectURL(blob), a = document.createElement('a');
+    a.href = url; a.download = `scacchi-darme-${dateTag.replace(/\./g, '-')}-${pad(d.getHours())}${pad(d.getMinutes())}.pgn`;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
   const kingSq = s => s.b.indexOf(s.turn === 'w' ? 'K' : 'k');
   async function playMove(m) {
     const my = gen, vw = mode; busy = true; selected = -1; targets = []; paintAll();
-    hist.push({ S, last, keysLen: keys.length });
+    stopClock();
+    hist.push({ S, last, keysLen: keys.length, clockW, clockB, moveLogLen: moveLog.length, resultTag });
+    inFlight = true; // mossa avviata ma non ancora applicata: il salvataggio ignora l'ultima voce di hist
+    const legalBefore = legalMoves;
     await (vw === '2d' ? V2.animate(m) : animateMove(m)); if (my !== gen) return;
-    S = applyP(S, m); last = { from: m.from, to: m.to }; keys.push(keyOf(S));
+    S = applyP(S, m); last = { from: m.from, to: m.to }; keys.push(keyOf(S)); inFlight = false;
     legalMoves = genMoves(S); const st = gameStatus(S, legalMoves, keys);
     checkSq = st.check ? kingSq(S) : -1; over = st.over;
+    moveLog.push(toSAN(m, legalBefore, st)); renderMoveList();
     if (mode !== vw) { syncCurrent(); dirty[vw] = false; } else dirty[vw === '2d' ? '3d' : '2d'] = true;
     paintAll(); updateHud(); refreshStatus();
     if (over) {
+      resultTag = pgnResultFromStatus(st); clearSave();
       setStatus(endText(st), 'end'); $('#again').hidden = false;
       if (st.type === 'mate') {
         const ks = kingSq(S);
@@ -1593,6 +1694,11 @@ const PNAME = { p:'Soldato', r:'Torre', n:'Cavaliere', b:'Mago', q:'Regina', k:'
       busy = false; return;
     }
     busy = false;
+    // Incremento Fischer: chi ha appena mosso (l'avversario di S.turn) guadagna opts.inc secondi.
+    if (opts.clock && opts.inc) { if (S.turn === 'w') clockB += opts.inc * 1000; else clockW += opts.inc * 1000; renderClocks(); }
+    saveGame();
+    startClock();
+    orientFor(S.turn);
     if (opts.vsAI && S.turn !== opts.side) aiMove();
   }
   async function aiMove() {
@@ -1628,18 +1734,28 @@ const PNAME = { p:'Soldato', r:'Torre', n:'Cavaliere', b:'Mago', q:'Regina', k:'
   }
   const tap = (cx, cy) => tapAt(() => pick(cx, cy));
   function newGame() {
-    gen++; busy = false; animating = false; skipping = false; live.clear();
+    gen++; busy = false; animating = false; skipping = false; live.clear(); stopClock();
+    inFlight = false; pendingResume = false; $('#resume').hidden = true;
     S = initP(); hist = []; keys = [keyOf(S)]; last = null; selected = -1; targets = []; over = false; checkSq = -1; legalMoves = genMoves(S);
+    moveLog = []; renderMoveList(); resultTag = '*';
+    clockW = clockB = opts.clock * 60000; renderClocks();
     $('#hint').hidden = true; $('#promo').hidden = true;
     syncAll(); paintAll(); updateHud(); refreshStatus();
+    saveGame();
+    startClock();
+    orientFor(S.turn);
     if (opts.vsAI && S.turn !== opts.side) aiMove();
   }
   function undo() {
     if (busy || !hist.length) return;
-    const n = Math.min(opts.vsAI && S.turn === opts.side ? 2 : 1, hist.length), it = hist[hist.length - n]; hist.length -= n; gen++;
+    const n = Math.min(opts.vsAI && S.turn === opts.side ? 2 : 1, hist.length), it = hist[hist.length - n]; hist.length -= n; gen++; inFlight = false;
     S = it.S; last = it.last; keys.length = it.keysLen; over = false; selected = -1; targets = []; legalMoves = genMoves(S);
+    clockW = it.clockW; clockB = it.clockB; moveLog.length = it.moveLogLen; resultTag = it.resultTag; renderMoveList(); renderClocks(); stopClock();
     const st = gameStatus(S, legalMoves, keys); checkSq = st.check ? kingSq(S) : -1;
     syncAll(); paintAll(); updateHud(); refreshStatus();
+    saveGame();
+    startClock();
+    orientFor(S.turn);
     if (opts.vsAI && S.turn !== opts.side) aiMove();
   }
 
@@ -1890,6 +2006,62 @@ const PNAME = { p:'Soldato', r:'Torre', n:'Cavaliere', b:'Mago', q:'Regina', k:'
     mode = m; opts.view = m; saveOpts(); applyMode();
   }
 
+  /* ---------- salvataggio e ripresa della partita ---------- */
+  // La partita in corso viene salvata nel browser (localStorage) dopo ogni mossa, a ogni annulla,
+  // a ogni nuova partita e, a orologio acceso, circa una volta al secondo. All'apertura successiva,
+  // se esiste un salvataggio valido, la posizione compare subito e si sceglie tra Riprendi e Nuova
+  // partita. Le partite finite non si salvano. Un salvataggio incoerente viene scartato in silenzio.
+  const SAVE_KEY = 'scacchi-darme-3d-partita', SAVE_VER = 1;
+  let inFlight = false, pendingResume = false, lastSaveMs = 0;
+  function clearSave() { try { localStorage.removeItem(SAVE_KEY); } catch (e) {} }
+  function saveGame() {
+    if (pendingResume) return;
+    try {
+      const h = inFlight ? hist.slice(0, -1) : hist;
+      if (over || !h.length) { clearSave(); return; }
+      localStorage.setItem(SAVE_KEY, JSON.stringify({ v: SAVE_VER, S, hist: h, keys, last, moveLog, clockW, clockB, game: { vsAI: opts.vsAI, level: opts.level, side: opts.side, clock: opts.clock, inc: opts.inc || 0 } }));
+      lastSaveMs = performance.now();
+    } catch (e) {}
+  }
+  const validState = s => !!s && Array.isArray(s.b) && s.b.length === 64 && (s.turn === 'w' || s.turn === 'b') && !!s.cast && typeof s.ep === 'number' && typeof s.half === 'number';
+  function loadSavedGame() {
+    try {
+      const raw = localStorage.getItem(SAVE_KEY); if (raw === null) return null;
+      const g = JSON.parse(raw), gm = g && g.game;
+      const good = !!g && g.v === SAVE_VER && validState(g.S) && Array.isArray(g.hist) && g.hist.length > 0
+        && g.hist.every(x => !!x && validState(x.S) && typeof x.clockW === 'number' && typeof x.clockB === 'number' && typeof x.keysLen === 'number' && typeof x.moveLogLen === 'number')
+        && Array.isArray(g.keys) && g.keys.length === g.hist.length + 1 && g.keys.every(x => typeof x === 'string') && g.keys[g.keys.length - 1] === keyOf(g.S)
+        && Array.isArray(g.moveLog) && g.moveLog.length === g.hist.length && g.moveLog.every(x => typeof x === 'string')
+        && typeof g.clockW === 'number' && typeof g.clockB === 'number'
+        && !!gm && typeof gm.vsAI === 'boolean' && [1, 2, 3].includes(gm.level) && (gm.side === 'w' || gm.side === 'b')
+        && typeof gm.clock === 'number' && gm.clock >= 0 && typeof gm.inc === 'number' && gm.inc >= 0;
+      if (!good || gameStatus(g.S, genMoves(g.S), g.keys).over) { clearSave(); return null; }
+      return g;
+    } catch (e) { clearSave(); return null; }
+  }
+  function offerResume(g) {
+    gen++; busy = true; pendingResume = true; inFlight = false; animating = false; skipping = false; live.clear(); stopClock();
+    S = g.S; hist = g.hist; keys = g.keys; last = g.last || null; moveLog = g.moveLog; clockW = g.clockW; clockB = g.clockB;
+    selected = -1; targets = []; over = false; resultTag = '*'; legalMoves = genMoves(S);
+    const st = gameStatus(S, legalMoves, keys); checkSq = st.check ? kingSq(S) : -1;
+    renderMoveList(); renderClocks(); $('#hint').hidden = true; $('#promo').hidden = true;
+    syncAll(); paintAll(); updateHud(); refreshStatus(); orientFor(S.turn);
+    const lv = ['Recluta', 'Cavaliere', 'Maestro'][opts.level - 1];
+    const modeTxt = opts.vsAI ? `Contro l'IA (${lv}), tu giochi con ${NAMES[opts.side]}` : 'Due giocatori';
+    const tc = opts.clock ? (opts.inc ? `${opts.clock}+${opts.inc}` : `${opts.clock} min`) : 'senza limite di tempo';
+    $('#resumeInfo').textContent = `${modeTxt}. Alla mossa ${Math.floor(moveLog.length / 2) + 1} muove ${NAMES[S.turn]} · ${tc}.`;
+    $('#resume').hidden = false; $('#resumeYes').focus();
+  }
+  $('#resumeYes').addEventListener('click', () => {
+    if (!pendingResume) return;
+    pendingResume = false; $('#resume').hidden = true; busy = false;
+    startClock(); orientFor(S.turn);
+    if (opts.vsAI && S.turn !== opts.side) aiMove();
+  });
+  $('#resumeNo').addEventListener('click', () => { pendingResume = false; clearSave(); newGame(); });
+  window.addEventListener('pagehide', saveGame);
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') saveGame(); });
+
   /* ---------- controlli pagina ---------- */
   function seg(id, items, get, set) {
     const box = $(id); box.innerHTML = '';
@@ -1899,6 +2071,9 @@ const PNAME = { p:'Soldato', r:'Torre', n:'Cavaliere', b:'Mago', q:'Regina', k:'
   }
   function initControls() {
     seg('#segMode', [["Contro l'IA", true], ['Due giocatori', false]], () => opts.vsAI, v => { if (v !== opts.vsAI) { opts.vsAI = v; newGame(); } $('#levelRow').hidden = !opts.vsAI; $('#sideRow').hidden = !opts.vsAI; });
+    const TIMES = [['3 min', '3+0'], ['5 min', '5+0'], ['10 min', '10+0'], ['15 min', '15+0'], ['3+2', '3+2'], ['5+3', '5+3'], ['10+5', '10+5'], ['Nessuno', '0+0']];
+    seg('#segTime', TIMES, () => `${opts.clock}+${opts.inc || 0}`, v => { const [mn, sc] = String(v).split('+').map(Number); if (mn !== opts.clock || sc !== (opts.inc || 0)) { opts.clock = mn; opts.inc = sc; newGame(); } });
+    [...$('#segTime').children].forEach(b => { const [mn, sc] = b.dataset.v.split('+').map(Number); const t = !mn ? 'Nessun limite di tempo' : mn + (mn === 1 ? ' minuto' : ' minuti') + (sc ? ' per parte, più ' + sc + ' secondi dopo ogni mossa' : ' per parte'); b.title = t; b.setAttribute('aria-label', t); });
     $('#levelRow').hidden = !opts.vsAI; $('#sideRow').hidden = !opts.vsAI;
     seg('#segSide', [["L'Alba (bianco)", 'w'], ['La Cenere (nero)', 'b']], () => opts.side, v => { if (v !== opts.side) { opts.side = v; newGame(); viewIdx = v === 'b' ? 1 : 0; goView(presets[viewIdx]); nextLabel(); } });
     seg('#segLevel', [['Recluta', 1], ['Cavaliere', 2], ['Maestro', 3]], () => opts.level, v => { opts.level = v; });
@@ -1908,8 +2083,8 @@ const PNAME = { p:'Soldato', r:'Torre', n:'Cavaliere', b:'Mago', q:'Regina', k:'
     seg('#segMusic', [['Sì', true], ['No', false]], () => opts.music, v => { opts.music = v; if (v) { startMusicFor(opts.env); setTimeout(() => { if (opts.music && AC && AC.state !== 'running') setStatus('Audio in attesa: tocca la scacchiera per attivarlo.'); }, 500); } else stopMusic(); });
     seg('#segEnv', Object.keys(ENV_THEMES).map(k => [ENV_THEMES[k].name, k]), () => opts.env, v => { opts.env = v; applyEnvTheme(v); if (opts.music) startMusicFor(v); });
     $('#newGame').onclick = () => { if (busy && animating) skip(); newGame(); };
+    $('#exportPgn').onclick = exportPGN;
     $('#again').onclick = newGame; $('#undo').onclick = undo; $('#toggleView').onclick = () => setMode(mode === '2d' ? '3d' : '2d');
-    function nextLabel() { $('#view').textContent = 'Vista: ' + presets[(viewIdx + 1) % presets.length].name; }
     $('#view').onclick = () => { viewIdx = (viewIdx + 1) % presets.length; goView(presets[viewIdx]); nextLabel(); };
     nextLabel();
   }
@@ -1943,8 +2118,8 @@ const PNAME = { p:'Soldato', r:'Torre', n:'Cavaliere', b:'Mago', q:'Regina', k:'
   const svgNoise = "<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .55 0'/></filter><rect width='100%' height='100%' filter='url(#n)'/></svg>";
   document.documentElement.style.setProperty('--noise', `url("data:image/svg+xml,${encodeURIComponent(svgNoise)}")`);
   $('#defs2').innerHTML = DEFS;
-  resize(); cam.r = homeR(); initControls(); applyBoardTheme(opts.board); applyEnvTheme(opts.env); if (opts.music) startMusicFor(opts.env); if (opts.side === 'b') { viewIdx = 1; cam.theta = presets[1].theta; cam.phi = presets[1].phi; } applyMode(); newGame(); requestAnimationFrame(loop);
-  window.__dbg = { sfx, unlockAudio, startMusicFor, stopMusic, musicTick, MUSIC, get musicState() { return musicState; }, get AC() { return AC; }, get MASTER() { return MASTER; }, get S() { return S; }, get mode() { return mode; }, setMode, V2, applyBoardTheme, applyEnvTheme, matLt, matDk, matFrame, matGold, matGround, scene, hemi, envExtras, cam, camera, updateSky, get skyDome() { return skyDome; }, get starsPts() { return starsPts; }, get envParticles() { return envParticles; }, playMove, tap, tapAt, askPromo, newGame, undo, pieces, get busy() { return busy; }, get over() { return over; }, get targets() { return targets; }, get checkSq() { return checkSq; }, opts, syncPieces, setS(st) { S = st; legalMoves = genMoves(S); over = false; hist = []; keys = [keyOf(S)]; selected = -1; targets = []; const c = gameStatus(S, legalMoves, keys); checkSq = c.check ? kingSq(S) : -1; syncAll(); paintAll(); updateHud(); refreshStatus(); } };
+  resize(); cam.r = homeR(); const savedGame = loadSavedGame(); if (savedGame) Object.assign(opts, savedGame.game); initControls(); applyBoardTheme(opts.board); applyEnvTheme(opts.env); if (opts.music) startMusicFor(opts.env); if (opts.side === 'b') { viewIdx = 1; cam.theta = presets[1].theta; cam.phi = presets[1].phi; } applyMode(); if (savedGame) offerResume(savedGame); else newGame(); requestAnimationFrame(loop);
+  window.__dbg = { APP_VERSION, sfx, unlockAudio, startMusicFor, stopMusic, musicTick, MUSIC, get musicState() { return musicState; }, get AC() { return AC; }, get MASTER() { return MASTER; }, get S() { return S; }, get mode() { return mode; }, setMode, V2, toSAN, exportPGN, orientFor, presets, get viewIdx() { return viewIdx; }, cam, get resultTag() { return resultTag; }, get moveLog() { return moveLog; }, get clockW() { return clockW; }, get clockB() { return clockB; }, flagFall, startClock, stopClock, applyBoardTheme, applyEnvTheme, matLt, matDk, matFrame, matGold, matGround, scene, hemi, envExtras, cam, camera, updateSky, get skyDome() { return skyDome; }, get starsPts() { return starsPts; }, get envParticles() { return envParticles; }, playMove, tap, tapAt, askPromo, newGame, undo, pieces, get busy() { return busy; }, get over() { return over; }, get targets() { return targets; }, get checkSq() { return checkSq; }, opts, syncPieces, setS(st) { S = st; legalMoves = genMoves(S); over = false; hist = []; keys = [keyOf(S)]; selected = -1; targets = []; const c = gameStatus(S, legalMoves, keys); checkSq = c.check ? kingSq(S) : -1; syncAll(); paintAll(); updateHud(); refreshStatus(); } };
 })();
 </script>
 </body>
