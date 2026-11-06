@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#020913">
+  <meta name="description" content="I personaggi de Il Romitorio, romanzo di Simone Rebucci.">
+  <title>I personaggi | Il Romitorio | Simone Rebucci</title>
+  <link rel="stylesheet" href="assets.css">
+  <script defer src="assets.js"></script>
+  <style>
+    .characters-intro{padding:clamp(34px,4vw,72px) clamp(22px,4vw,76px);background:linear-gradient(115deg,#04111e,#071c2c);border-bottom:1px solid var(--line-soft)}
+    .characters-intro h1{font:800 clamp(36px,4vw,64px)/1.06 'Manrope',sans-serif;letter-spacing:-.045em;margin:0 0 14px;color:var(--text)}
+    .characters-intro .lead{font-size:clamp(15px,1.15vw,19px);line-height:1.7;color:var(--muted);max-width:850px;margin:0}
+    .characters-section{padding:clamp(32px,4vw,68px) clamp(18px,3.5vw,64px);background:linear-gradient(135deg,#04111e,#061a2a);border-top:1px solid var(--line-soft)}
+    .characters-section h2{font:800 clamp(23px,2.5vw,36px)/1.15 'Manrope',sans-serif;letter-spacing:-.03em;margin:0 0 10px;color:var(--text)}
+    .characters-section>.section-lead{color:var(--muted);font-size:14px;line-height:1.7;margin:0;max-width:780px}
+    .characters-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-top:28px}
+    .character-card{min-width:0;overflow:hidden;border:1px solid var(--line-soft);border-radius:9px;background:rgba(3,16,28,.78);transition:border-color .2s,transform .2s}
+    .character-card:hover{border-color:var(--cyan);transform:translateY(-3px)}
+    .character-visual{aspect-ratio:16/10;background:var(--panel2);overflow:hidden;display:flex;align-items:center;justify-content:center}
+    .character-visual img{display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1);}
+    .character-copy{padding:17px 18px 19px}
+    .character-copy h3{font:700 17px/1.3 'Manrope',sans-serif;color:var(--text);margin:0 0 8px}
+    .character-copy p{font-size:13px;line-height:1.65;color:var(--muted);margin:0}
+    .character-question{font:700 clamp(56px,7vw,88px)/1 'Manrope',sans-serif;color:var(--green);text-shadow:0 0 28px rgba(0,240,181,.12)}
+    .character-card.pending .character-visual{background:radial-gradient(ellipse at center,rgba(0,240,181,.07),transparent 65%),#061522;border-bottom:1px solid var(--line-soft)}
+    .character-card.pending .character-copy p{color:var(--subtle)}
+    .custodian{display:grid;grid-template-columns:minmax(180px,.55fr) minmax(0,1.45fr);gap:24px;align-items:center;margin-top:34px;padding:22px;border:1px solid var(--line);border-radius:10px;background:rgba(2,14,24,.72)}
+    .custodian-mark{min-height:150px;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at center,rgba(0,240,181,.08),transparent 68%),#061522;border:1px solid var(--line-soft);border-radius:8px}
+    .custodian-mark span{font:700 76px/1 'Manrope',sans-serif;color:var(--green)}
+    .custodian h3{font:800 clamp(20px,2vw,28px)/1.2 'Manrope',sans-serif;margin:0 0 9px;color:var(--text)}
+    .custodian p{margin:0;color:var(--muted);font-size:14px;line-height:1.7}
+    .characters-back{margin-top:30px}
+    body.light .characters-intro,body.light .characters-section{background:linear-gradient(135deg,#f7fafc,#eaf2f7)}
+    body.light .character-card{background:#fff;border-color:rgba(0,132,173,.22)}
+    body.light .character-visual{background:#e7eef5}
+    body.light .character-card.pending .character-visual,body.light .custodian-mark{background:radial-gradient(ellipse at center,rgba(0,169,133,.08),transparent 68%),#e7eef5}
+    body.light .custodian{background:#fff;border-color:rgba(0,132,173,.22)}
+    @media(max-width:1050px){.characters-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+    @media(max-width:720px){.characters-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.character-copy{padding:13px}.character-copy h3{font-size:14px}.character-copy p{font-size:12px}.custodian{grid-template-columns:1fr;gap:15px;padding:15px}.custodian-mark{min-height:110px}}
+    @media(max-width:420px){.characters-grid{grid-template-columns:1fr 1fr}}
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-wrap"><a class="brand" href="index.html">SIMONE
+        REBUCCI</a><button class="menu-toggle" aria-label="Apri menu" aria-expanded="false">☰</button>
+      <nav class="nav" aria-label="Navigazione principale"><a href="index.html" class="">HOME</a><a
+          href="profilo-professionale.html" class="">PROFILO</a><a href="libri.html" class="active">LIBRI</a><a
+          href="scacchi-darme.html" class="">SCACCHI D'ARME</a><a
+          href="https://www.linkedin.com/in/simonerebucci/" class="" target="_blank"
+          rel="noopener noreferrer">LINKEDIN</a></nav>
+      <button class="theme-toggle" aria-label="Cambia tema chiaro/scuro">☼</button>
+    </div>
+  </header>
+<main class="page-shell">
+  <section class="frame">
+    <div class="characters-intro">
+      <p class="eyebrow">IL ROMITORIO · I PERSONAGGI</p>
+      <h1>Quattordici storie.<br><span class="accent">Un solo luogo.</span></h1>
+      <p class="lead">Le persone che arrivano al Romitorio portano con sé vite, domande e silenzi differenti. Alcuni volti restano ancora da scoprire.</p>
+      <div class="actions"><a class="btn secondary" href="romitorio.html">← Torna al romanzo</a></div>
+    </div>
+    <section class="characters-section">
+      <p class="eyebrow">I PARTECIPANTI</p>
+      <h2>Chi ha scelto di fermarsi.</h2>
+      <p class="section-lead">Le illustrazioni accompagnano i personaggi senza svelarne completamente l'aspetto: lasciano spazio all'immaginazione di chi legge.</p>
+      <div class="characters-grid">
+        <article class="character-card illustrated">
+      <div class="character-visual"><img src="images/personaggi/marta-serafini.jpg" alt="Illustrazione simbolica di Marta Serafini"></div>
+      <div class="character-copy"><h3>Marta Serafini</h3><p>Una psicologa, attenta a ciò che le persone dicono e soprattutto a ciò che tacciono.</p></div>
+    </article><article class="character-card illustrated">
+      <div class="character-visual"><img src="images/personaggi/suor-agnese.jpg" alt="Illustrazione simbolica di Suor Agnese"></div>
+      <div class="character-copy"><h3>Suor Agnese</h3><p>Una vita di fede e un rapporto profondo con il silenzio.</p></div>
+    </article><article class="character-card illustrated">
+      <div class="character-visual"><img src="images/personaggi/elena-ricci.jpg" alt="Illustrazione simbolica di Elena Ricci"></div>
+      <div class="character-copy"><h3>Elena Ricci</h3><p>Madre di Tommaso. Una presenza che osserva e cerca di comprendere.</p></div>
+    </article><article class="character-card illustrated">
+      <div class="character-visual"><img src="images/personaggi/tommaso-ricci.jpg" alt="Illustrazione simbolica di Tommaso Ricci"></div>
+      <div class="character-copy"><h3>Tommaso Ricci</h3><p>Giovane, inquieto, legato a un mondo dal quale non è facile prendere distanza.</p></div>
+    </article><article class="character-card pending">
+      <div class="character-visual"><div class="character-question" aria-label="Illustrazione in arrivo">?</div></div>
+      <div class="character-copy"><h3>Davide Osei</h3><p>Illustrazione e presentazione in arrivo.</p></div>
+    </article><article class="character-card pending">
+      <div class="character-visual"><div class="character-question" aria-label="Illustrazione in arrivo">?</div></div>
+      <div class="character-copy"><h3>Luce Ferrante</h3><p>Illustrazione e presentazione in arrivo.</p></div>
+    </article><article class="character-card pending">
+      <div class="character-visual"><div class="character-question" aria-label="Illustrazione in arrivo">?</div></div>
+      <div class="character-copy"><h3>Giorgio Mantovani</h3><p>Illustrazione e presentazione in arrivo.</p></div>
+    </article><article class="character-card pending">
+      <div class="character-visual"><div class="character-question" aria-label="Illustrazione in arrivo">?</div></div>
+      <div class="character-copy"><h3>Silvana Mantovani</h3><p>Illustrazione e presentazione in arrivo.</p></div>
+    </article><article class="character-card pending">
+      <div class="character-visual"><div class="character-question" aria-label="Illustrazione in arrivo">?</div></div>
+      <div class="character-copy"><h3>Concetta Arcuri</h3><p>Illustrazione e presentazione in arrivo.</p></div>
+    </article><article class="character-card pending">
+      <div class="character-visual"><div class="character-question" aria-label="Illustrazione in arrivo">?</div></div>
+      <div class="character-copy"><h3>Renata</h3><p>Illustrazione e presentazione in arrivo.</p></div>
+    </article><article class="character-card pending">
+      <div class="character-visual"><div class="character-question" aria-label="Illustrazione in arrivo">?</div></div>
+      <div class="character-copy"><h3>Marco</h3><p>Illustrazione e presentazione in arrivo.</p></div>
+    </article><article class="character-card pending">
+      <div class="character-visual"><div class="character-question" aria-label="Illustrazione in arrivo">?</div></div>
+      <div class="character-copy"><h3>Paola</h3><p>Illustrazione e presentazione in arrivo.</p></div>
+    </article><article class="character-card pending">
+      <div class="character-visual"><div class="character-question" aria-label="Illustrazione in arrivo">?</div></div>
+      <div class="character-copy"><h3>don Cesare</h3><p>Illustrazione e presentazione in arrivo.</p></div>
+    </article><article class="character-card pending">
+      <div class="character-visual"><div class="character-question" aria-label="Illustrazione in arrivo">?</div></div>
+      <div class="character-copy"><h3>Fra' Pietro Lombardi</h3><p>Illustrazione e presentazione in arrivo.</p></div>
+    </article>
+      </div>
+    </section>
+    <section class="characters-section">
+      <p class="eyebrow">CHI CUSTODISCE IL ROMITORIO</p>
+      <h2>Padre Emanuele Voss</h2>
+      <div class="custodian">
+        <div class="custodian-mark"><span>?</span></div>
+        <div><p>La figura che accoglie e guida il gruppo. La sua illustrazione è in preparazione.</p></div>
+      </div>
+      <div class="actions characters-back"><a class="btn primary" href="romitorio.html">Torna a Il Romitorio <span>→</span></a></div>
+    </section>
+  </section>
+</main>
+  <footer class="footer"><span>© <span data-year>2026</span> Simone Rebucci ·
+      Tecnologia, progetti e storie.</span>
+    <div class="footer-links"><a href="index.html">Home</a><a href="CV_Simone_Rebucci.pdf" target="_blank">CV PDF</a><a
+        href="https://www.linkedin.com/in/simonerebucci/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a></div>
+  </footer>
+</body>
+</html>
